@@ -11,6 +11,8 @@ public class MovingIsland : MonoBehaviour
     
     private Vector2 _startPosition;
     private int _direction = 1;
+    private float _difference;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -19,7 +21,9 @@ public class MovingIsland : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _difference = transform.position.x;
         float newPositionX = _rb.position.x + _direction * _PlatformSpeed * Time.fixedDeltaTime;
+        _difference -= newPositionX;
         
         if (Mathf.Abs(newPositionX - _startPosition.x) >= _Distance)
         {
@@ -28,5 +32,9 @@ public class MovingIsland : MonoBehaviour
         }
         
         _rb.MovePosition(new Vector2(newPositionX, _rb.position.y));
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        collision.transform.position = new Vector2(collision.transform.position.x - _difference, collision.transform.position.y);
     }
 }
