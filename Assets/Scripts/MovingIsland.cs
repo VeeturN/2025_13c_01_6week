@@ -12,7 +12,6 @@ public class MovingIsland : MonoBehaviour
     private Vector2 _startPosition;
     private int _direction = 1;
     private float _difference;
-
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -33,8 +32,9 @@ public class MovingIsland : MonoBehaviour
         
         _rb.MovePosition(new Vector2(newPositionX, _rb.position.y));
     }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
-        collision.transform.position = new Vector2(collision.transform.position.x - _difference, collision.transform.position.y);
+        collision.transform.position = new Vector2(collision.transform.position.x - _difference, collision.transform.position.y);   
     }
 }

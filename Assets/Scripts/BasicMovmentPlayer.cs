@@ -18,6 +18,11 @@ public class BasicPlayerMovment : MonoBehaviour {
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    public void Start()
+    {
+        _rb.freezeRotation = true;
+    }
+
     private void Update() {
         _xinput=Input.GetAxis("Horizontal");
         if (Input.GetButtonDown("Jump") && jumpCount<_maxJumps)
