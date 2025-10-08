@@ -33,6 +33,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         if (_performJump) {
             _performJump=false;
             jumpCount++;
+            _rb.velocity = new Vector2(_rb.velocity.x, 0);
             _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         }
     }
