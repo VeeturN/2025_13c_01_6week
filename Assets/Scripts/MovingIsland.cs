@@ -35,6 +35,7 @@ public class MovingIsland : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        if(collision.gameObject.CompareTag("Player"))
         collision.transform.position = new Vector2(collision.transform.position.x - _difference, collision.transform.position.y);   
     }
 }
