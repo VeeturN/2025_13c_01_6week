@@ -80,8 +80,9 @@ public class BasicPlayerMovment : MonoBehaviour {
             _shoot = false;
         }
 
-        if (_attack)
+        if (_attack && !(_animator.GetBool("isAttacking1")|| _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3")))
         {
+ 
             _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4),true);
             _attack = false;
         }
