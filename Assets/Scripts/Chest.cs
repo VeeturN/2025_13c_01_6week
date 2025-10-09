@@ -6,12 +6,14 @@ using UnityEngine.UIElements;
 
 public class Chest : MonoBehaviour
 {
-    public Transform player; // Referencja do gracza
-    public float interactionDistance = 3f; // Maksymalna odległość do interakcji
+    public Transform player; 
+    public float interactionDistance = 3f; 
+    private BasicPlayerMovment _playerObj;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        _playerObj=player.GetComponent<BasicPlayerMovment>();
     }
 
     private void Update()
@@ -20,7 +22,11 @@ public class Chest : MonoBehaviour
         
         if (distance <= interactionDistance && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Interakcja ze skrzynką!");
+            if (_playerObj.keysCollected>0)
+            {
+                _playerObj.keysCollected--;
+                Destroy(gameObject);
+            }
         }
     }
 }
