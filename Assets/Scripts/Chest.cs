@@ -29,7 +29,6 @@ public class Chest : MonoBehaviour
             
             _animator.SetBool("IsOpen", true);
             _playerObj.UseKey();
-            Debug.Log("Key collected");
             _isOpened = true;
             StartCoroutine(DestroyAfterAnimation());
         }

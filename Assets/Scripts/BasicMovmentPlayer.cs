@@ -20,14 +20,17 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _attack = false;
     private bool _isGrounded;
     private float _shootCountdown;
-    
-    
+
+    [SerializeField] private int _HP = 10;
     private int _keysCollected = 0;
+
+    private Enemy1 _enemy1;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _enemy1 = gameObject.GetComponent<Enemy1>();
     }
 
     public void Start()
@@ -130,4 +133,20 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         return _keysCollected;
     }
+
+    public int getHP()
+    {
+        return _HP;
+    }
+
+    public void setHP(int value)
+    {
+        _HP = value;
+    }
+
+    public void hit()
+    {
+        
+    }
+    
 }
