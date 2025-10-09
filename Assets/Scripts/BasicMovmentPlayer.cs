@@ -51,27 +51,25 @@ public class BasicPlayerMovment : MonoBehaviour {
         if(_shootCountdown>0)
         _shootCountdown -= 0.05f;
 
-        if (_xinput != 0)
-        _animator.SetBool("isRunning", true);
-        else
-        _animator.SetBool("isRunning", false);
+        _animator.SetBool("isRunning", _xinput != 0 && _isGrounded);
+        _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
 
         if (_performJump)
         {
+            _animator.SetBool("isJumping", true);
             _performJump = false;
             jumpCount++;
             _rb.velocity = new Vector2(_rb.velocity.x, 0);
             _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         }
-        if (_shoot && _shootCountdown<=0)
+        else
+        _animator.SetBool("isJumping", false);
+        
+        if (_shoot && _shootCountdown <= 0)
         {
             _animator.SetBool("isThrowingSword", true);
             _shootCountdown = _shootCooldown;
             _shoot = false;
-        }
-        else
-        {
-            _animator.SetBool("isThrowingSword", false);
         }
     }
 
@@ -91,5 +89,6 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         Instantiate(_bulletPrefab, transform.position, transform.rotation)
             .GetComponent<Bullet>().Init(transform.localScale.x > 0);
+        _animator.SetBool("isThrowingSword", false);
     }
 }
