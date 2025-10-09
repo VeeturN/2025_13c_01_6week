@@ -65,9 +65,13 @@ public class BasicPlayerMovment : MonoBehaviour {
         }
         if (_shoot && _shootCountdown<=0)
         {
+            _animator.SetBool("isThrowingSword", true);
             _shootCountdown = _shootCooldown;
             _shoot = false;
-            Instantiate(_bulletPrefab, transform.position, transform.rotation).GetComponent<Bullet>().Init(transform.localScale.x>0);
+        }
+        else
+        {
+            _animator.SetBool("isThrowingSword", false);
         }
     }
 
@@ -81,5 +85,11 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         _isGrounded = false;
         
+    }
+
+    public void SpawnSword()
+    {
+        Instantiate(_bulletPrefab, transform.position, transform.rotation)
+            .GetComponent<Bullet>().Init(transform.localScale.x > 0);
     }
 }
