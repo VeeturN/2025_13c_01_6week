@@ -22,7 +22,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private float _shootCountdown;
     
     
-    public int keysCollected = 0;
+    private int _keysCollected = 0;
     
     private void Awake()
     {
@@ -114,4 +114,19 @@ public class BasicPlayerMovment : MonoBehaviour {
         Debug.Log("test");
     }
 
+
+    public void CollectKey()
+    {
+        _keysCollected++;
+    }
+
+    public void UseKey()
+    {
+        _keysCollected--;
+    }
+
+    public int getKeysCollected()
+    {
+        return _keysCollected;
+    }
 }

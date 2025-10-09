@@ -11,7 +11,7 @@ public class Key : MonoBehaviour
         {
             BasicPlayerMovment player = other.gameObject.GetComponent<BasicPlayerMovment>();
             
-            player.keysCollected++;
+            player.CollectKey();
             
             Destroy(gameObject);
             

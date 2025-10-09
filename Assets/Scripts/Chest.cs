@@ -6,27 +6,38 @@ using UnityEngine.UIElements;
 
 public class Chest : MonoBehaviour
 {
-    public Transform player; 
-    public float interactionDistance = 3f; 
+    private Transform _player; 
+    private float _interactionDistance = 3f; 
     private BasicPlayerMovment _playerObj;
+    [SerializeField] private Animator _animator;
+    private bool _isOpened = false;
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        _playerObj=player.GetComponent<BasicPlayerMovment>();
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _playerObj=_player.GetComponent<BasicPlayerMovment>();
     }
 
     private void Update()
     {
-        float distance = Vector2.Distance(player.position, transform.position);
-        
-        if (distance <= interactionDistance && Input.GetKeyDown(KeyCode.E))
+        float distance = Vector2.Distance(_player.position, transform.position);
+
+        if (distance <= _interactionDistance && Input.GetKeyDown(KeyCode.E) && _playerObj.getKeysCollected() > 0)
         {
-            if (_playerObj.keysCollected>0)
-            {
-                _playerObj.keysCollected--;
-                Destroy(gameObject);
-            }
+            if (_isOpened) return;
+            
+            
+            _animator.SetBool("IsOpen", true);
+            _playerObj.UseKey();
+            Debug.Log("Key collected");
+            _isOpened = true;
+            StartCoroutine(DestroyAfterAnimation());
         }
+    }
+
+    private IEnumerator DestroyAfterAnimation()
+    {
+        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        Destroy(gameObject);
     }
 }
