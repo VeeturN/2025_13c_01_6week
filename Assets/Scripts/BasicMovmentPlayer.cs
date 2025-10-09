@@ -21,6 +21,9 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isGrounded;
     private float _shootCountdown;
     
+    
+    public int keysCollected = 0;
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
