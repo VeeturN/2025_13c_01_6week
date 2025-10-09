@@ -1,41 +1,40 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class MovingIsland : MonoBehaviour
 {
-    private Rigidbody2D _rb;
-    [SerializeField] private float _PlatformSpeed;
-    [SerializeField] private float _Distance = 200;
-    
-    private Vector2 _startPosition;
-    private int _direction = 1;
-    private float _difference;
-    private void Awake()
+    [SerializeField] private Transform pointA;
+    [SerializeField] private Transform pointB;
+    [SerializeField] private float _moveSpeed;
+    private Vector3 _nextPosition;
+
+    private void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _startPosition = _rb.position;
+        _nextPosition = pointB.position;
     }
 
     private void FixedUpdate()
     {
-        _difference = transform.position.x;
-        float newPositionX = _rb.position.x + _direction * _PlatformSpeed * Time.fixedDeltaTime;
-        _difference -= newPositionX;
-        
-        if (Mathf.Abs(newPositionX - _startPosition.x) >= _Distance)
+        transform.position = Vector3.MoveTowards(transform.position, _nextPosition, _moveSpeed*Time.deltaTime);
+        if(transform.position == _nextPosition)
         {
-            _direction *= -1; 
-            newPositionX = _rb.position.x + _direction * _PlatformSpeed * Time.fixedDeltaTime;
+            _nextPosition = (_nextPosition==pointA.position)?pointB.position:pointA.position;
         }
-        
-        _rb.MovePosition(new Vector2(newPositionX, _rb.position.y));
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
-        collision.transform.position = new Vector2(collision.transform.position.x - _difference, collision.transform.position.y);   
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.transform.parent = transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.transform.parent = null;
+        }
     }
 }
