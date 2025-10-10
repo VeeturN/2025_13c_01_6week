@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3641519154780563073}
   - component: {fileID: 3216324696216549383}
   - component: {fileID: 7778215462790652066}
+  - component: {fileID: -4854740795810493167}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -107,6 +108,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 1822755538699793455, guid: f324e50b5431352469702e0391f964c8, type: 3}
   _shootCooldown: 3
   _attackCooldown: 1
+  _allowWallJump: 0
   _HP: 10
 --- !u!61 &3641519154780563073
 BoxCollider2D:
@@ -138,7 +140,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: -0.026774824, y: 0.13565063}
   m_SpriteTilingProperty:
@@ -201,6 +203,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!251 &-4854740795810493167
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459389324417455447}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 180
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &6293801625930268946
 GameObject:
   m_ObjectHideFlags: 0
