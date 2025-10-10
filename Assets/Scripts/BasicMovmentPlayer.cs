@@ -13,13 +13,15 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private float _jumpForce = 5;
     [SerializeField] private int _maxJumps = 2;
     [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private int _shootCooldown = 3;
+    [SerializeField] private float _shootCooldown = 3;
+    [SerializeField] private float _attackCooldown = 1;
+    private float _shootCountdown;
+    private float _attackCountdown;
     private int jumpCount = 0;
     private bool _performJump;
     private bool _shoot = false;
     private bool _attack = false;
     private bool _isGrounded;
-    private float _shootCountdown;
 
     [SerializeField] private int _HP = 10;
     private int _keysCollected = 0;
@@ -62,6 +64,8 @@ public class BasicPlayerMovment : MonoBehaviour {
 
         if(_shootCountdown>0)
         _shootCountdown -= 0.05f;
+        if (_attackCountdown > 0)
+            _attackCountdown -= 0.05f;
 
         _animator.SetBool("isRunning", _xinput != 0 && _isGrounded);
         _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
@@ -85,10 +89,10 @@ public class BasicPlayerMovment : MonoBehaviour {
             _shootCountdown = _shootCooldown;
             _shoot = false;
         }
-        else if (_attack)
+        else if (_attack && _attackCountdown <= 0)
         {
-
             _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
+            _attackCountdown = _attackCooldown;
             _attack = false;
         }
 
