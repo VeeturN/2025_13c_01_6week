@@ -67,6 +67,11 @@ public class BasicPlayerMovment : MonoBehaviour {
         _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
         _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0f);
 
+        if (isAttackingAnimation())
+        {
+            _attack = false;
+            _shoot = false;
+        }
         if (_performJump)
         {
             _performJump = false;
@@ -74,19 +79,16 @@ public class BasicPlayerMovment : MonoBehaviour {
             _rb.velocity = new Vector2(_rb.velocity.x, 0);
             _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         }
-        else
-        
         if (_shoot && _shootCountdown <= 0)
-        {
+        { 
             _animator.SetBool("isThrowingSword", true);
             _shootCountdown = _shootCooldown;
             _shoot = false;
         }
-
-        if (_attack && !(_animator.GetBool("isAttacking1")|| _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3")))
+        else if (_attack)
         {
- 
-            _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4),true);
+
+            _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
             _attack = false;
         }
 
@@ -115,7 +117,6 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         for(int i=1;i<4;i++)
         _animator.SetBool("isAttacking" + i, false);
-        Debug.Log("test");
     }
 
 
@@ -147,6 +148,11 @@ public class BasicPlayerMovment : MonoBehaviour {
     public void hit()
     {
         
+    }
+
+    public bool isAttackingAnimation()
+    {
+        return _animator.GetBool("isAttacking1") || _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3") || _animator.GetBool("isThrowingSword");
     }
     
 }
