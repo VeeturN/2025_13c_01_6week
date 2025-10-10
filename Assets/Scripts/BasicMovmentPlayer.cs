@@ -15,8 +15,9 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _shootCooldown = 3;
     [SerializeField] private float _attackCooldown = 1;
-    private float _shootCountdown;
+    [SerializeField] private bool _allowWallJump = false;
     private float _attackCountdown;
+    private float _shootCountdown;
     private int jumpCount = 0;
     private bool _performJump;
     private bool _shoot = false;
@@ -100,8 +101,30 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _isGrounded = true;
-        jumpCount=0;
+        bool isGround = false;
+
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            // Sprawdza, czy kolizja jest od dołu (czyli podłoże)
+            if (Vector2.Angle(contact.normal, Vector2.up) < 45f)
+            {
+                isGround = true;
+                break;
+            }
+
+            // Jeśli dotykamy ściany (kąt ~90°) i mamy włączony wall jump
+            if (_allowWallJump && Vector2.Angle(contact.normal, Vector2.up) > 80f && Vector2.Angle(contact.normal, Vector2.up) < 100f)
+            {
+                isGround = true;
+                break;
+            }
+        }
+
+        if (isGround)
+        {
+            _isGrounded = true;
+            jumpCount = 0;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
