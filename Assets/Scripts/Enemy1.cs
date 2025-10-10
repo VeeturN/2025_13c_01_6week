@@ -6,38 +6,52 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
-    private static readonly int IsAttack = Animator.StringToHash("IsAttack");
     private BasicPlayerMovment player;
     [SerializeField] private Animator _animator;
-    private bool _isAttack = false;
-    private bool _inFight = false;
-    private float _attackTimer = 0;
-    [SerializeField] private float _attackDelay; 
+    [SerializeField] private float _attackDelay;
+    [SerializeField] private float _firstAttackDelay;
+    private bool _isAttacking;
+    private bool _isInFight;
+    private float _attackDelayTimer;
+    private float _firstAttackTimer;
+    private bool _attacked;
     private void Awake()
     {
         player = FindObjectOfType<BasicPlayerMovment>();
+        _animator = GetComponent<Animator>();
+        _attackDelayTimer = 0;
+        _firstAttackTimer = 0;
     }
 
     private void FixedUpdate()
     {
-        _attackTimer += Time.fixedDeltaTime;
-        
+        if (_isInFight)
+            _firstAttackTimer += Time.deltaTime;
+        if(!_isAttacking)
+            _attackDelayTimer += Time.deltaTime;
+        if (_attacked?_attackDelayTimer > _attackDelay: _firstAttackTimer > _firstAttackDelay && _isInFight)
+        {
+            _firstAttackTimer = 0;
+            _attackDelayTimer = 0;
+            _animator.SetBool("isAttacking", true);
+            _isAttacking = true;
+            _attacked = true;
+        }
     }
     public void StartAttack()
     {
-        Debug.Log("Enemy1: Atak rozpoczęty!");
-        _inFight = true;
-        _animator.SetBool(IsAttack, true);
+        _isInFight = true;
+        _attacked = false;
+    }
+
+    public void DoneAttacking()
+    {
+        _isAttacking = false;
+        _animator.SetBool("isAttacking", false);
     }
     
     public void StopAttack()
     {
-        Debug.Log("Enemy1: Atak rozpoczęty!");
-        _animator.SetBool(IsAttack,false);
-    }
-    
-    private IEnumerator DestroyAfterAnimation()
-    {
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        _isInFight = false;
     }
 }

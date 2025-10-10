@@ -7,7 +7,7 @@ public class EnemyAttackTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Gracz wszedł w attack trigger!");
-            var enemy = GetComponentInParent<Enemy1>();
+            Enemy1 enemy = GetComponentInParent<Enemy1>();
             enemy.StartAttack();
         }
     }
@@ -16,8 +16,8 @@ public class EnemyAttackTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Gracz wszedł w attack trigger!");
-            var enemy = GetComponentInParent<Enemy1>();
+            Debug.Log("Gracz wyszedł z attack trigger!");
+            Enemy1 enemy = GetComponentInParent<Enemy1>();
             enemy.StopAttack();
         }
     }
