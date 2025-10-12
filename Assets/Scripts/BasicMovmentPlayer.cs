@@ -23,6 +23,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _shoot = false;
     private bool _attack = false;
     private bool _isGrounded;
+    private bool _goDown;
 
     [SerializeField] private int _HP = 10;
     private int _keysCollected = 0;
@@ -54,6 +55,10 @@ public class BasicPlayerMovment : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             _attack = true;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            _goDown=true;
         }
     }
 
@@ -95,6 +100,21 @@ public class BasicPlayerMovment : MonoBehaviour {
             _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
             _attackCountdown = _attackCooldown;
             _attack = false;
+        }
+
+        if (_goDown)
+        {
+            // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+            foreach (var col in colliders)
+            {
+                //tutaj sprawdzam czy to ten konkretny komponent i wykonuje konkretną rzecz
+                if (col.CompareTag("JumpThroughPlatform"))
+                {
+                    col.GetComponent<JumpThroughPlatform>()?.AllowPlayerToFallThrough(gameObject);
+                }
+            }
+            _goDown = false;
         }
 
     }

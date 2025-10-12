@@ -7,6 +7,7 @@ TagManager:
   - Key
   - ChestTag
   - Attack
+  - JumpThroughPlatform
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - BasicPlatform
   - MovingPlatform
   - FallingPlatform
-  - 
+  - JumpThroughPlatform
   - 
   - 
   - 
