@@ -62,6 +62,7 @@ public class FallingIsland : MonoBehaviour
         _isFalling = true;//flaga on
         yield return new WaitForSeconds(_fallDelay);//czeka określony czas
         _rb.bodyType = RigidbodyType2D.Dynamic; // Platforma zaczyna spadać bo zmieniam na dynamic
+        _rb.AddForce(new Vector2(0, -500));
     }
 
     //to jest proces respawnowania
