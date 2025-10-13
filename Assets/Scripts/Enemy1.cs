@@ -13,12 +13,12 @@ public class Enemy1 : MonoBehaviour
     public bool IsPlayerInAttackRange { get; set; } = false;
     private float _hitTimer = 0f;
     private Animator _animator;
-    
+
     private float _attackAnimDuration = 0.5f; // czas trwania animacji ataku
     private float _attackAnimTimer = 0f;
     private float _attackAnimLeadTime = 0.3f; // ile wcześniej ma się zacząć animacja
     [SerializeField] private float _attackInterval = 1f; //predkosc ataku
-    
+
     private void Awake()
     {
         _player = FindObjectOfType<BasicPlayerMovment>();
@@ -45,8 +45,8 @@ public class Enemy1 : MonoBehaviour
             // Animacja startuje wcześniej
             if (_hitTimer >= _attackInterval - _attackAnimLeadTime && _attackAnimTimer <= 0f)
             {
-                if (_animator != null)
-                    _animator.SetBool("isAttacking", true);
+
+                _animator.SetBool("isAttacking", true);
                 _attackAnimTimer = _attackAnimDuration + _attackAnimLeadTime;
             }
 
@@ -58,29 +58,45 @@ public class Enemy1 : MonoBehaviour
             }
         }
 
-        if (_attackAnimTimer > 0f)
+        // if (_attackAnimTimer > 0f)
+        // {
+        //     _attackAnimTimer -= Time.fixedDeltaTime;
+        //     if (_attackAnimTimer <= 0f)
+        //          _animator.SetBool("isAttacking", false);
+        // }
+        else if (!IsPlayerInAttackRange)
         {
-            _attackAnimTimer -= Time.fixedDeltaTime;
-            if (_attackAnimTimer <= 0f && _animator != null)
-                _animator.SetBool("isAttacking", false);
+             _animator.SetBool("isAttacking", false);
         }
-        else if (!IsPlayerInAttackRange && _animator != null)
+
+        if (!_animator.GetBool("isAttacking"))
         {
-            _animator.SetBool("isAttacking", false);
+            if (_rb.velocity.x != 0)
+            {
+                _animator.SetBool("isRunning", true);
+                if (_rb.velocity.x > 0)
+                    transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+                else if (_rb.velocity.x < 0)
+                    transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            }
+            else
+            {
+                _animator.SetBool("isRunning", false);
+            }
         }
     }
 
     private bool IsPlayerInDetectionRange()
     {
         float playerX = _player.transform.position.x;
-        return playerX >= Mathf.Min(_patrolPointA.position.x, patrolPointB.position.x) &&  //-detectionRange 
-               playerX <= Mathf.Max(_patrolPointA.position.x, patrolPointB.position.x) ;   //+detectionRange XD Nawet jak jest 0 to szuka dalej beka
+        return playerX >= Mathf.Min(_patrolPointA.position.x, patrolPointB.position.x) && //-detectionRange 
+               playerX <= Mathf.Max(_patrolPointA.position.x,
+                   patrolPointB.position.x); //+detectionRange XD Nawet jak jest 0 to szuka dalej beka
     }
 
     private void MoveTowardsPlayer()
     {
         float direction = Mathf.Sign(_player.transform.position.x - transform.position.x);
-        transform.localScale = new Vector3(direction < 0 ? 1 : -1, 1, 1); // obrót lewo prawo
         _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
     }
 
@@ -88,7 +104,6 @@ public class Enemy1 : MonoBehaviour
     {
         float targetX = _movingToB ? patrolPointB.position.x : _patrolPointA.position.x;
         float direction = Mathf.Sign(targetX - transform.position.x);
-        transform.localScale = new Vector3(direction < 0 ? 1 : -1, 1, 1); // obrót lewo prawo
         _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
 
         // Sprawdzenie czy przeciwnik dotarł do celu (z tolerancją)
@@ -96,6 +111,17 @@ public class Enemy1 : MonoBehaviour
         {
             _movingToB = !_movingToB;
         }
+    }
+
+    public void madeAttack()
+    {
+        _animator.SetBool("isAttacking", false);
+    }
+
+    public void tryToHitPlayer()
+    {
+        
+        
     }
 
 }
