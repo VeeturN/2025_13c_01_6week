@@ -2,34 +2,34 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
-    [SerializeField] private Transform patrolPointA;
+    [SerializeField] private Transform _patrolPointA;
     [SerializeField] private Transform patrolPointB;
-    [SerializeField] private float speed = 2f;
-    [SerializeField] private float detectionRange = 0f; // Zasięg wykrywania gracza
-    private BasicPlayerMovment player;
+    [SerializeField] private float _speed = 2f;
+    [SerializeField] private float _detectionRange = 0f; // Zasięg wykrywania gracza
+    private BasicPlayerMovment _player;
     private Rigidbody2D _rb;
-    private bool movingToB = true;
+    private bool _movingToB = true;
+
+    public bool IsPlayerInAttackRange { get; set; } = false;
+    private float _hitTimer = 0f;
+    private Animator _animator;
     
-    [HideInInspector] public bool isPlayerInAttackRange = false;
-    private float hitTimer = 0f;
-    private Animator animator;
-    
-    private float attackAnimDuration = 0.5f; // czas trwania animacji ataku
-    private float attackAnimTimer = 0f;
-    private float attackAnimLeadTime = 0.3f; // ile wcześniej ma się zacząć animacja
-    [SerializeField] private float attackInterval = 1f; //predkosc ataku
+    private float _attackAnimDuration = 0.5f; // czas trwania animacji ataku
+    private float _attackAnimTimer = 0f;
+    private float _attackAnimLeadTime = 0.3f; // ile wcześniej ma się zacząć animacja
+    [SerializeField] private float _attackInterval = 1f; //predkosc ataku
     
     private void Awake()
     {
-        player = FindObjectOfType<BasicPlayerMovment>();
+        _player = FindObjectOfType<BasicPlayerMovment>();
         _rb = GetComponent<Rigidbody2D>();
         _rb.freezeRotation = true; // Blokada rotacji przeciwnika
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
-        if (player && IsPlayerInDetectionRange())
+        if (_player && IsPlayerInDetectionRange())
         {
             MoveTowardsPlayer();
         }
@@ -38,61 +38,64 @@ public class Enemy1 : MonoBehaviour
             Patrol();
         }
 
-        if (isPlayerInAttackRange)
+        if (IsPlayerInAttackRange)
         {
-            hitTimer += Time.fixedDeltaTime;
+            _hitTimer += Time.fixedDeltaTime;
 
             // Animacja startuje wcześniej
-            if (hitTimer >= attackInterval - attackAnimLeadTime && attackAnimTimer <= 0f)
+            if (_hitTimer >= _attackInterval - _attackAnimLeadTime && _attackAnimTimer <= 0f)
             {
-                if (animator != null)
-                    animator.SetBool("IsAttack", true);
-                attackAnimTimer = attackAnimDuration + attackAnimLeadTime;
+                if (_animator != null)
+                    _animator.SetBool("isAttacking", true);
+                _attackAnimTimer = _attackAnimDuration + _attackAnimLeadTime;
             }
 
             // Napis HIT pojawia się później
-            if (hitTimer >= attackInterval)
+            if (_hitTimer >= _attackInterval)
             {
                 Debug.Log("HIT");
-                hitTimer = 0f;
+                _hitTimer = 0f;
             }
         }
 
-        if (attackAnimTimer > 0f)
+        if (_attackAnimTimer > 0f)
         {
-            attackAnimTimer -= Time.fixedDeltaTime;
-            if (attackAnimTimer <= 0f && animator != null)
-                animator.SetBool("IsAttack", false);
+            _attackAnimTimer -= Time.fixedDeltaTime;
+            if (_attackAnimTimer <= 0f && _animator != null)
+                _animator.SetBool("isAttacking", false);
         }
-        else if (!isPlayerInAttackRange && animator != null)
+        else if (!IsPlayerInAttackRange && _animator != null)
         {
-            animator.SetBool("IsAttack", false);
+            _animator.SetBool("isAttacking", false);
         }
     }
 
     private bool IsPlayerInDetectionRange()
     {
-        float playerX = player.transform.position.x;
-        return playerX >= Mathf.Min(patrolPointA.position.x, patrolPointB.position.x) &&  //-detectionRange 
-               playerX <= Mathf.Max(patrolPointA.position.x, patrolPointB.position.x) ;   //+detectionRange XD Nawet jak jest 0 to szuka dalej beka
+        float playerX = _player.transform.position.x;
+        return playerX >= Mathf.Min(_patrolPointA.position.x, patrolPointB.position.x) &&  //-detectionRange 
+               playerX <= Mathf.Max(_patrolPointA.position.x, patrolPointB.position.x) ;   //+detectionRange XD Nawet jak jest 0 to szuka dalej beka
     }
 
     private void MoveTowardsPlayer()
     {
-        float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
-        _rb.velocity = new Vector2(direction * speed, _rb.velocity.y);
+        float direction = Mathf.Sign(_player.transform.position.x - transform.position.x);
+        transform.localScale = new Vector3(direction < 0 ? 1 : -1, 1, 1); // obrót lewo prawo
+        _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
     }
 
     private void Patrol()
     {
-        float targetX = movingToB ? patrolPointB.position.x : patrolPointA.position.x;
+        float targetX = _movingToB ? patrolPointB.position.x : _patrolPointA.position.x;
         float direction = Mathf.Sign(targetX - transform.position.x);
-        _rb.velocity = new Vector2(direction * speed, _rb.velocity.y);
+        transform.localScale = new Vector3(direction < 0 ? 1 : -1, 1, 1); // obrót lewo prawo
+        _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
 
         // Sprawdzenie czy przeciwnik dotarł do celu (z tolerancją)
         if (Mathf.Abs(transform.position.x - targetX) < 0.1f)
         {
-            movingToB = !movingToB;
+            _movingToB = !_movingToB;
         }
     }
+
 }

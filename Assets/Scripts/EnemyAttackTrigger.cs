@@ -8,7 +8,7 @@ public class EnemyAttackTrigger : MonoBehaviour
         {
             Enemy1 enemy = GetComponentInParent<Enemy1>();
             if (enemy != null)
-                enemy.isPlayerInAttackRange = true;
+                enemy.IsPlayerInAttackRange = true;
         }
     }
 
@@ -18,7 +18,7 @@ public class EnemyAttackTrigger : MonoBehaviour
         {
             Enemy1 enemy = GetComponentInParent<Enemy1>();
             if (enemy != null)
-                enemy.isPlayerInAttackRange = false;
+                enemy.IsPlayerInAttackRange = false;
         }
     }
 }

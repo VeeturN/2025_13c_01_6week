@@ -9,7 +9,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private Rigidbody2D _rb;
     private Animator _animator;
     private float _xinput;
-    [SerializeField] private float Speed = 5;
+    [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 5;
     [SerializeField] private int _maxJumps = 2;
     [SerializeField] private GameObject _bulletPrefab;
@@ -18,7 +18,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private bool _allowWallJump = false;
     private float _attackCountdown;
     private float _shootCountdown;
-    private int jumpCount = 0;
+    private int _jumpCount = 0;
     private bool _performJump;
     private bool _shoot = false;
     private bool _attack = false;
@@ -44,7 +44,7 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void Update() {
         _xinput=Input.GetAxis("Horizontal");
-        if (Input.GetButtonDown("Jump") && jumpCount<_maxJumps)
+        if (Input.GetButtonDown("Jump") && _jumpCount<_maxJumps)
         {
             _performJump=true;
         }
@@ -64,7 +64,7 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        _rb.velocity = new Vector2(_xinput * Speed, _rb.velocity.y);
+        _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
         if(_rb.velocity.x!=0)
         transform.localScale = new Vector3(_rb.velocity.x>0?1:-1, 1, 1);
 
@@ -85,7 +85,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         if (_performJump)
         {
             _performJump = false;
-            jumpCount++;
+            _jumpCount++;
             _rb.velocity = new Vector2(_rb.velocity.x, 0);
             _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
         }
@@ -143,7 +143,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         if (isGround)
         {
             _isGrounded = true;
-            jumpCount = 0;
+            _jumpCount = 0;
         }
     }
 

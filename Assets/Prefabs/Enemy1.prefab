@@ -157,7 +157,7 @@ Animator:
   m_GameObject: {fileID: 2245619606004082182}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d3db3c79c0c68c94eab9d9f2f4dc81b2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -215,11 +215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d22509b617762468a663e07f7ebcc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolPointA: {fileID: 8285469807111601502}
+  _patrolPointA: {fileID: 8285469807111601502}
   patrolPointB: {fileID: 1723196303004232902}
-  speed: 2
-  detectionRange: 0
-  isPlayerInAttackRange: 0
+  _speed: 2
+  _detectionRange: 0
+  _attackInterval: 1
 --- !u!1 &2683677441818203806
 GameObject:
   m_ObjectHideFlags: 0
