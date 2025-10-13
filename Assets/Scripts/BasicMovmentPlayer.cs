@@ -28,6 +28,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _goDown;
 
     [SerializeField] private int _HP = 3;
+    [SerializeField] private int _Score = 0;
     private int _keysCollected = 0;
 
     private Enemy1 _enemy1;
@@ -222,6 +223,11 @@ public class BasicPlayerMovment : MonoBehaviour {
         _HP = value;
     }
 
+    public void CollectGoldCoin()
+    {
+        _Score += 1;
+        Debug.Log("Gold Coin: " + _Score);
+    }
 
     public bool isAttackingAnimation()
     {
