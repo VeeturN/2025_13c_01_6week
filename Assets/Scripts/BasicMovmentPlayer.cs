@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private float _shootCooldown = 3;
     [SerializeField] private float _attackCooldown = 1;
     [SerializeField] private bool _allowWallJump = false;
+    [SerializeField] private int _ammo = 10;
     private float _attackCountdown;
     private float _shootCountdown;
     private int _jumpCount = 0;
@@ -25,10 +27,12 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isGrounded;
     private bool _goDown;
 
-    [SerializeField] private int _HP = 10;
+    [SerializeField] private int _HP = 3;
     private int _keysCollected = 0;
 
     private Enemy1 _enemy1;
+
+    private bool _isAlive = true;
     
     private void Awake()
     {
@@ -64,59 +68,65 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
-        if(_rb.velocity.x!=0)
-        transform.localScale = new Vector3(_rb.velocity.x>0?1:-1, 1, 1);
-
-        if(_shootCountdown>0)
-        _shootCountdown -= 0.05f;
-        if (_attackCountdown > 0)
-            _attackCountdown -= 0.05f;
-
-        _animator.SetBool("isRunning", _xinput != 0 && _isGrounded);
-        _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
-        _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0f);
-
-        if (isAttackingAnimation())
+        if (_isAlive)
         {
-            _attack = false;
-            _shoot = false;
-        }
-        if (_performJump)
-        {
-            _performJump = false;
-            _jumpCount++;
-            _rb.velocity = new Vector2(_rb.velocity.x, 0);
-            _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-        }
-        if (_shoot && _shootCountdown <= 0)
-        { 
-            _animator.SetBool("isThrowingSword", true);
-            _shootCountdown = _shootCooldown;
-            _shoot = false;
-        }
-        else if (_attack && _attackCountdown <= 0)
-        {
-            _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
-            _attackCountdown = _attackCooldown;
-            _attack = false;
-        }
+            _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
+            if (_rb.velocity.x != 0)
+                transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
 
-        if (_goDown)
-        {
-            // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.5f);
-            foreach (var col in colliders)
+            if (_shootCountdown > 0)
+                _shootCountdown -= 0.05f;
+            if (_attackCountdown > 0)
+                _attackCountdown -= 0.05f;
+
+            _animator.SetBool("isRunning", _xinput != 0 && _isGrounded);
+            _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
+            _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0f);
+
+            if (isAttackingAnimation())
             {
-                //tutaj sprawdzam czy to ten konkretny komponent i wykonuje konkretną rzecz
-                if (col.CompareTag("JumpThroughPlatform"))
-                {
-                    col.GetComponent<JumpThroughPlatform>()?.AllowPlayerToFallThrough(gameObject);
-                }
+                _attack = false;
+                _shoot = false;
             }
-            _goDown = false;
-        }
+            if (_performJump)
+            {
+                _performJump = false;
+                _jumpCount++;
+                _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+            }
+            if (_shoot && _shootCountdown <= 0 && _ammo > 0)
+            {
+                _animator.SetBool("isThrowingSword", true);
+                _shootCountdown = _shootCooldown;
+                _shoot = false;
+                _ammo--;
+            }
+            else if (_attack && _attackCountdown <= 0)
+            {
+                _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
+                _attackCountdown = _attackCooldown;
+                _attack = false;
+            }
 
+            if (_goDown)
+            {
+                // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+                foreach (var col in colliders)
+                {
+                    //tutaj sprawdzam czy to ten konkretny komponent i wykonuje konkretną rzecz
+                    if (col.CompareTag("JumpThroughPlatform"))
+                    {
+                        col.GetComponent<JumpThroughPlatform>()?.AllowPlayerToFallThrough(gameObject);
+                    }
+                }
+                _goDown = false;
+            }
+        }
+        else {
+            _rb.velocity = Vector2.zero;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -150,7 +160,6 @@ public class BasicPlayerMovment : MonoBehaviour {
     private void OnCollisionExit2D(Collision2D collision)
     {
         _isGrounded = false;
-        
     }
 
     public void SpawnSword()
@@ -166,6 +175,22 @@ public class BasicPlayerMovment : MonoBehaviour {
         _animator.SetBool("isAttacking" + i, false);
     }
 
+    public void hit()
+    {
+        _HP--;
+        if(_HP<=0)
+        _animator.SetBool("isDying", true);
+        else
+        _animator.SetBool("isHitted", true);
+    }
+    public void gotHitted()
+    {
+        _animator.SetBool("isHitted", false);
+    }
+    public void Die()
+    {
+        _isAlive = false;  
+    }
 
     public void CollectKey()
     {
@@ -182,6 +207,11 @@ public class BasicPlayerMovment : MonoBehaviour {
         return _keysCollected;
     }
 
+    public void CollectAmmo()
+    {
+        _ammo++;
+    }
+
     public int getHP()
     {
         return _HP;
@@ -192,10 +222,6 @@ public class BasicPlayerMovment : MonoBehaviour {
         _HP = value;
     }
 
-    public void hit()
-    {
-        
-    }
 
     public bool isAttackingAnimation()
     {

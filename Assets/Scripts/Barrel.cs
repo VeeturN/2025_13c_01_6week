@@ -26,4 +26,17 @@ public class Barrel : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            BasicPlayerMovment player = collision.collider.GetComponent<BasicPlayerMovment>();
+            if (player != null)
+            {
+                player.hit();
+                Destroy(gameObject);
+            }
+        }
+    }
 }
