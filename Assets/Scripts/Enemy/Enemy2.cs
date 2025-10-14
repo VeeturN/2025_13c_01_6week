@@ -28,7 +28,7 @@ public class Enemy2 : MonoBehaviour
     private void FixedUpdate()
     {
         Debug.Log(_shootPoint.position);
-        if (_HP != 0)
+        if (_HP > 0)
         {
             _animator.SetFloat("isJumping", _rb.velocity.y);
             if (_player && IsPlayerInDetectionRange())
@@ -53,7 +53,6 @@ public class Enemy2 : MonoBehaviour
                 _hitTimer += Time.fixedDeltaTime;
                 if (_hitTimer > _attackInterval)
                 {
-                    _animator.SetTrigger("shoot");
                     Shoot();
                     _hitTimer = 0f;
                 }
