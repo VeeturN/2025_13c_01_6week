@@ -200,9 +200,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.029675066, y: -0.07989442}
+  m_Offset: {x: 0.029675066, y: -0.023245811}
   serializedVersion: 2
-  m_Radius: 0.6080342
+  m_Radius: 0.5513855
 --- !u!114 &9008586253162870646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +218,7 @@ MonoBehaviour:
   _patrolPointA: {fileID: 8285469807111601502}
   patrolPointB: {fileID: 1723196303004232902}
   _speed: 2
+  _HP: 2
   _attackInterval: 1
 --- !u!1 &2683677441818203806
 GameObject:

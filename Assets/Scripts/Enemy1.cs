@@ -5,6 +5,7 @@ public class Enemy1 : MonoBehaviour
     [SerializeField] private Transform _patrolPointA;
     [SerializeField] private Transform patrolPointB;
     [SerializeField] private float _speed = 2f;
+    [SerializeField] private int _HP=2;
     private BasicPlayerMovment _player;
     private Rigidbody2D _rb;
     private bool _movingToB = true;
@@ -25,48 +26,56 @@ public class Enemy1 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_player && IsPlayerInDetectionRange())
+        if (_HP != 0)
         {
-            MoveTowardsPlayer();
-            
-            if (_player.transform.position.y > transform.position.y)
+            _animator.SetFloat("isJumping", _rb.velocity.y);
+            if (_player && IsPlayerInDetectionRange())
             {
-                if (Random.value < 0.025f) // 60% szans na skok
+                MoveTowardsPlayer();
+
+                if (_player.transform.position.y > transform.position.y)
                 {
-                    Jump();
+                    if (Random.value < 0.025f) // 60% szans na skok
+                    {
+                        Jump();
+                    }
+                }
+            }
+            else
+            {
+                Patrol();
+            }
+
+            if (IsPlayerInAttackRange)
+            {
+                _hitTimer += Time.fixedDeltaTime;
+                if (_hitTimer > _attackInterval)
+                {
+                    _animator.SetBool("isAttacking", true);
+                    _hitTimer = 0f;
+                }
+
+            }
+
+            if (!_animator.GetBool("isAttacking"))
+            {
+                if (_rb.velocity.x != 0)
+                {
+                    _animator.SetBool("isRunning", true);
+                    if (_rb.velocity.x > 0)
+                        transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+                    else if (_rb.velocity.x < 0)
+                        transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+                }
+                else
+                {
+                    _animator.SetBool("isRunning", false);
                 }
             }
         }
         else
         {
-            Patrol();
-        }
-
-        if (IsPlayerInAttackRange)
-        {
-            _hitTimer += Time.fixedDeltaTime;
-            if (_hitTimer > _attackInterval)
-            {
-                _animator.SetBool("isAttacking", true);
-                _hitTimer = 0f;
-            }
-            
-        }
-
-        if (!_animator.GetBool("isAttacking"))
-        {
-            if (_rb.velocity.x != 0)
-            {
-                _animator.SetBool("isRunning", true);
-                if (_rb.velocity.x > 0)
-                    transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-                else if (_rb.velocity.x < 0)
-                    transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
-            }
-            else
-            {
-                _animator.SetBool("isRunning", false);
-            }
+            _animator.SetBool("isDead", true);
         }
     }
 
@@ -141,5 +150,18 @@ public class Enemy1 : MonoBehaviour
             _movingToB=!_movingToB;
         }
     }
+
+    public void hit()
+    {
+        _HP--;
+        Debug.Log("Koniec");
+        _animator.SetBool("isHit", true);
+    }
+
+    public void endHiting()
+    {
+        _animator.SetBool("isHit", false);
+    }
+    
 
 }
