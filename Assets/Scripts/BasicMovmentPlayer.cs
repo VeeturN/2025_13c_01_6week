@@ -48,10 +48,11 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         _rb.freezeRotation = true;
         //nie trzeba przeciagac w edytorze i sam sobie znajduje huda.
+        //jak na razie nie ma huda na scenie to wywala null pointer
         _playerHUD = FindAnyObjectByType<HUD>();
         _playerHUD.updateHealth(_HP);
         _playerHUD.updateScore(_Score);
-
+        _playerHUD.updateAmo(_ammo);
     }
 
     private void Update() {
@@ -109,6 +110,7 @@ public class BasicPlayerMovment : MonoBehaviour {
                 _shootCountdown = _shootCooldown;
                 _shoot = false;
                 _ammo--;
+                _playerHUD.updateAmo(_ammo);
             }
             else if (_attack && _attackCountdown <= 0)
             {
@@ -220,6 +222,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     public void CollectAmmo()
     {
         _ammo++;
+        _playerHUD.updateAmo(_ammo);
     }
 
     public int getHP()
