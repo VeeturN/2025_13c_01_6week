@@ -27,7 +27,7 @@ public class Diamond : MonoBehaviour
             {
                 _isCollected=true;
                 _animator.SetBool("isCollected", true);
-                player.CollectGoldCoin();
+                player.CollectDiamond();
 			
                 Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(0).length);
             }
