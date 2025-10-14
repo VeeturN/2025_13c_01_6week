@@ -8,6 +8,7 @@ TagManager:
   - ChestTag
   - Attack
   - JumpThroughPlatform
+  - Enemy
   layers:
   - Default
   - TransparentFX
