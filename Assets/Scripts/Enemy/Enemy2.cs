@@ -27,7 +27,6 @@ public class Enemy2 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(_shootPoint.position);
         if (_HP > 0)
         {
             _animator.SetFloat("isJumping", _rb.velocity.y);
@@ -110,7 +109,9 @@ public class Enemy2 : MonoBehaviour
     private void MoveTowardsPlayer()
     {
         float deltaX = _player.transform.position.x - transform.position.x;
-        if (Mathf.Abs(deltaX) > 0.2f) // tolerancja, gdy gracz jest "nad" przeciwnikiem
+        float distance = Mathf.Abs(deltaX);
+
+        if (distance > 8f) // nie podchodź zbyt blisko
         {
             float direction = Mathf.Sign(deltaX);
             _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
@@ -171,9 +172,7 @@ public class Enemy2 : MonoBehaviour
     
     private void Shoot()
     {
-        GameObject bullet = Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity);
-        Vector2 direction = (_player.transform.position - _shootPoint.position).normalized;
-        bullet.GetComponent<Rigidbody2D>().velocity = direction * 8f; //  prędkość pocisku
+        Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity).GetComponent<EnemyBullet>().Init(_player.transform.position - _shootPoint.position);
     }
 
 }

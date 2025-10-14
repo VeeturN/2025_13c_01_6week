@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 374849154139047188}
   - component: {fileID: 8976591603638151001}
   - component: {fileID: -3546274860104323043}
+  - component: {fileID: 2643803475820501759}
   m_Layer: 0
   m_Name: EnemyBullet
   m_TagString: Pickable
@@ -158,3 +159,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2643803475820501759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822755538699793455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f471acc4030f3d94e84d89a4362e6c91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
