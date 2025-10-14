@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 1395706704527646229}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Enemy2
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -423,6 +423,10 @@ PrefabInstance:
     - target: {fileID: 8743877291634071245, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_Name
       value: HealtBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743877291634071245, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_TagString
+      value: Pickable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

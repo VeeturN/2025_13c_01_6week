@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Run2
+  m_Name: Shoot
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,17 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 9b7c7d0284b982146ab70c9eb8f8c1c8, type: 3}
+      value: {fileID: 21300000, guid: 0625e860ed3417045a28aa997d80f027, type: 3}
     - time: 0.11666667
-      value: {fileID: 21300000, guid: c16c3537b0e95be45b53b85ecfdc1697, type: 3}
-    - time: 0.25
-      value: {fileID: 21300000, guid: ea47316529685bd42ba28bdc5fd07c8a, type: 3}
-    - time: 0.35
-      value: {fileID: 21300000, guid: b77dd043897c5674d94eca9425615480, type: 3}
-    - time: 0.48333332
-      value: {fileID: 21300000, guid: e857f0b8b4430e247a7f10ab02ccc4fa, type: 3}
-    - time: 0.6
-      value: {fileID: 21300000, guid: 9c7756ba3688ecd4d8a58badba62e7b1, type: 3}
+      value: {fileID: 21300000, guid: d74ff6332c316984b836cf1a8efcc192, type: 3}
+    - time: 0.21666667
+      value: {fileID: 21300000, guid: 0625e860ed3417045a28aa997d80f027, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -54,23 +48,20 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 9b7c7d0284b982146ab70c9eb8f8c1c8, type: 3}
-    - {fileID: 21300000, guid: c16c3537b0e95be45b53b85ecfdc1697, type: 3}
-    - {fileID: 21300000, guid: ea47316529685bd42ba28bdc5fd07c8a, type: 3}
-    - {fileID: 21300000, guid: b77dd043897c5674d94eca9425615480, type: 3}
-    - {fileID: 21300000, guid: e857f0b8b4430e247a7f10ab02ccc4fa, type: 3}
-    - {fileID: 21300000, guid: 9c7756ba3688ecd4d8a58badba62e7b1, type: 3}
+    - {fileID: 21300000, guid: 0625e860ed3417045a28aa997d80f027, type: 3}
+    - {fileID: 21300000, guid: d74ff6332c316984b836cf1a8efcc192, type: 3}
+    - {fileID: 21300000, guid: 0625e860ed3417045a28aa997d80f027, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.6166667
+    m_StopTime: 0.23333333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -84,4 +75,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.21666667
+    functionName: endShooting
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

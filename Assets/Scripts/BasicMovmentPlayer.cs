@@ -29,6 +29,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isGrounded;
     private bool _goDown;
     private List<IEnemy> _enemiesInRange;
+    private bool _isHittedInAir = false;
 
     [SerializeField] private int _HP = 3;
     [SerializeField] private int _Score = 0;
@@ -78,59 +79,69 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         if (_isAlive)
         {
-            _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
-            if (_rb.velocity.x != 0)
-                transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
+            if (!_isHittedInAir)
+            {
+                _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
 
-            if (_shootCountdown > 0)
-                _shootCountdown -= 0.05f;
-            if (_attackCountdown > 0)
-                _attackCountdown -= 0.05f;
 
-            _animator.SetBool("isRunning", _xinput != 0 && _isGrounded);
-            _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
-            _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0f);
 
-            if (isAttackingAnimation())
-            {
-                _attack = false;
-                _shoot = false;
-            }
-            if (_performJump)
-            {
-                _performJump = false;
-                _jumpCount++;
-                _rb.velocity = new Vector2(_rb.velocity.x, 0);
-                _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            }
-            if (_shoot && _shootCountdown <= 0 && _ammo > 0)
-            {
-                _animator.SetBool("isThrowingSword", true);
-                _shootCountdown = _shootCooldown;
-                _shoot = false;
-                _ammo--;
-                _playerHUD.updateAmo(_ammo);
-            }
-            else if (_attack && _attackCountdown <= 0)
-            {
-                _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
-                _attackCountdown = _attackCooldown;
-                _attack = false;
-            }
 
-            if (_goDown)
-            {
-                // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.5f);
-                foreach (var col in colliders)
+                if (_rb.velocity.x != 0)
+                    transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
+
+                if (_shootCountdown > 0)
+                    _shootCountdown -= 0.05f;
+                if (_attackCountdown > 0)
+                    _attackCountdown -= 0.05f;
+
+                _animator.SetBool("isRunning", _xinput != 0 && _isGrounded);
+                _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
+                _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0f);
+
+                if (isAttackingAnimation())
                 {
-                    //tutaj sprawdzam czy to ten konkretny komponent i wykonuje konkretną rzecz
-                    if (col.CompareTag("JumpThroughPlatform"))
-                    {
-                        col.GetComponent<JumpThroughPlatform>()?.AllowPlayerToFallThrough(gameObject);
-                    }
+                    _attack = false;
+                    _shoot = false;
                 }
-                _goDown = false;
+
+                if (_performJump)
+                {
+                    _performJump = false;
+                    _jumpCount++;
+                    _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                    _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+                }
+
+                if (_shoot && _shootCountdown <= 0 && _ammo > 0)
+                {
+                    _animator.SetBool("isThrowingSword", true);
+                    _shootCountdown = _shootCooldown;
+                    _shoot = false;
+                    _ammo--;
+                    _playerHUD.updateAmo(_ammo);
+                }
+                else if (_attack && _attackCountdown <= 0)
+                {
+                    _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
+                    _attackCountdown = _attackCooldown;
+                    _attack = false;
+                }
+
+                if (_goDown)
+                {
+                    // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
+                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+                    foreach (var col in colliders)
+                    {
+                        //tutaj sprawdzam czy to ten konkretny komponent i wykonuje konkretną rzecz
+                        if (col.CompareTag("JumpThroughPlatform"))
+                        {
+                            col.GetComponent<JumpThroughPlatform>()?.AllowPlayerToFallThrough(gameObject);
+                        }
+                    }
+
+                    _goDown = false;
+                }
             }
         }
         else {
@@ -186,6 +197,8 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     public void hit()
     {
+        _isHittedInAir=true;
+        
         _HP--;
         if(_HP<=0)
         _animator.SetBool("isDying", true);
@@ -196,6 +209,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     }
     public void gotHitted()
     {
+        _isHittedInAir=false;   
         _animator.SetBool("isHitted", false);
     }
     public void Die()
