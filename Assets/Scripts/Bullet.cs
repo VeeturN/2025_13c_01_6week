@@ -29,15 +29,8 @@ public class Bullet : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("trafiony");
-            Enemy1 enemy = collision.gameObject.GetComponent<Enemy1>();
+            IEnemy enemy = collision.gameObject.GetComponent<IEnemy>();
                 enemy.hit();
-        }
-        if (collision.gameObject.CompareTag("Enemy2"))
-        {
-            Debug.Log("trafiony");
-            Enemy2 enemy = collision.gameObject.GetComponent<Enemy2>();
-            enemy.hit();
         }
         
         

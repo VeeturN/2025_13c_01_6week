@@ -28,12 +28,11 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _attack = false;
     private bool _isGrounded;
     private bool _goDown;
+    private List<IEnemy> _enemiesInRange;
 
     [SerializeField] private int _HP = 3;
     [SerializeField] private int _Score = 0;
     private int _keysCollected = 0;
-
-    private Enemy1 _enemy1;
 
     private bool _isAlive = true;
     
@@ -41,7 +40,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _enemy1 = gameObject.GetComponent<Enemy1>();
+        _enemiesInRange = new List<IEnemy>();
     }
 
     public void Start()
@@ -251,5 +250,24 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         return _animator.GetBool("isAttacking1") || _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3") || _animator.GetBool("isThrowingSword");
     }
-    
+
+    public void AddEnemyInRange(IEnemy enemy)
+    {
+        _enemiesInRange.Add(enemy);
+    }
+
+    public void RemoveEnemyInRange(IEnemy enemy)
+    {
+        _enemiesInRange.Remove(enemy);
+    }
+
+    public void HitEnemiesInMeleeRange()
+    {
+        foreach(IEnemy enemy in _enemiesInRange)
+        {
+            enemy.hit();
+        }
+    }
+
+
 }

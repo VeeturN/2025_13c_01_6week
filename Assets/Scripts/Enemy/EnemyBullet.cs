@@ -34,7 +34,7 @@ public class EnemyBullet : MonoBehaviour
         }
         
         
-        if(!collision.CompareTag("Enemy")&& !collision.CompareTag("Enemy2")&& !collision.CompareTag("Pickable")&& !collision.CompareTag("Attack"))
+        if(!collision.CompareTag("Enemy") && !collision.CompareTag("Pickable")&& !collision.CompareTag("Attack"))
             Destroy(gameObject);
     }
 }
