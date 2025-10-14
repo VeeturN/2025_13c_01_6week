@@ -33,7 +33,7 @@ public class Enemy1 : MonoBehaviour
             {
                 MoveTowardsPlayer();
 
-                if (_player.transform.position.y > transform.position.y)
+                if (_player.transform.position.y > transform.position.y+1f)
                 {
                     if (Random.value < 0.025f) // 60% szans na skok
                     {
