@@ -26,7 +26,7 @@ public class Enemy1 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_HP != 0)
+        if (_HP > 0)
         {
             _animator.SetFloat("isJumping", _rb.velocity.y);
             if (_player && IsPlayerInDetectionRange())

@@ -26,7 +26,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(!collision.CompareTag("Player")&& !collision.CompareTag("Attack")&& !collision.CompareTag("Pickable"))
         
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -34,9 +33,15 @@ public class Bullet : MonoBehaviour
             Enemy1 enemy = collision.gameObject.GetComponent<Enemy1>();
                 enemy.hit();
         }
+        if (collision.gameObject.CompareTag("Enemy2"))
+        {
+            Debug.Log("trafiony");
+            Enemy2 enemy = collision.gameObject.GetComponent<Enemy2>();
+            enemy.hit();
+        }
         
         
-        if(!collision.CompareTag("Player")&& !collision.CompareTag("Attack"))
+        if(!collision.CompareTag("Player")&& !collision.CompareTag("Attack")&& !collision.CompareTag("Pickable"))
         Destroy(gameObject);
     }
 }
