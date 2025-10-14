@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy2 : MonoBehaviour
+public class Enemy2 : MonoBehaviour, IEnemy
 {
     [SerializeField] private Transform _patrolPointA;
     [SerializeField] private Transform patrolPointB;
