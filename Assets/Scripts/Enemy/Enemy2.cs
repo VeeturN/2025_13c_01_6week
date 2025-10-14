@@ -14,7 +14,8 @@ public class Enemy2 : MonoBehaviour, IEnemy
     
     private float _hitTimer = 0f;
     private Animator _animator;
-    
+    private bool _isHittedInAir = false;
+
     [SerializeField] private float _attackInterval = 2f; //predkosc ataku
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _shootPoint;
@@ -31,7 +32,7 @@ public class Enemy2 : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
-        if (_HP > 0)
+        if (_HP > 0 && !_isHittedInAir)
         {
             _animator.SetFloat("isJumping", _rb.velocity.y);
             if (_player && IsPlayerInDetectionRange())
@@ -77,7 +78,7 @@ public class Enemy2 : MonoBehaviour, IEnemy
                 }
             }
         }
-        else
+        else if(_HP<=0)
         {
             _animator.SetBool("isDead", true);
             _animator.SetBool("isAttacking", false);
@@ -165,6 +166,9 @@ public class Enemy2 : MonoBehaviour, IEnemy
 
     public void hit()
     {
+        _isHittedInAir = true;
+        _rb.velocity = Vector2.zero;
+        _rb.AddForce(new Vector2((GameObject.FindGameObjectWithTag("Player").transform.position.x < transform.position.x ? 1 : -1) * 150, 150));
         _HP--;
         TakeDamage();
         _animator.SetBool("isHit", true);
@@ -173,6 +177,7 @@ public class Enemy2 : MonoBehaviour, IEnemy
 
     public void endHiting()
     {
+        _isHittedInAir = false;
         _animator.SetBool("isHit", false);
     }
     

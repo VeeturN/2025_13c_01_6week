@@ -219,7 +219,7 @@ MonoBehaviour:
   _patrolPointA: {fileID: 8285469807111601502}
   patrolPointB: {fileID: 1723196303004232902}
   _speed: 2
-  _HP: 2
+  _startHP: 0
   _attackInterval: 1
   healthBar: {fileID: 3924093645436546822}
 --- !u!1 &2683677441818203806
@@ -352,7 +352,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.4034661, y: -0.004469931}
+  m_Offset: {x: -0.4034661, y: 0.05197677}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -363,7 +363,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.1420205, y: 1.4017495}
+  m_Size: {x: 2.1420205, y: 1.288856}
   m_EdgeRadius: 0
 --- !u!114 &7404032459033629391
 MonoBehaviour:
