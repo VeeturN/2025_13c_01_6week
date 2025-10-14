@@ -6,7 +6,6 @@ public class Bullet : MonoBehaviour
 {
     private bool _right;
     [SerializeField] int _speed;
-    
 
     public void Init(bool right)
     {
@@ -27,6 +26,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!collision.CompareTag("Player")&& !collision.CompareTag("Attack")&& !collision.CompareTag("Pickable"))
         
         if (collision.gameObject.CompareTag("Enemy"))
         {

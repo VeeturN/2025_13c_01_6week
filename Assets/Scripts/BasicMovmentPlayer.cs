@@ -18,6 +18,8 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private float _attackCooldown = 1;
     [SerializeField] private bool _allowWallJump = false;
     [SerializeField] private int _ammo = 10;
+    
+    private HUD _playerHUD;
     private float _attackCountdown;
     private float _shootCountdown;
     private int _jumpCount = 0;
@@ -45,6 +47,11 @@ public class BasicPlayerMovment : MonoBehaviour {
     public void Start()
     {
         _rb.freezeRotation = true;
+        //nie trzeba przeciagac w edytorze i sam sobie znajduje huda.
+        _playerHUD = FindAnyObjectByType<HUD>();
+        _playerHUD.updateHealth(_HP);
+        _playerHUD.updateScore(_Score);
+
     }
 
     private void Update() {
@@ -183,6 +190,8 @@ public class BasicPlayerMovment : MonoBehaviour {
         _animator.SetBool("isDying", true);
         else
         _animator.SetBool("isHitted", true);
+
+        _playerHUD.updateHealth(_HP);
     }
     public void gotHitted()
     {
@@ -227,6 +236,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         _Score += 1;
         Debug.Log("Gold Coin: " + _Score);
+        _playerHUD.updateScore(_Score);
     }
 
     public bool isAttackingAnimation()
