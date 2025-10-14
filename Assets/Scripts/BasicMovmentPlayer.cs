@@ -29,6 +29,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isGrounded;
     private bool _goDown;
     private List<IEnemy> _enemiesInRange;
+    private Dictionary<PotionEnum, int> _potionsInInventory;
     private bool _isHittedInAir = false;
 
     [SerializeField] private int _HP = 3;
@@ -42,6 +43,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _enemiesInRange = new List<IEnemy>();
+        _potionsInInventory = new Dictionary<PotionEnum, int>();
     }
 
     public void Start()
@@ -189,6 +191,20 @@ public class BasicPlayerMovment : MonoBehaviour {
         _animator.SetBool("isThrowingSword", false);
     }
 
+    public void CollectPotion(PotionEnum potionType)
+    {
+        if (_potionsInInventory.TryGetValue(potionType, out int value))
+            _potionsInInventory[potionType] = value + 1;
+        else
+            _potionsInInventory[potionType] = 1;
+
+        string log = "Potions: ";
+        foreach (var kvp in _potionsInInventory)
+        {
+            log += $"{kvp.Key}={kvp.Value}, ";
+        }
+        Debug.Log(log.TrimEnd(',', ' '));
+    }
     public void Attack()
     {
         for(int i=1;i<4;i++)
