@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2859042508123482999}
   - component: {fileID: 410922008402862308}
   - component: {fileID: 8664432019922196967}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: score_txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 4646343655920283065}
   - component: {fileID: 5245261459072895565}
   - component: {fileID: 4572141943445002733}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: hp_txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 8481949440816613774}
   - component: {fileID: 8843131402122020654}
   - component: {fileID: 2304315681080776303}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Canvas HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,3 +386,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthText: {fileID: 4572141943445002733}
   scoreText: {fileID: 8664432019922196967}
+  amoText: {fileID: 0}
