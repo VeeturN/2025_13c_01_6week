@@ -1,11 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy1 : MonoBehaviour
 {
     [SerializeField] private Transform _patrolPointA;
     [SerializeField] private Transform patrolPointB;
     [SerializeField] private float _speed = 2f;
-    [SerializeField] private int _HP=2;
+    private int _HP;
+    [SerializeField] private int _startHP;
     private BasicPlayerMovment _player;
     private Rigidbody2D _rb;
     private bool _movingToB = true;
@@ -15,9 +17,13 @@ public class Enemy1 : MonoBehaviour
     private Animator _animator;
     
     [SerializeField] private float _attackInterval = 2f; //predkosc ataku
+    
+    public Image healthBar;
+
 
     private void Awake()
     {
+        _HP=_startHP;
         _player = FindObjectOfType<BasicPlayerMovment>();
         _rb = GetComponent<Rigidbody2D>();
         _rb.freezeRotation = true;  // Blokada rotacji przeciwnika
@@ -76,6 +82,8 @@ public class Enemy1 : MonoBehaviour
         else
         {
             _animator.SetBool("isDead", true);
+            _animator.SetBool("isAttacking", false);
+            _animator.SetBool("isRunning", false);
         }
     }
 
@@ -132,7 +140,6 @@ public class Enemy1 : MonoBehaviour
     public void madeAttack()
     {
         _animator.SetBool("isAttacking", false);
-        Debug.Log("Koniec");
     }
 
     public void tryToHitPlayer()
@@ -154,7 +161,7 @@ public class Enemy1 : MonoBehaviour
     public void hit()
     {
         _HP--;
-        Debug.Log("Koniec");
+        TakeDamage();
         _animator.SetBool("isHit", true);
     }
 
@@ -163,5 +170,10 @@ public class Enemy1 : MonoBehaviour
         _animator.SetBool("isHit", false);
     }
     
-
+    
+    public void TakeDamage()
+    {
+        healthBar.fillAmount = (float)_HP / _startHP;
+    }
+    
 }
