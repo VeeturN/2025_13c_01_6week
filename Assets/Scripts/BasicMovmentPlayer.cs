@@ -238,7 +238,12 @@ public class BasicPlayerMovment : MonoBehaviour {
     public void CollectGoldCoin()
     {
         _Score += 1;
-        Debug.Log("Gold Coin: " + _Score);
+        _playerHUD.updateScore(_Score);
+    }
+
+    public void CollectDiamond()
+    {
+        _Score += 50;
         _playerHUD.updateScore(_Score);
     }
 
