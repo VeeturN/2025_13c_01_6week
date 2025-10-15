@@ -8,10 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/poruszanie.sie.unity
     guid: f71681640437e7e4084b9aaacbbd5075
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Dawid.unity
-    guid: a05b26c321957cf4790c071dc1df609a
+    guid: 501437acb61275543825ffe1e3d04798
+  - enabled: 1
+    path: Assets/Scenes/Jedrek.unity
+    guid: 951d0a0f5846dc24493b4da592d5c366
+  - enabled: 1
+    path: Assets/Scenes/SuperScena.unity
+    guid: 0b9819fe6be86d143ba0afe8c5f349fa
+  - enabled: 1
+    path: Assets/Scenes/Olaf.unity
+    guid: 3bafe455153f11d41bb6112dffd1e896
   m_configObjects: {}

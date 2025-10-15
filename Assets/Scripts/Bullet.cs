@@ -6,10 +6,12 @@ public class Bullet : MonoBehaviour
 {
     private bool _right;
     [SerializeField] int _speed;
+    private float _startPositionX;
 
     public void Init(bool right)
     {
         _right = right;
+        _startPositionX=transform.position.x;
     }
     void Start()
     {
@@ -20,7 +22,7 @@ public class Bullet : MonoBehaviour
     void FixedUpdate()
     {
         transform.position += new Vector3((_right?_speed:-_speed)*Time.fixedDeltaTime, 0);
-        if (Mathf.Abs(transform.position.x) > 50)
+        if (Mathf.Abs(transform.position.x-_startPositionX) > 50)
             Destroy(gameObject);
     }
 
@@ -32,9 +34,9 @@ public class Bullet : MonoBehaviour
             IEnemy enemy = collision.gameObject.GetComponent<IEnemy>();
                 enemy.hit();
         }
-        
-        
+
+
         if(!collision.CompareTag("Player")&& !collision.CompareTag("Attack")&& !collision.CompareTag("Pickable"))
-        Destroy(gameObject);
+            Destroy(gameObject);        
     }
 }
