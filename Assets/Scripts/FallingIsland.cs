@@ -61,6 +61,7 @@ public class FallingIsland : MonoBehaviour
     {
         _isFalling = true;//flaga on
         yield return new WaitForSeconds(_fallDelay);//czeka określony czas
+        GetComponent<Collider2D>().enabled = false;
         _rb.bodyType = RigidbodyType2D.Dynamic; // Platforma zaczyna spadać bo zmieniam na dynamic
         _rb.AddForce(new Vector2(0, -500));
     }
@@ -69,6 +70,7 @@ public class FallingIsland : MonoBehaviour
     private IEnumerator RespawnPlatform()
     {
         _isRespawning = true;
+        GetComponent<Collider2D>().enabled = true;
 
         // fizyka i widoczność "on"
         _rb.bodyType = RigidbodyType2D.Kinematic;

@@ -297,6 +297,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         foreach(IEnemy enemy in _enemiesInRange)
         {
+            if (enemy == null) { continue; }
             enemy.hit();
         }
     }
