@@ -22,8 +22,8 @@ TagManager:
   - FallingPlatform
   - JumpThroughPlatform
   - HUD
-  - 
-  - 
+  - Totem
+  - TotemBullet
   - 
   - 
   - 
@@ -46,4 +46,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TotemBullet
+    uniqueID: 4211432271
+    locked: 0
+  - name: Totem
+    uniqueID: 207251707
     locked: 0

@@ -31,8 +31,8 @@ public class Bullet : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            IEnemy enemy = collision.gameObject.GetComponent<IEnemy>();
-                enemy.hit();
+            IEnemy enemy = collision.GetComponentInParent<IEnemy>();
+            if (enemy != null) enemy.hit();
         }
 
 
