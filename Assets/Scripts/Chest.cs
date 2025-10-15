@@ -22,7 +22,7 @@ public class Chest : MonoBehaviour
     {
         float distance = Vector2.Distance(_player.position, transform.position);
 
-        if (distance <= _interactionDistance && Input.GetKeyDown(KeyCode.E) && _playerObj.getKeysCollected() > 0)
+        if (distance <= _interactionDistance && Input.GetButtonDown("OpenChest") && _playerObj.getKeysCollected() > 0)
         {
             if (_isOpened) return;
             

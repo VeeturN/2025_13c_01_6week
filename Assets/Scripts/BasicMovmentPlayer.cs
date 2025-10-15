@@ -10,6 +10,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private Rigidbody2D _rb;
     private Animator _animator;
     private float _xinput;
+    private float _yinput;
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 5;
     [SerializeField] private int _maxJumps = 2;
@@ -59,19 +60,20 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void Update() {
         _xinput=Input.GetAxis("Horizontal");
+        _yinput = Input.GetAxis("Vertical");
         if (Input.GetButtonDown("Jump") && _jumpCount<_maxJumps)
         {
             _performJump=true;
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetButtonDown("Range"))
         {
             _shoot=true;
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Melee"))
         {
             _attack = true;
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (_yinput<0)
         {
             _goDown=true;
         }
