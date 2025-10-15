@@ -28,7 +28,6 @@ public class EnemyBullet : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("trafiony");
             BasicPlayerMovment player = collision.gameObject.GetComponent<BasicPlayerMovment>();
                 player.hit();
         }

@@ -15,6 +15,7 @@ public class Enemy2 : MonoBehaviour, IEnemy
     private float _hitTimer = 0f;
     private Animator _animator;
     private bool _isHittedInAir = false;
+    private bool _mele = false;
 
     [SerializeField] private float _attackInterval = 2f; //predkosc ataku
     [SerializeField] private GameObject _bulletPrefab;
@@ -56,10 +57,19 @@ public class Enemy2 : MonoBehaviour, IEnemy
             {
                 _hitTimer += Time.fixedDeltaTime;
                 if (_hitTimer > _attackInterval)
-                {
-                    Shoot();
-                    _hitTimer = 0f;
-                }
+
+                    if (_mele)
+                    {
+                        _animator.SetBool("isAttacking", true);
+                        _rb.velocity = new Vector2(Mathf.Sign(_player.transform.position.x - transform.position.x) * (_speed * 4f), _rb.velocity.y);
+                        _hitTimer = 0f;
+                    }
+                    else
+                    {
+                        _animator.SetBool("isShooting", true);
+                        Shoot();
+                        _hitTimer = 0f;
+                    }
             }
 
             if (!_animator.GetBool("isAttacking"))
@@ -118,14 +128,20 @@ public class Enemy2 : MonoBehaviour, IEnemy
         float deltaX = _player.transform.position.x - transform.position.x;
         float distance = Mathf.Abs(deltaX);
 
-        if (distance > 8f) // nie podchodź zbyt blisko
+        if (distance > 4f) // nie podchodź zbyt blisko
         {
+            _mele = false;
             float direction = Mathf.Sign(deltaX);
             _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         }
         else
         {
-            _rb.velocity = new Vector2(0, _rb.velocity.y); // zatrzymaj ruch w osi x
+            if (!_mele)
+            {
+                _rb.velocity = new Vector2(0, _rb.velocity.y); // zatrzymaj ruch w osi x
+            }
+            
+            _mele=true;
         }
     }
 
@@ -158,9 +174,16 @@ public class Enemy2 : MonoBehaviour, IEnemy
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
+        bool isDashing = _animator.GetBool("isAttacking");
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            _movingToB=!_movingToB;
+            _movingToB = !_movingToB;
+        }
+        else if (collision.gameObject.CompareTag("Player") && isDashing)
+        {
+            collision.gameObject.GetComponent<BasicPlayerMovment>().hit();
+            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            playerRb.AddForce(new Vector2((collision.transform.position.x - transform.position.x<0 ? -1 : 1)*3,2), ForceMode2D.Impulse);
         }
     }
 
@@ -183,12 +206,27 @@ public class Enemy2 : MonoBehaviour, IEnemy
     
     private void Shoot()
     {
+
         Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity).GetComponent<EnemyBullet>().Init(_player.transform.position - _shootPoint.position);
     }
     
     public void TakeDamage()
     {
         healthBar.fillAmount = (float)_HP / _startHP;
+    }
+
+    public void Attack()
+    {
+        
+    }
+    public void tryToHitPlayer()
+    {
+        // Do usniecia
+    }
+
+    public void endShooting()
+    {
+        _animator.SetBool("isShooting", false);
     }
 
 }
