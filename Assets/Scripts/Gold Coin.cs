@@ -2,22 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GoldCoin : MonoBehaviour
 {
-	
 	private Animator _animator;
 	private bool _isCollected = false;
-
 	private void Awake()
 	{
 			_animator = GetComponent<Animator>();
 	}
-
-
-	//po wejsciu w coina
-	 private void OnTriggerEnter2D(Collider2D other){
-	//jak coliduje z player tagiem to usun coina i dodaj punkty	
+	private void OnTriggerEnter2D(Collider2D other){
 	if(other.CompareTag("Player")){
 		if (_isCollected)
 		{
@@ -28,14 +23,9 @@ public class GoldCoin : MonoBehaviour
 		{
 			_isCollected=true;
 			_animator.SetBool("isCollected", true);
-			player.CollectGoldCoin();
-			
+			GameEventSystem.CollectValuable(1);
 			Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(0).length);
 		}
 }
-		
-		
 }
-	
- 
 }

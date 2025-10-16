@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
-
 [RequireComponent(typeof(Rigidbody2D))]
 public class BasicPlayerMovment : MonoBehaviour {
     private Rigidbody2D _rb;
@@ -19,7 +18,6 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private float _attackCooldown = 1;
     [SerializeField] private bool _allowWallJump = false;
     [SerializeField] private int _ammo = 10;
-    
     private HUD _playerHUD;
     private float _attackCountdown;
     private float _shootCountdown;
@@ -39,12 +37,18 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private bool _isAlive = true;
     
+   
+    private void OnDestroy()
+    {
+        GameEventSystem.OnValuableCollected -= CollectValuable;
+    }
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _enemiesInRange = new List<IEnemy>();
         _potionsInInventory = new Dictionary<PotionEnum, int>();
+      
     }
 
     public void Start()
@@ -56,6 +60,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         _playerHUD.updateHealth(_HP);
         _playerHUD.updateScore(_Score);
         _playerHUD.updateAmo(_ammo);
+        GameEventSystem.OnValuableCollected += CollectValuable;
     }
 
     private void Update() {
@@ -266,16 +271,20 @@ public class BasicPlayerMovment : MonoBehaviour {
         _HP = value;
     }
 
+    private void CollectValuable(int x)
+    {
+        _Score += x;
+        GameEventSystem.PlayerScoreUpdate(_Score);
+    }
+
     public void CollectGoldCoin()
     {
         _Score += 1;
-        _playerHUD.updateScore(_Score);
     }
 
     public void CollectDiamond()
     {
         _Score += 50;
-        _playerHUD.updateScore(_Score);
     }
 
     public bool isAttackingAnimation()
