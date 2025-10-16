@@ -8,7 +8,6 @@ public class FallingIsland : MonoBehaviour
     [Header("Ustawienia platformy")]
     [SerializeField] private float _fallDelay = 1.5f;     // po jakim czasie zacznie spadać
     [SerializeField] private float _respawnDelay = 2f;    // po jakim czasie się zrespi
-    [SerializeField] private float _destroyHeight = -10f; // wysokość na jakiej znika
     [SerializeField] private Rigidbody2D _rb;//to jest nasza fizyka w tym obiekcie
     
     //te dwie linijki odpowiadają za pozycję startową platformy
@@ -17,6 +16,7 @@ public class FallingIsland : MonoBehaviour
     
     private bool _isFalling = false;//platforma spada?
     private bool _isRespawning = false;//platforma respi się?
+    private bool _invisible = false;
 
     void Start()
     {
@@ -33,10 +33,15 @@ public class FallingIsland : MonoBehaviour
     void Update()
     {
         // tutaj jak minie wyznaczony pułap to dopiero zaczyna się czar restartu
-        if (!_isRespawning && transform.position.y < _startPosition.y + _destroyHeight)
+        if (!_isRespawning && _invisible)
         {
             StartCoroutine(RespawnPlatform());//tutaj jest czerowne bo rider mówi "jak będzie w lubi będzie bardzo kosztowne dla kompa" ale w tym przypdaku raz na spadek to robimy wiec ok
         }
+    }
+
+    public void OnBecameInvisible()
+    {
+        _invisible = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -87,6 +92,7 @@ public class FallingIsland : MonoBehaviour
         transform.rotation = _startRotation;
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<Collider2D>().enabled = true;
+        _invisible = false;
 
         //restart flag
         _isFalling = false;
