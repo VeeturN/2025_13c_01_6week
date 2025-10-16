@@ -16,28 +16,28 @@ public class HUD : MonoBehaviour
 
     private void Start()
     {
-        GameEventSystem.OnPlayerScoreUpdated += updateScore;
+        GameEventSystem.OnHUDParameterChanged += UpdateHUD;
     }
-
     private void OnDestroy()
     {
-        GameEventSystem.OnPlayerScoreUpdated -= updateScore;
-    }
-
-    public void updateScore(int currentScore)
-    {
-        scoreText.text = currentScore+"";
-    }
-
-    public void updateHealth(int currentHealth)
-    {
-        healthText.text = currentHealth+"";
-    }
-
-    public void updateAmo(int currentAmo)
-    {
-        amoText.text = currentAmo + "";
+        GameEventSystem.OnHUDParameterChanged -= UpdateHUD;
     }
     
 
+    private void UpdateHUD(int currentValue, HUDType hudType)
+    {
+        Debug.Log("UpdateHUD");
+        switch (hudType)
+        {
+            case HUDType.Score:
+                scoreText.text = currentValue+"";
+                break;
+            case HUDType.Hp:
+                healthText.text = currentValue+"";
+                break;
+            case HUDType.Ammo:
+                amoText.text = currentValue+"";
+                break;
+        }
+    }
 }

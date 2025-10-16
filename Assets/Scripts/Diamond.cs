@@ -12,9 +12,7 @@ public class Diamond : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
     }
-
-
-    //po wejsciu w diamenty
+    
     private void OnTriggerEnter2D(Collider2D other){
         //jak coliduje z player tagiem to usun coina i dodaj punkty	
         if(other.CompareTag("Player")){
@@ -27,8 +25,7 @@ public class Diamond : MonoBehaviour
             {
                 _isCollected=true;
                 _animator.SetBool("isCollected", true);
-                player.CollectDiamond();
-			
+                GameEventSystem.CollectValuable(50);
                 Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(0).length);
             }
         }

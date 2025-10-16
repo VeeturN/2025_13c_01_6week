@@ -6,16 +6,33 @@ using System;
 public class GameEventSystem
 {
     public static event Action<int> OnValuableCollected;
-    public static event Action<int> OnPlayerScoreUpdated;
-
+    public static event Action<int> OnAmmoAmountChanged;
+    public static event Action<int, HUDType> OnHUDParameterChanged;
+    
     public static void CollectValuable(int scorePoints)
     {
-        OnValuableCollected.Invoke(scorePoints);
+        OnValuableCollected?.Invoke(scorePoints);
     }
-
-    public static void PlayerScoreUpdate(int currnetScorePoints)
+    public static void CollectAmmo(int amount)
     {
-        OnPlayerScoreUpdated(currnetScorePoints);
+        OnAmmoAmountChanged?.Invoke(amount);
     }
 
+    public static void DecreseAmmo(int amount)
+    {
+        OnAmmoAmountChanged?.Invoke(-amount);
+    }
+
+    public static void UpdateHUD(int hudValue, HUDType hudType)
+    {
+        OnHUDParameterChanged?.Invoke(hudValue, hudType);
+    }
+    
+}
+
+public enum HUDType
+{
+    Score,
+    Hp,
+    Ammo
 }

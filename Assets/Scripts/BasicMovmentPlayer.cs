@@ -18,7 +18,8 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private float _attackCooldown = 1;
     [SerializeField] private bool _allowWallJump = false;
     [SerializeField] private int _ammo = 10;
-    private HUD _playerHUD;
+    [SerializeField] private int _HP = 3;
+    [SerializeField] private int _Score = 0;
     private float _attackCountdown;
     private float _shootCountdown;
     private int _jumpCount = 0;
@@ -30,37 +31,19 @@ public class BasicPlayerMovment : MonoBehaviour {
     private List<IEnemy> _enemiesInRange;
     private Dictionary<PotionEnum, int> _potionsInInventory;
     private bool _isHittedInAir = false;
-
-    [SerializeField] private int _HP = 3;
-    [SerializeField] private int _Score = 0;
     private int _keysCollected = 0;
-
     private bool _isAlive = true;
-    
    
-    private void OnDestroy()
-    {
-        GameEventSystem.OnValuableCollected -= CollectValuable;
-    }
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _enemiesInRange = new List<IEnemy>();
         _potionsInInventory = new Dictionary<PotionEnum, int>();
-      
     }
-
     public void Start()
     {
         _rb.freezeRotation = true;
-        //nie trzeba przeciagac w edytorze i sam sobie znajduje huda.
-        //jak na razie nie ma huda na scenie to wywala null pointer
-        _playerHUD = FindAnyObjectByType<HUD>();
-        _playerHUD.updateHealth(_HP);
-        _playerHUD.updateScore(_Score);
-        _playerHUD.updateAmo(_ammo);
-        GameEventSystem.OnValuableCollected += CollectValuable;
     }
 
     private void Update() {
@@ -126,8 +109,8 @@ public class BasicPlayerMovment : MonoBehaviour {
                     _animator.SetBool("isThrowingSword", true);
                     _shootCountdown = _shootCooldown;
                     _shoot = false;
-                    _ammo--;
-                    _playerHUD.updateAmo(_ammo);
+                    GameEventSystem.DecreseAmmo(1);
+                    
                 }
                 else if (_attack && _attackCountdown <= 0)
                 {
@@ -228,7 +211,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         else
         _animator.SetBool("isHitted", true);
 
-        _playerHUD.updateHealth(_HP);
+       
     }
     public void gotHitted()
     {
@@ -255,11 +238,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         return _keysCollected;
     }
 
-    public void CollectAmmo()
-    {
-        _ammo++;
-        _playerHUD.updateAmo(_ammo);
-    }
+   
 
     public int getHP()
     {
@@ -270,23 +249,6 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         _HP = value;
     }
-
-    private void CollectValuable(int x)
-    {
-        _Score += x;
-        GameEventSystem.PlayerScoreUpdate(_Score);
-    }
-
-    public void CollectGoldCoin()
-    {
-        _Score += 1;
-    }
-
-    public void CollectDiamond()
-    {
-        _Score += 50;
-    }
-
     public bool isAttackingAnimation()
     {
         return _animator.GetBool("isAttacking1") || _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3") || _animator.GetBool("isThrowingSword");
