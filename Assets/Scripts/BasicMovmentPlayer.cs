@@ -98,7 +98,7 @@ public class BasicPlayerMovment : MonoBehaviour {
                 if (_attackCountdown > 0)
                     _attackCountdown -= 0.05f;
 
-                _animator.SetBool("isRunning", _xinput != 0 && _isGrounded);
+                _animator.SetBool("isRunning", _rb.velocity.x!=0 && _isGrounded);
                 _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
                 _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0f);
 
