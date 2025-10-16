@@ -8,10 +8,10 @@ public class HUD : MonoBehaviour
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI amoText;
-    [SerializeField] private Image  _item1;
-    [SerializeField] private Image  _item2;
-    [SerializeField] private Image  _item3;
-    [SerializeField] private Image  _item4;
+    [SerializeField] private Image  _strengthPotion;
+    [SerializeField] private Image  _hpPotion;
+    [SerializeField] private Image  _speedPotion;
+    [SerializeField] private Image  _key;
     private Image[] _itemsArray;
 
     private void Start()
@@ -22,11 +22,8 @@ public class HUD : MonoBehaviour
     {
         GameEventSystem.OnHUDParameterChanged -= UpdateHUD;
     }
-    
-
     private void UpdateHUD(int currentValue, HUDType hudType)
     {
-        Debug.Log("UpdateHUD");
         switch (hudType)
         {
             case HUDType.Score:

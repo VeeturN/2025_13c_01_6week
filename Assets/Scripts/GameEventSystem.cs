@@ -27,12 +27,15 @@ public class GameEventSystem
     {
         OnHUDParameterChanged?.Invoke(hudValue, hudType);
     }
-    
 }
-
 public enum HUDType
 {
     Score,
     Hp,
-    Ammo
+    Ammo,
+    StrengthPotion,
+    HpPotion,
+    SpeedPotion,
+    Key,
+    SecretMap
 }
