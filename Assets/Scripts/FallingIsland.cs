@@ -33,7 +33,7 @@ public class FallingIsland : MonoBehaviour
     void Update()
     {
         // tutaj jak minie wyznaczony pułap to dopiero zaczyna się czar restartu
-        if (!_isRespawning && transform.position.y < _destroyHeight)
+        if (!_isRespawning && transform.position.y < _startPosition.y + _destroyHeight)
         {
             StartCoroutine(RespawnPlatform());//tutaj jest czerowne bo rider mówi "jak będzie w lubi będzie bardzo kosztowne dla kompa" ale w tym przypdaku raz na spadek to robimy wiec ok
         }
