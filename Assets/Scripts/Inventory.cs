@@ -75,13 +75,17 @@ public class Inventory : MonoBehaviour
     {
         switch (potion)
         {
-            //tu w zaleznosci ktore to ktora pota, na tej zasadzie jak z hppotion
             case PotionEnum.Red:
+                _hpPotionCounter++;
                 GameEventSystem.UpdateHUD(_hpPotionCounter,HUDType.HpPotion);
                 break;
             case PotionEnum.Blue:
+                _speedPotionCounter++;
+                GameEventSystem.UpdateHUD(_speedPotionCounter,HUDType.SpeedPotion);
                 break;
             case PotionEnum.Green:
+                _strenghtPotionCounter++;
+                GameEventSystem.UpdateHUD(_strenghtPotionCounter,HUDType.StrengthPotion);
                 break;
         }
     }
