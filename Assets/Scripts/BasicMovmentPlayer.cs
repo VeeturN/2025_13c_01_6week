@@ -6,10 +6,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BasicPlayerMovment : MonoBehaviour {
-    private Rigidbody2D _rb;
-    private Animator _animator;
-    private float _xinput;
-    private float _yinput;
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 5;
     [SerializeField] private int _maxJumps = 2;
@@ -17,9 +13,10 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private float _shootCooldown = 3;
     [SerializeField] private float _attackCooldown = 1;
     [SerializeField] private bool _allowWallJump = false;
-    [SerializeField] private int _ammo = 10;
-    [SerializeField] private int _HP = 3;
-    [SerializeField] private int _Score = 0;
+    private Rigidbody2D _rb;
+    private Animator _animator;
+    private float _xinput;
+    private float _yinput;
     private float _playerHalfHeight;
     private float _playerHalfWidth;
     private float _attackCountdown;
@@ -31,18 +28,13 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isGrounded;
     private bool _goDown;
     private List<IEnemy> _enemiesInRange;
-    private Dictionary<PotionEnum, int> _potionsInInventory;
     private bool _isHittedInAir = false;
-    private int _keysCollected = 0;
     private bool _isAlive = true;
-   
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _enemiesInRange = new List<IEnemy>();
-        _potionsInInventory = new Dictionary<PotionEnum, int>();
-        
         BoxCollider2D col = GetComponent<BoxCollider2D>();
         _playerHalfWidth = col.bounds.extents.x;
         _playerHalfHeight = col.bounds.extents.y;
@@ -51,7 +43,6 @@ public class BasicPlayerMovment : MonoBehaviour {
     {
         _rb.freezeRotation = true;
     }
-
     private void Update() {
         _xinput=Input.GetAxis("Horizontal");
         _yinput = Input.GetAxis("Vertical");
@@ -72,7 +63,6 @@ public class BasicPlayerMovment : MonoBehaviour {
             _goDown=true;
         }
     }
-
     private void FixedUpdate()
     {
         if (_isAlive)
@@ -110,7 +100,7 @@ public class BasicPlayerMovment : MonoBehaviour {
                     _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
                 }
 
-                if (_shoot && _shootCountdown <= 0 && _ammo > 0)
+                if (_shoot && _shootCountdown <= 0 && Inventory.GetAmmo() > 0)
                 {
                     _animator.SetBool("isThrowingSword", true);
                     _shootCountdown = _shootCooldown;
@@ -146,8 +136,6 @@ public class BasicPlayerMovment : MonoBehaviour {
             _rb.velocity = Vector2.zero;
         }
     }
-
-
     private void CheckGround()
     {
         Debug.DrawRay(transform.position + Vector3.right * _playerHalfWidth/2, Vector2.down * _playerHalfHeight, Color.red);
@@ -162,102 +150,60 @@ public class BasicPlayerMovment : MonoBehaviour {
         
         
     }
-
     private void OnCollisionExit2D(Collision2D collision)
     {
         _isGrounded = false;
     }
-
+    //animacja nie tykać
     public void SpawnSword()
     {
         Instantiate(_bulletPrefab, transform.position, transform.rotation)
             .GetComponent<Bullet>().Init(transform.localScale.x > 0);
         _animator.SetBool("isThrowingSword", false);
     }
-
-    public void CollectPotion(PotionEnum potionType)
-    {
-        if (_potionsInInventory.TryGetValue(potionType, out int value))
-            _potionsInInventory[potionType] = value + 1;
-        else
-            _potionsInInventory[potionType] = 1;
-
-        string log = "Potions: ";
-        foreach (var kvp in _potionsInInventory)
-        {
-            log += $"{kvp.Key}={kvp.Value}, ";
-        }
-        Debug.Log(log.TrimEnd(',', ' '));
-    }
+    //animacja nie tykać
     public void Attack()
     {
         for(int i=1;i<4;i++)
         _animator.SetBool("isAttacking" + i, false);
     }
-
+    //animacja nie tykać
     public void hit()
     {
         _isHittedInAir=true;
-        
-        _HP--;
-        if(_HP<=0)
+        Inventory.SetHp(Inventory.GetHp()-1);
+        if(Inventory.GetHp()<=0)
         _animator.SetBool("isDying", true);
         else
         _animator.SetBool("isHitted", true);
-
-       
     }
+    //animacja nie tykać
     public void gotHitted()
     {
         _isHittedInAir=false;   
         _animator.SetBool("isHitted", false);
     }
+    //animacja nie tykać
     public void Die()
     {
         _isAlive = false;  
     }
-
-    public void CollectKey()
-    {
-        _keysCollected++;
-    }
-
-    public void UseKey()
-    {
-        _keysCollected--;
-    }
-
-    public int getKeysCollected()
-    {
-        return _keysCollected;
-    }
-
-   
-
-    public int getHP()
-    {
-        return _HP;
-    }
-
-    public void setHP(int value)
-    {
-        _HP = value;
-    }
+    //animacja nie tykać
     public bool isAttackingAnimation()
     {
         return _animator.GetBool("isAttacking1") || _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3") || _animator.GetBool("isThrowingSword");
     }
-
+    //polaczone z animacja
     public void AddEnemyInRange(IEnemy enemy)
     {
         _enemiesInRange.Add(enemy);
     }
-
+    //polaczone z animacja
     public void RemoveEnemyInRange(IEnemy enemy)
     {
         _enemiesInRange.Remove(enemy);
     }
-
+    //animacja nie tykać
     public void HitEnemiesInMeleeRange()
     {
         foreach(IEnemy enemy in _enemiesInRange)
@@ -266,6 +212,4 @@ public class BasicPlayerMovment : MonoBehaviour {
             enemy.hit();
         }
     }
-
-
 }

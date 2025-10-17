@@ -22,13 +22,13 @@ public class Chest : MonoBehaviour
     {
         float distance = Vector2.Distance(_player.position, transform.position);
 
-        if (distance <= _interactionDistance && Input.GetButtonDown("OpenChest") && _playerObj.getKeysCollected() > 0)
+        if (distance <= _interactionDistance && Input.GetButtonDown("OpenChest") && Inventory.GetKeysCollected() > 0)
         {
             if (_isOpened) return;
             
             
             _animator.SetBool("IsOpen", true);
-            _playerObj.UseKey();
+            //_playerObj.UseKey();
             _isOpened = true;
             StartCoroutine(DestroyAfterAnimation());
         }

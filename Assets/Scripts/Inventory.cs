@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private int _score=0;
-    private int _strenghtPotionCounter;
-    private int _hpPotionCounter;
-    private int _speedPotionCounter;
-    private int _keysCounter;
-    private int _secretMapCounter;
-    private int _ammoCounter=10;
-    private int _hpCounter;
+    private static int _score=0;
+    private static int _strenghtPotionCounter;
+    private static int _hpPotionCounter;
+    private static int _speedPotionCounter;
+    private static int _keysCounter;
+    private static int _secretMapCounter;
+    private static int _ammoCounter=10;
+    private static int _hpCounter;
     private void Start()
     {
         GameEventSystem.OnValuableCollected += CollectValuable;
@@ -32,5 +32,24 @@ public class Inventory : MonoBehaviour
     {
         _ammoCounter =(_ammoCounter + x);
         GameEventSystem.UpdateHUD(_ammoCounter, HUDType.Ammo);
+    }
+    //dodac collect key na eventach i w klasie key 
+    //to samo dla usekey i klasy chest
+    //to samo dla collect potion i klasy potion
+    public static int GetKeysCollected()
+    {
+        return _keysCounter;
+    }
+    public static int GetAmmo()
+    {
+        return _ammoCounter;
+    }
+    public static int GetHp()
+    {
+        return _hpCounter;
+    }
+    public static void SetHp(int value)
+    {
+        _hpCounter = value;
     }
 }

@@ -32,7 +32,7 @@ public class Potion : MonoBehaviour
             BasicPlayerMovment player = other.gameObject.GetComponent<BasicPlayerMovment>();
             if (player != null)
             {
-                player.CollectPotion(_potionType);
+               // player.CollectPotion(_potionType);
                 Destroy(gameObject);
             }
         }

@@ -12,7 +12,7 @@ public class Key : MonoBehaviour
             BasicPlayerMovment player = other.gameObject.GetComponent<BasicPlayerMovment>();
             if (player != null)
             {
-                player.CollectKey();
+                //player.CollectKey();
                 Destroy(gameObject);
             }
         }
