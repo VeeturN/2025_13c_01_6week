@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Key : MonoBehaviour
+public class Key : MonoBehaviour,  ICollectible
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -12,7 +12,7 @@ public class Key : MonoBehaviour
             BasicPlayerMovment player = other.gameObject.GetComponent<BasicPlayerMovment>();
             if (player != null)
             {
-                //player.CollectKey();
+                Inventory.SetKeysCollected(Inventory.GetKeysCollected()+1);
                 Destroy(gameObject);
             }
         }

@@ -5,20 +5,21 @@ using System;
 
 public class GameEventSystem
 {
-    public static event Action<int> OnValuableCollected;
     public static event Action<int> OnAmmoAmountChanged;
-    public static event Action<int> OnHpChanged;
     public static event Action<int, HUDType> OnHUDParameterChanged;
+    public static event Action<AbstractValuable> OnValuableCollected;
+
+    public static event Action<float, PotionEnum> OnPotionTimeChaged;
     
-    public static void CollectValuable(int scorePoints)
+    
+    public static void CollectValuable(AbstractValuable valuable)
     {
-        OnValuableCollected?.Invoke(scorePoints);
+        OnValuableCollected?.Invoke(valuable);
     }
     public static void CollectAmmo(int amount)
     {
         OnAmmoAmountChanged?.Invoke(amount);
     }
-
     public static void DecreseAmmo(int amount)
     {
         OnAmmoAmountChanged?.Invoke(-amount);
@@ -26,5 +27,9 @@ public class GameEventSystem
     public static void UpdateHUD(int hudValue, HUDType hudType)
     {
         OnHUDParameterChanged?.Invoke(hudValue, hudType);
+    }
+    public static void UpdateHUDPotionTimer(float completionPercentage, PotionEnum potionType)
+    {
+        OnPotionTimeChaged?.Invoke(completionPercentage, potionType);
     }
 }

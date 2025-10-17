@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Potion : MonoBehaviour
+public class Potion : MonoBehaviour, ICollectible
 {
     private PotionEnum _potionType;
     private Animator _animator;
@@ -32,7 +32,7 @@ public class Potion : MonoBehaviour
             BasicPlayerMovment player = other.gameObject.GetComponent<BasicPlayerMovment>();
             if (player != null)
             {
-               // player.CollectPotion(_potionType);
+                Inventory.CollectPotion(_potionType);
                 Destroy(gameObject);
             }
         }

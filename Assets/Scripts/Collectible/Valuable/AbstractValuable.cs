@@ -6,11 +6,9 @@ public abstract class AbstractValuable : MonoBehaviour, ICollectible
 {
     protected int _value;
     private bool _isCollected;
-    private ValuableAnimationScript _animationScript;
     private void Awake()
     {
         _isCollected=false;
-        _animationScript = GetComponent<ValuableAnimationScript>();
         SetObjValue();
     }
     protected abstract void SetObjValue();
@@ -22,8 +20,11 @@ public abstract class AbstractValuable : MonoBehaviour, ICollectible
             return;
         }
         _isCollected=true;
-        GameEventSystem.CollectValuable(_value);
-        _animationScript.ChangeParaInAmimationIsCollected();
+        GameEventSystem.CollectValuable(this);
         Destroy(gameObject, 1f);
+    }
+    public int GetValue()
+    {
+        return _value;
     }
 }

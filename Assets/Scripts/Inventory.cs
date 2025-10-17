@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private static int _score=0;
+    private static int _score;
     private static int _strenghtPotionCounter;
     private static int _hpPotionCounter;
     private static int _speedPotionCounter;
     private static int _keysCounter;
     private static int _secretMapCounter;
-    private static int _ammoCounter=10;
-    private static int _hpCounter=10;
+    private static int _ammoCounter;
+    private static int _hpCounter;
+
+    private void Awake()
+    {
+        _score = 0;
+        _strenghtPotionCounter = 0;
+        _hpPotionCounter = 0;
+        _speedPotionCounter = 0;
+        _keysCounter = 0;
+        _secretMapCounter = 0;
+        _ammoCounter = 10;
+        _hpCounter = 10;
+    }
+
     private void Start()
     {
         GameEventSystem.OnValuableCollected += CollectValuable;
@@ -23,9 +36,9 @@ public class Inventory : MonoBehaviour
         GameEventSystem.OnValuableCollected -= CollectValuable;
         GameEventSystem.OnAmmoAmountChanged -= ChangeAmmoValue;
     }
-    private void CollectValuable(int x)
+    private void CollectValuable(AbstractValuable x)
     {
-        _score += x;
+        _score += x.GetValue();
         GameEventSystem.UpdateHUD(_score, HUDType.Score);
     }
     private void ChangeAmmoValue(int x)
@@ -33,13 +46,17 @@ public class Inventory : MonoBehaviour
         _ammoCounter =(_ammoCounter + x);
         GameEventSystem.UpdateHUD(_ammoCounter, HUDType.Ammo);
     }
-    //dodac collect key na eventach i w klasie key 
-    //to samo dla usekey i klasy chest
-    //to samo dla collect potion i klasy potion
     public static int GetKeysCollected()
     {
         return _keysCounter;
     }
+    public static void SetKeysCollected(int keys)
+    {
+        _keysCounter = keys;
+        GameEventSystem.UpdateHUD(_keysCounter, HUDType.Key);
+    }
+    
+
     public static int GetAmmo()
     {
         return _ammoCounter;
@@ -52,5 +69,24 @@ public class Inventory : MonoBehaviour
     {
         _hpCounter = value;
         GameEventSystem.UpdateHUD(_hpCounter, HUDType.Hp);
+    }
+
+    public static void CollectPotion(PotionEnum potion)
+    {
+        switch (potion)
+        {
+            case PotionEnum.Red:
+                _hpPotionCounter++;
+                GameEventSystem.UpdateHUD(_hpPotionCounter,HUDType.HpPotion);
+                break;
+            case PotionEnum.Blue:
+                _speedPotionCounter++;
+                GameEventSystem.UpdateHUD(_speedPotionCounter,HUDType.SpeedPotion);
+                break;
+            case PotionEnum.Green:
+                _strenghtPotionCounter++;
+                GameEventSystem.UpdateHUD(_strenghtPotionCounter,HUDType.StrengthPotion);
+                break;
+        }
     }
 }
