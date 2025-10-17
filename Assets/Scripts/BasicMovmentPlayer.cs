@@ -42,8 +42,10 @@ public class BasicPlayerMovment : MonoBehaviour {
         _animator = GetComponent<Animator>();
         _enemiesInRange = new List<IEnemy>();
         _potionsInInventory = new Dictionary<PotionEnum, int>();
-        _playerHalfWidth = GetComponent<SpriteRenderer>().bounds.extents.x;
-        _playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y;
+        
+        BoxCollider2D col = GetComponent<BoxCollider2D>();
+        _playerHalfWidth = col.bounds.extents.x;
+        _playerHalfHeight = col.bounds.extents.y;
     }
     public void Start()
     {
@@ -148,8 +150,10 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void CheckGround()
     {
-        if ((Physics2D.Raycast(transform.position+Vector3.right*_playerHalfWidth, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground"))||
-            Physics2D.Raycast(transform.position + Vector3.left * _playerHalfWidth, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")))
+        Debug.DrawRay(transform.position + Vector3.right * _playerHalfWidth/2, Vector2.down * _playerHalfHeight, Color.red);
+        Debug.DrawRay(transform.position + Vector3.left * _playerHalfWidth/2, Vector2.down * _playerHalfHeight, Color.red);
+        if ((Physics2D.Raycast(transform.position+Vector3.right*_playerHalfWidth/3, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground"))|| // nwm dlaczego na 3 ale dziala
+            Physics2D.Raycast(transform.position + Vector3.left * _playerHalfWidth/3, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")))
             && _rb.velocity.y <= 0)
         {
             _isGrounded = true;
