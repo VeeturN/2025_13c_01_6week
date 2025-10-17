@@ -16,6 +16,10 @@ public class HUD : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hpPotionCounterText;
     [SerializeField] private TextMeshProUGUI speedPotionCounterText;
     [SerializeField] private TextMeshProUGUI keyCounterText;
+    [SerializeField] private Image hpBar;
+    [SerializeField] private Image hpSpeed;
+    [SerializeField] private Image hpStrenght;
+    private int maxHp = 10;
     private void Awake()
     {
         scoreText.text = "0";
@@ -28,16 +32,22 @@ public class HUD : MonoBehaviour
         _hpPotion.gameObject.SetActive(false);
         _speedPotion.gameObject.SetActive(false);
         _key.gameObject.SetActive(false);
+        hpBar.fillAmount = 1f;
+        hpSpeed.fillAmount = 1f;
+        hpStrenght.fillAmount = 1f;
     }
-
     private void Start()
     {
         GameEventSystem.OnHUDParameterChanged += UpdateHUD;
+        GameEventSystem.OnPotionTimeChaged += UpdatePotionBar;
+
     }
     private void OnDestroy()
     {
         GameEventSystem.OnHUDParameterChanged -= UpdateHUD;
+        GameEventSystem.OnPotionTimeChaged -= UpdatePotionBar;
     }
+    
     private void UpdateHUD(int currentValue, HUDType hudType)
     {
         switch (hudType)
@@ -46,6 +56,7 @@ public class HUD : MonoBehaviour
                 scoreText.text = currentValue+"";
                 break;
             case HUDType.Hp:
+                hpBar.fillAmount = (float)currentValue/maxHp;
                 break;
             case HUDType.Ammo:
                 amoText.text = currentValue+"";
@@ -67,5 +78,19 @@ public class HUD : MonoBehaviour
                 _strengthPotion.gameObject.SetActive(true);
                 break;
         }
+    }
+
+    private void UpdatePotionBar(float x, PotionEnum y)
+    {
+        switch (y)
+        {
+            case PotionEnum.Blue:
+                hpSpeed.fillAmount = x;
+                break;
+            case PotionEnum.Green:
+                hpStrenght.fillAmount = x;
+                break;
+        }
+        
     }
 }
