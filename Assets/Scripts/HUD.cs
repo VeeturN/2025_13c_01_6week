@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI amoText;
     [SerializeField] private Image  _strengthPotion;
@@ -20,7 +19,6 @@ public class HUD : MonoBehaviour
     private void Awake()
     {
         scoreText.text = "0";
-        healthText.text = "10";
         amoText.text = "10";
         strengthPotionCounterText.text = "0";
         hpPotionCounterText.text = "0";
@@ -48,7 +46,6 @@ public class HUD : MonoBehaviour
                 scoreText.text = currentValue+"";
                 break;
             case HUDType.Hp:
-                healthText.text = currentValue+"";
                 break;
             case HUDType.Ammo:
                 amoText.text = currentValue+"";
