@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6379656995870854445}
   - component: {fileID: 5003088163763542350}
   - component: {fileID: 6284750037185536594}
+  - component: {fileID: 4073935565782776453}
   m_Layer: 0
   m_Name: DiamonPrefab
   m_TagString: Untagged
@@ -191,5 +192,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9823512d65a7bc40a15a3fff9e18185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4073935565782776453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2834923227301515495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6cffe6691439a42a09f6938391d0d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
