@@ -7,11 +7,13 @@ public class GameEventSystem
 {
     public static event Action<int> OnAmmoAmountChanged;
     public static event Action<int, HUDType> OnHUDParameterChanged;
+    public static event Action<int> OnUseItem;
+    public static event Action OnChestOpen;
     public static event Action<AbstractValuable> OnValuableCollected;
 
     public static event Action<float, PotionEnum> OnPotionTimeChaged;
     
-    
+
     public static void CollectValuable(AbstractValuable valuable)
     {
         OnValuableCollected?.Invoke(valuable);
@@ -31,5 +33,13 @@ public class GameEventSystem
     public static void UpdateHUDPotionTimer(float completionPercentage, PotionEnum potionType)
     {
         OnPotionTimeChaged?.Invoke(completionPercentage, potionType);
+    }
+    public static void UseItem(int item)
+    {
+        OnUseItem?.Invoke(item);
+    }
+    public static void OpenChest()
+    {
+        OnChestOpen?.Invoke();
     }
 }

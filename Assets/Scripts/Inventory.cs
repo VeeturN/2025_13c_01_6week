@@ -25,6 +25,18 @@ public class Inventory : MonoBehaviour
         _hpCounter = 10;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            UseItem(1);
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            UseItem(2);
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            UseItem(3);
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+            UseItem(4);
+    }
+
     private void Start()
     {
         GameEventSystem.OnValuableCollected += CollectValuable;
@@ -87,6 +99,49 @@ public class Inventory : MonoBehaviour
                 _strenghtPotionCounter++;
                 GameEventSystem.UpdateHUD(_strenghtPotionCounter,HUDType.StrengthPotion);
                 break;
+        }
+    }
+    private void UseItem(int item)
+    {
+        bool hasEnough = false;
+        switch (item)
+        {
+            case 1:
+                if (_speedPotionCounter > 0)
+                {
+                    hasEnough = _speedPotionCounter > 0;
+                    _speedPotionCounter--;
+                    GameEventSystem.UpdateHUD(_speedPotionCounter, HUDType.SpeedPotion);
+                }
+                break;
+            case 2:
+                if (_hpPotionCounter > 0)
+                {
+                    hasEnough = _hpPotionCounter > 0;
+                    _hpPotionCounter--;
+                    GameEventSystem.UpdateHUD(_hpPotionCounter,HUDType.HpPotion);
+                }
+                break;
+            case 3:
+                if (_strenghtPotionCounter > 0)
+                {
+                    hasEnough = _strenghtPotionCounter > 0;
+                    _strenghtPotionCounter--;
+                    GameEventSystem.UpdateHUD(_strenghtPotionCounter, HUDType.StrengthPotion);
+                }
+                break;
+            case 4:
+                GameEventSystem.OpenChest();
+                GameEventSystem.UpdateHUD(_keysCounter, HUDType.Key);
+                break;
+        }
+        if (hasEnough && item<=3)
+        {
+            GameEventSystem.UseItem(item);
+        }
+        else
+        {
+            GameEventSystem.OpenChest();
         }
     }
 }

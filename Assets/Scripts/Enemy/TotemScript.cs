@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TotemScript : MonoBehaviour ,IEnemy
+public class TotemScript : MonoBehaviour
 {
     public enum TotemType { Totem1, Totem2, Totem3 }
     public enum PartType { Body, Head }

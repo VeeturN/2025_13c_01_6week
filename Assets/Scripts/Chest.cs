@@ -12,23 +12,32 @@ public class Chest : MonoBehaviour
     [SerializeField] private Animator _animator;
     private bool _isOpened = false;
 
+    private void Start()
+    {
+        GameEventSystem.OnChestOpen += OpenChest;
+    }
+    private void OnDestroy()
+    {
+        GameEventSystem.OnChestOpen -= OpenChest;
+    }
+
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _playerObj=_player.GetComponent<BasicPlayerMovment>();
     }
-
-    private void Update()
+    private void OpenChest()
     {
+        Debug.Log("Otwieranie");
         float distance = Vector2.Distance(_player.position, transform.position);
 
-        if (distance <= _interactionDistance && Input.GetButtonDown("OpenChest") && Inventory.GetKeysCollected() > 0)
+        if (distance <= _interactionDistance && Inventory.GetKeysCollected() > 0)
         {
             if (_isOpened) return;
-            
-            
+
+
             _animator.SetBool("IsOpen", true);
-            Inventory.SetKeysCollected(Inventory.GetKeysCollected()-1);
+            Inventory.SetKeysCollected(Inventory.GetKeysCollected() - 1);
             _isOpened = true;
             StartCoroutine(DestroyAfterAnimation());
         }

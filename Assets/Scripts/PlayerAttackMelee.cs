@@ -1,3 +1,4 @@
+using Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class PlayerAttackMelee : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            var enemy = collision.GetComponentInParent<IEnemy>();
+            var enemy = collision.GetComponentInParent<EnemyBase>();
             player.AddEnemyInRange(enemy);
         }
     }
@@ -29,7 +30,7 @@ public class PlayerAttackMelee : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            var enemy = collision.GetComponentInParent<IEnemy>();
+            var enemy = collision.GetComponentInParent<EnemyBase>();
             player.RemoveEnemyInRange(enemy);
         }
     }
