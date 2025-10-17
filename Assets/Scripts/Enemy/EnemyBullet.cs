@@ -12,16 +12,6 @@ public class EnemyBullet : MonoBehaviour
         _direction = direction.normalized;
         GetComponent<Rigidbody2D>().velocity = _direction * _speed; // stała prędkość pocisku
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

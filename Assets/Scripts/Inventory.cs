@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     private static int _keysCounter;
     private static int _secretMapCounter;
     private static int _ammoCounter=10;
-    private static int _hpCounter;
+    private static int _hpCounter=10;
     private void Start()
     {
         GameEventSystem.OnValuableCollected += CollectValuable;

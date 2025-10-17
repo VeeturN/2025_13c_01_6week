@@ -6,9 +6,9 @@ public class EnemyAttackTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Enemy1 enemy = GetComponentInParent<Enemy1>();
-            if (enemy != null)
-                enemy.IsPlayerInAttackRange = true;
+            MovingEnemyBase movingEnemy = GetComponentInParent<MovingEnemyBase>();
+            if (movingEnemy != null)
+                movingEnemy.IsPlayerInAttackRange = true;
         }
     }
 
@@ -16,9 +16,9 @@ public class EnemyAttackTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Enemy1 enemy = GetComponentInParent<Enemy1>();
-            if (enemy != null)
-                enemy.IsPlayerInAttackRange = false;
+            MovingEnemyBase movingEnemy = GetComponentInParent<MovingEnemyBase>();
+            if (movingEnemy != null)
+                movingEnemy.IsPlayerInAttackRange = false;
         }
     }
 }
