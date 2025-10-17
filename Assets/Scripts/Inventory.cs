@@ -51,5 +51,6 @@ public class Inventory : MonoBehaviour
     public static void SetHp(int value)
     {
         _hpCounter = value;
+        GameEventSystem.UpdateHUD(_hpCounter, HUDType.Hp);
     }
 }
