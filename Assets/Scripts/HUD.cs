@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,13 @@ public class HUD : MonoBehaviour
     [SerializeField] private Image  _speedPotion;
     [SerializeField] private Image  _key;
     private Image[] _itemsArray;
+
+    private void Awake()
+    {
+        scoreText.text = "0";
+        healthText.text = "10";
+        amoText.text = "10";
+    }
 
     private void Start()
     {
