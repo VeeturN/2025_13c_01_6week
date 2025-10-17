@@ -371,8 +371,16 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 644425065411778622, guid: f557d27c8ebef864c9ded0d60cf64577, type: 3}
+      propertyPath: _dashSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 644425065411778622, guid: f557d27c8ebef864c9ded0d60cf64577, type: 3}
       propertyPath: _jumpForce
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 644425065411778622, guid: f557d27c8ebef864c9ded0d60cf64577, type: 3}
+      propertyPath: _dashDistance
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 947036416415092791, guid: f557d27c8ebef864c9ded0d60cf64577, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1153,6 +1161,14 @@ PrefabInstance:
     - target: {fileID: 4060262406347622438, guid: 0620d65e74ce22d43a1fd969073db23a, type: 3}
       propertyPath: m_Name
       value: Canvas HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543069219297343188, guid: 0620d65e74ce22d43a1fd969073db23a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -7.0600586
+      objectReference: {fileID: 0}
+    - target: {fileID: 6543069219297343188, guid: 0620d65e74ce22d43a1fd969073db23a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -174.60999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

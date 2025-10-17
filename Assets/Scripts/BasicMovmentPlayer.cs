@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BasicPlayerMovment : MonoBehaviour {
@@ -12,6 +13,8 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _shootCooldown = 3;
     [SerializeField] private float _attackCooldown = 1;
+    [SerializeField] private float _dashDistance = 1;
+    [SerializeField] private float _dashSpeed = 1;
     private Rigidbody2D _rb;
     private Animator _animator;
     private float _xinput;
@@ -24,11 +27,16 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _performJump;
     private bool _shoot = false;
     private bool _attack = false;
+    private bool _dash = false;
+    private bool _inDash = false;
+    private float _endDashPosX;
+    private float _lastDashPosX;
     private bool _isGrounded;
     private bool _goDown;
     private List<IEnemy> _enemiesInRange;
     private bool _isHittedInAir = false;
     private bool _isAlive = true;
+    private float _grav;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -61,6 +69,10 @@ public class BasicPlayerMovment : MonoBehaviour {
         {
             _goDown=true;
         }
+        if (Input.GetButtonDown("Fire3") && !_isGrounded)
+        {
+            _dash = true;
+        }
     }
     private void FixedUpdate()
     {
@@ -73,7 +85,7 @@ public class BasicPlayerMovment : MonoBehaviour {
 
                 CheckGround();
 
-                if (_rb.velocity.x != 0)
+                if (_rb.velocity.x != 0 && !_inDash)
                     transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
 
                 if (_shootCountdown > 0)
@@ -112,6 +124,30 @@ public class BasicPlayerMovment : MonoBehaviour {
                     _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
                     _attackCountdown = _attackCooldown;
                     _attack = false;
+                }
+
+                if (_dash)
+                {
+                    _endDashPosX = transform.position.x + (transform.localScale.x>=0?_dashDistance:-_dashDistance);
+                    _inDash = true;
+                    _dash=false;
+                    Debug.Log(_endDashPosX);
+                }
+                else if(_inDash)
+                {
+                    if (_rb.gravityScale != 0)
+                        _grav = _rb.gravityScale;
+                    _rb.gravityScale = 0;
+                    if (((transform.localScale.x > 0 && transform.position.x < _endDashPosX)
+                        || (transform.localScale.x < 0 && transform.position.x > _endDashPosX))
+                        && Math.Abs(transform.position.x - _lastDashPosX) > 0.02f)
+                        _rb.velocity = new Vector2(transform.localScale.x > 0 ? _dashSpeed : -_dashSpeed, 0);
+                    else
+                    {
+                        _rb.gravityScale = _grav;
+                        _inDash = false;
+                    }
+                    _lastDashPosX = transform.position.x;
                 }
 
                 if (_goDown)
