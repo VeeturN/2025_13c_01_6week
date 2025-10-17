@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7388229853201602664}
   - component: {fileID: 6591191201841367253}
   - component: {fileID: 4437873026709792354}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: TotemBullet
   m_TagString: Enemy
   m_Icon: {fileID: 0}

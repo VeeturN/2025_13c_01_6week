@@ -6,10 +6,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BasicPlayerMovment : MonoBehaviour {
-    private Rigidbody2D _rb;
-    private Animator _animator;
-    private float _xinput;
-    private float _yinput;
+    public Rigidbody2D _rb;
+    public Animator _animator;
+    public float _xinput;
+    public float _yinput;
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 5;
     [SerializeField] private int _maxJumps = 2;
@@ -20,19 +20,20 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private int _ammo = 10;
     [SerializeField] private int _HP = 3;
     [SerializeField] private int _Score = 0;
-    private float _attackCountdown;
-    private float _shootCountdown;
-    private int _jumpCount = 0;
-    private bool _performJump;
-    private bool _shoot = false;
-    private bool _attack = false;
-    private bool _isGrounded;
-    private bool _goDown;
-    private List<IEnemy> _enemiesInRange;
-    private Dictionary<PotionEnum, int> _potionsInInventory;
-    private bool _isHittedInAir = false;
-    private int _keysCollected = 0;
-    private bool _isAlive = true;
+    public float _playerHalfHeight;
+    public float _attackCountdown;
+    public float _shootCountdown;
+    public int _jumpCount = 0;
+    public bool _performJump;
+    public bool _shoot = false;
+    public bool _attack = false;
+    public bool _isGrounded;
+    public bool _goDown;
+    public List<IEnemy> _enemiesInRange;
+    public Dictionary<PotionEnum, int> _potionsInInventory;
+    public bool _isHittedInAir = false;
+    public int _keysCollected = 0;
+    public bool _isAlive = true;
    
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         _animator = GetComponent<Animator>();
         _enemiesInRange = new List<IEnemy>();
         _potionsInInventory = new Dictionary<PotionEnum, int>();
+        _playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y;
     }
     public void Start()
     {
@@ -76,7 +78,7 @@ public class BasicPlayerMovment : MonoBehaviour {
                 _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
 
 
-
+                CheckGround();
 
                 if (_rb.velocity.x != 0)
                     transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
@@ -87,8 +89,8 @@ public class BasicPlayerMovment : MonoBehaviour {
                     _attackCountdown -= 0.05f;
 
                 _animator.SetBool("isRunning", _rb.velocity.x!=0 && _isGrounded);
-                _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < 0f);
-                _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0f);
+                _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < -0.05f);
+                _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0.05f);
 
                 if (isAttackingAnimation())
                 {
@@ -143,30 +145,42 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        bool isGround = false;
+        //bool isGround = false;
 
-        foreach (ContactPoint2D contact in collision.contacts)
-        {
-            // Sprawdza, czy kolizja jest od dołu (czyli podłoże)
-            if (Vector2.Angle(contact.normal, Vector2.up) < 45f)
-            {
-                isGround = true;
-                break;
-            }
+        //foreach (ContactPoint2D contact in collision.contacts)
+        //{
+        //    // Sprawdza, czy kolizja jest od dołu (czyli podłoże)
+        //    if (Vector2.Angle(contact.normal, Vector2.up) < 45f)
+        //    {
+        //        isGround = true;
+        //        break;
+        //    }
 
-            // Jeśli dotykamy ściany (kąt ~90°) i mamy włączony wall jump
-            if (_allowWallJump && Vector2.Angle(contact.normal, Vector2.up) > 80f && Vector2.Angle(contact.normal, Vector2.up) < 100f)
-            {
-                isGround = true;
-                break;
-            }
-        }
+        //    // Jeśli dotykamy ściany (kąt ~90°) i mamy włączony wall jump
+        //    if (_allowWallJump && Vector2.Angle(contact.normal, Vector2.up) > 80f && Vector2.Angle(contact.normal, Vector2.up) < 100f)
+        //    {
+        //        isGround = true;
+        //        break;
+        //    }
+        //}
 
-        if (isGround)
+        //if (isGround)
+        //{
+        //    _isGrounded = true;
+        //    _jumpCount = 0;
+        //}
+        //CheckGround();
+    }
+
+    private void CheckGround()
+    {
+        if (Physics2D.Raycast(transform.position, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")) && _rb.velocity.y <= 0)
         {
             _isGrounded = true;
             _jumpCount = 0;
         }
+        
+        
     }
 
     private void OnCollisionExit2D(Collision2D collision)

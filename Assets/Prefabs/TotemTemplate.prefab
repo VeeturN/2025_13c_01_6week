@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4935035347196602114}
   - component: {fileID: 800463956396683678}
   - component: {fileID: -1941871964765096116}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: TotemTemplate
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -148,8 +148,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1183245681
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bcf03da7eaa85c044a139700e0b3e6a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -215,6 +215,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6271853517555746754}
     m_Modifications:
+    - target: {fileID: 1367208458311806236, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -307,9 +311,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7082637084893842776, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8029994931742896348, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8743877291634071245, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_Name
       value: HealtBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743877291634071245, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8743877291634071245, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_TagString
