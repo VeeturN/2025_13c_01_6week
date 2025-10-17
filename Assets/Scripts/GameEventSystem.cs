@@ -5,20 +5,17 @@ using System;
 
 public class GameEventSystem
 {
-    public static event Action<int> OnValuableCollected;
     public static event Action<int> OnAmmoAmountChanged;
-    public static event Action<int> OnHpChanged;
     public static event Action<int, HUDType> OnHUDParameterChanged;
-    
-    public static void CollectValuable(int scorePoints)
+    public static event Action<AbstractValuable> OnValuableCollected;
+    public static void CollectValuable(AbstractValuable valuable)
     {
-        OnValuableCollected?.Invoke(scorePoints);
+        OnValuableCollected?.Invoke(valuable);
     }
     public static void CollectAmmo(int amount)
     {
         OnAmmoAmountChanged?.Invoke(amount);
     }
-
     public static void DecreseAmmo(int amount)
     {
         OnAmmoAmountChanged?.Invoke(-amount);

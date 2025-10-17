@@ -23,9 +23,9 @@ public class Inventory : MonoBehaviour
         GameEventSystem.OnValuableCollected -= CollectValuable;
         GameEventSystem.OnAmmoAmountChanged -= ChangeAmmoValue;
     }
-    private void CollectValuable(int x)
+    private void CollectValuable(AbstractValuable x)
     {
-        _score += x;
+        _score += x.GetValue();
         GameEventSystem.UpdateHUD(_score, HUDType.Score);
     }
     private void ChangeAmmoValue(int x)

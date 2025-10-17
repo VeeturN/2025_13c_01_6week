@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class ValuableAnimationScript : MonoBehaviour
 {
-    private Animator _animator;
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        GameEventSystem.OnValuableCollected += ChangeParaInAmimationIsCollected;   
     }
-    public void ChangeParaInAmimationIsCollected()
+    private void ChangeParaInAmimationIsCollected(AbstractValuable coin)
     {
-        _animator.SetBool("isCollected", true);
+        Animator myAnimator = coin.GetComponent<Animator>();
+        myAnimator.SetBool("isCollected", true);
     }
 }

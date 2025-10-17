@@ -12,7 +12,6 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _shootCooldown = 3;
     [SerializeField] private float _attackCooldown = 1;
-    [SerializeField] private bool _allowWallJump = false;
     private Rigidbody2D _rb;
     private Animator _animator;
     private float _xinput;

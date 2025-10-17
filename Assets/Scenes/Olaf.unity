@@ -801,6 +801,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 6543069219297343188, guid: 0620d65e74ce22d43a1fd969073db23a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -174.60999
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
