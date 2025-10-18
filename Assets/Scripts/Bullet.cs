@@ -1,3 +1,4 @@
+using Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +32,8 @@ public class Bullet : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            IEnemy enemy = collision.GetComponentInParent<IEnemy>();
-            if (enemy != null) enemy.hit();
+            EnemyBase enemy = collision.GetComponentInParent<EnemyBase>();
+            if (enemy != null) enemy.hit(1);
         }
 
 

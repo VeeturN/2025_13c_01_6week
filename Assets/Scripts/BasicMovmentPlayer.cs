@@ -1,3 +1,4 @@
+using Enemy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,12 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _shootCooldown = 3;
     [SerializeField] private float _attackCooldown = 1;
+    [SerializeField] private float _dashDistance = 1;
+    [SerializeField] private float _dashSpeed = 1;
+    [SerializeField] private int _potionsDuration=15;
+    [SerializeField] private int _healValue=1;
+    [SerializeField] private int _damage = 1;
+    [SerializeField] private GameObject _potionEffect;
     private Rigidbody2D _rb;
     private Animator _animator;
     private float _xinput;
@@ -24,24 +31,37 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _performJump;
     private bool _shoot = false;
     private bool _attack = false;
+    private bool _dash = false;
+    private bool _inDash = false;
+    private bool _canDash = true;
+    private float _endDashPosX;
+    private float _lastDashPosX;
     private bool _isGrounded;
     private bool _goDown;
-    private List<IEnemy> _enemiesInRange;
+    private List<EnemyBase> _enemiesInRange;
     private bool _isHittedInAir = false;
     private bool _isAlive = true;
+    private float _grav;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _enemiesInRange = new List<IEnemy>();
+        _enemiesInRange = new List<EnemyBase>();
         BoxCollider2D col = GetComponent<BoxCollider2D>();
         _playerHalfWidth = col.bounds.extents.x;
         _playerHalfHeight = col.bounds.extents.y;
     }
     public void Start()
     {
+        GameEventSystem.OnUseItem += UseItem; 
         _rb.freezeRotation = true;
     }
+
+    private void OnDestroy()
+    {
+        GameEventSystem.OnUseItem -= UseItem;
+    }
+
     private void Update() {
         _xinput=Input.GetAxis("Horizontal");
         _yinput = Input.GetAxis("Vertical");
@@ -61,6 +81,10 @@ public class BasicPlayerMovment : MonoBehaviour {
         {
             _goDown=true;
         }
+        if (Input.GetButtonDown("Fire3") && !_isGrounded && _canDash)
+        {
+            _dash = true;
+        }
     }
     private void FixedUpdate()
     {
@@ -73,7 +97,7 @@ public class BasicPlayerMovment : MonoBehaviour {
 
                 CheckGround();
 
-                if (_rb.velocity.x != 0)
+                if (_rb.velocity.x != 0 && !_inDash)
                     transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
 
                 if (_shootCountdown > 0)
@@ -114,6 +138,31 @@ public class BasicPlayerMovment : MonoBehaviour {
                     _attack = false;
                 }
 
+                if (_dash)
+                {
+                    _endDashPosX = transform.position.x + (transform.localScale.x>=0?_dashDistance:-_dashDistance);
+                    _inDash = true;
+                    _dash=false;
+                    _canDash = false;
+                    Debug.Log(_endDashPosX);
+                }
+                else if(_inDash)
+                {
+                    if (_rb.gravityScale != 0)
+                        _grav = _rb.gravityScale;
+                    _rb.gravityScale = 0;
+                    if (((transform.localScale.x > 0 && transform.position.x < _endDashPosX)
+                        || (transform.localScale.x < 0 && transform.position.x > _endDashPosX))
+                        && Math.Abs(transform.position.x - _lastDashPosX) > 0.02f)
+                        _rb.velocity = new Vector2(transform.localScale.x > 0 ? _dashSpeed : -_dashSpeed, 0);
+                    else
+                    {
+                        _rb.gravityScale = _grav;
+                        _inDash = false;
+                    }
+                    _lastDashPosX = transform.position.x;
+                }
+
                 if (_goDown)
                 {
                     // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
@@ -144,6 +193,7 @@ public class BasicPlayerMovment : MonoBehaviour {
             && _rb.velocity.y <= 0)
         {
             _isGrounded = true;
+            _canDash = true;
             _jumpCount = 0;
         }
         
@@ -193,22 +243,65 @@ public class BasicPlayerMovment : MonoBehaviour {
         return _animator.GetBool("isAttacking1") || _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3") || _animator.GetBool("isThrowingSword");
     }
     //polaczone z animacja
-    public void AddEnemyInRange(IEnemy enemy)
+    public void AddEnemyInRange(EnemyBase enemy)
     {
         _enemiesInRange.Add(enemy);
     }
     //polaczone z animacja
-    public void RemoveEnemyInRange(IEnemy enemy)
+    public void RemoveEnemyInRange(EnemyBase enemy)
     {
         _enemiesInRange.Remove(enemy);
     }
     //animacja nie tykać
     public void HitEnemiesInMeleeRange()
     {
-        foreach(IEnemy enemy in _enemiesInRange)
+        foreach(EnemyBase enemy in _enemiesInRange)
         {
             if (enemy == null) { continue; }
-            enemy.hit();
+            enemy.hit(_damage);
         }
+    }
+
+    public void UseItem(int item)
+    {
+        switch (item)
+        {
+            case 1:
+                StartCoroutine(UseSpeedPotionCoroutine(_potionsDuration));
+                break;
+            case 2:
+                Inventory.SetHp(Inventory.GetHp() + _healValue);
+                break;
+            case 3:
+                StartCoroutine(UseStrengthPotionCorutine(_potionsDuration));
+                break;
+        }
+        if (item <= 3)
+            Instantiate(_potionEffect, transform.position+Vector3.up*_playerHalfHeight, Quaternion.identity).transform.SetParent(transform);
+    }
+
+    public IEnumerator UseSpeedPotionCoroutine(int time)
+    {
+        float t = time;
+        _speed *= 1.5f;
+        while(t > 0)
+        {
+            GameEventSystem.UpdateHUDPotionTimer(t/time, PotionEnum.Blue);
+            yield return new WaitForSeconds(0.01f);
+            t -= 0.01f;
+        }
+        _speed /= 1.5f;
+    }
+    public IEnumerator UseStrengthPotionCorutine(int time)
+    {
+        float t = time;
+        _damage *= 2;
+        while (t > 0)
+        {
+            GameEventSystem.UpdateHUDPotionTimer(t / time, PotionEnum.Green);
+            yield return new WaitForSeconds(0.01f);
+            t -= 0.01f;
+        }
+        _damage /=2;
     }
 }

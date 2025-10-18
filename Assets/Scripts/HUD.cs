@@ -28,13 +28,9 @@ public class HUD : MonoBehaviour
         hpPotionCounterText.text = "0";
         speedPotionCounterText.text = "0";
         keyCounterText.text = "0";
-        _strengthPotion.gameObject.SetActive(false);
-        _hpPotion.gameObject.SetActive(false);
-        _speedPotion.gameObject.SetActive(false);
-        _key.gameObject.SetActive(false);
         hpBar.fillAmount = 1f;
-        hpSpeed.fillAmount = 1f;
-        hpStrenght.fillAmount = 1f;
+        hpSpeed.fillAmount = 0f;
+        hpStrenght.fillAmount = 0f;
     }
     private void Start()
     {
@@ -63,19 +59,15 @@ public class HUD : MonoBehaviour
                 break;
             case HUDType.Key:
                 keyCounterText.text =  currentValue+"";
-                _key.gameObject.SetActive(true);
                 break;
             case HUDType.HpPotion:
                 hpPotionCounterText.text =  currentValue+"";
-                _hpPotion.gameObject.SetActive(true);
                 break;
             case HUDType.SpeedPotion:
                 speedPotionCounterText.text =  currentValue+"";
-                _speedPotion.gameObject.SetActive(true);
                 break;
             case HUDType.StrengthPotion:
                 strengthPotionCounterText.text =  currentValue+"";
-                _strengthPotion.gameObject.SetActive(true);
                 break;
         }
     }
