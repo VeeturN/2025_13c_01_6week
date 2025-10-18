@@ -8,11 +8,16 @@ public abstract class MovingEnemyBase : EnemyBase
     [SerializeField] protected Transform _patrolPointA;
     [SerializeField] protected Transform patrolPointB;
     [SerializeField] protected float _speed = 2f;
+    private bool _isTouching;
+
     
     protected bool _movingToB = true;
+    
+
 
     protected virtual void FixedUpdate()
     {
+        _isTouching = Physics2D.Raycast((Vector2)transform.position + Vector2.down*0.5f+Vector2.right*1f,Vector2.left,2f,LayerMask.GetMask("Ground"));
         if (_HP <= 0)
         {
             _animator.SetBool("isDead", true);
@@ -27,12 +32,22 @@ public abstract class MovingEnemyBase : EnemyBase
         if (_player != null && IsPlayerInDetectionRange())
         {
             MoveTowardsPlayer();
+            if (_isTouching)
+            {
+                Jump();
+            }
             if (ShouldJump())
                 Jump();
         }
         else
+        {
             Patrol();
-        
+            if (_isTouching)
+            {
+                Jump();
+            }
+        }
+
         HandleAttackTimer();
 
         UpdateRunAnimation();
@@ -118,6 +133,7 @@ public abstract class MovingEnemyBase : EnemyBase
         bool inYRange = Mathf.Abs(playerY - enemyY) <= 10f;
         return inXRange && inYRange;
     }
+    
     
     public void OnCollisionEnter2D(Collision2D collision)
     {
