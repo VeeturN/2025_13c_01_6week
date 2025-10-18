@@ -9,9 +9,10 @@ public class Inventory : MonoBehaviour
     private static int _hpPotionCounter;
     private static int _speedPotionCounter;
     private static int _keysCounter;
-    private static int _secretMapCounter;
     private static int _ammoCounter;
     private static int _hpCounter;
+    private static int _secretMapsCounter;
+
 
     private void Awake()
     {
@@ -20,9 +21,9 @@ public class Inventory : MonoBehaviour
         _hpPotionCounter = 0;
         _speedPotionCounter = 0;
         _keysCounter = 0;
-        _secretMapCounter = 0;
         _ammoCounter = 10;
         _hpCounter = 10;
+        _secretMapsCounter = 0;
     }
 
     private void Update()
@@ -41,12 +42,14 @@ public class Inventory : MonoBehaviour
     {
         GameEventSystem.OnValuableCollected += CollectValuable;
         GameEventSystem.OnAmmoAmountChanged += ChangeAmmoValue;
+        GameEventSystem.OnMapFragmentCollected += CollectSecretMapFragment;
     }
     
     private void OnDestroy()
     {
         GameEventSystem.OnValuableCollected -= CollectValuable;
         GameEventSystem.OnAmmoAmountChanged -= ChangeAmmoValue;
+        GameEventSystem.OnMapFragmentCollected -= CollectSecretMapFragment;
     }
     private void CollectValuable(AbstractValuable x)
     {
@@ -67,8 +70,16 @@ public class Inventory : MonoBehaviour
         _keysCounter = keys;
         GameEventSystem.UpdateHUD(_keysCounter, HUDType.Key);
     }
-    
-
+    private void CollectSecretMapFragment(SecretMapFragment secretMapFragment)
+    {
+        _secretMapsCounter++;
+        if (_secretMapsCounter==4)
+        {
+            Debug.Log("wszystkie czesci mapy zebrane!");
+            //tutaj dorobic wywolanie triggera ktory sie rozproszy na jakas idk animacje
+            //albo cos co sie wyswietli na chwile na ekranie
+        }
+    }
     public static int GetAmmo()
     {
         return _ammoCounter;

@@ -10,9 +10,13 @@ public class GameEventSystem
     public static event Action<int> OnUseItem;
     public static event Action OnChestOpen;
     public static event Action<AbstractValuable> OnValuableCollected;
-
     public static event Action<float, PotionEnum> OnPotionTimeChaged;
-    
+    public static event Action<SecretMapFragment> OnMapFragmentCollected;
+
+    public static void CollectSecretMapFragment(SecretMapFragment secretMapFragment)
+    {
+        OnMapFragmentCollected?.Invoke(secretMapFragment);
+    }
 
     public static void CollectValuable(AbstractValuable valuable)
     {

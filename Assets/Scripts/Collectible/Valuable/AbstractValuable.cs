@@ -12,7 +12,7 @@ public abstract class AbstractValuable : MonoBehaviour, ICollectible
         SetObjValue();
     }
     protected abstract void SetObjValue();
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
         if (_isCollected)

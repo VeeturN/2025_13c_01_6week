@@ -25,7 +25,7 @@ public class Potion : MonoBehaviour, ICollectible
         }
     } 
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {

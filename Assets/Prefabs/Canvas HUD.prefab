@@ -882,9 +882,9 @@ RectTransform:
   - {fileID: 2168736906084030707}
   m_Father: {fileID: 3183944906394839808}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 208.8, y: 174.6}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -68.5, y: 97.2}
   m_SizeDelta: {x: 106, y: 38.03}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1221908059579693531
@@ -1278,7 +1278,7 @@ GameObject:
   - component: {fileID: 1973831874500534810}
   - component: {fileID: 7317068630246453484}
   m_Layer: 0
-  m_Name: Map3
+  m_Name: BotLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1552,6 +1552,10 @@ MonoBehaviour:
   hpBar: {fileID: 2562740210043545280}
   hpSpeed: {fileID: 6617567923155001287}
   hpStrenght: {fileID: 9209901141072580193}
+  secretMapTopRight: {fileID: 3802628936038920895}
+  secretMapTopLeft: {fileID: 2321171774246808977}
+  secretMapBottomRight: {fileID: 2918368243018883002}
+  secretMapBottomLeft: {fileID: 7317068630246453484}
 --- !u!1 &4119889480648766791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1674,7 +1678,7 @@ GameObject:
   - component: {fileID: 3428543495214201842}
   - component: {fileID: 2918368243018883002}
   m_Layer: 0
-  m_Name: Map4
+  m_Name: BotRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2561,7 +2565,7 @@ GameObject:
   - component: {fileID: 7896351056353716531}
   - component: {fileID: 2321171774246808977}
   m_Layer: 0
-  m_Name: Map1
+  m_Name: TopLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3054,7 +3058,7 @@ GameObject:
   - component: {fileID: 3076045695500893810}
   - component: {fileID: 3802628936038920895}
   m_Layer: 0
-  m_Name: Map2
+  m_Name: TopRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

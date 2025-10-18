@@ -103,32 +103,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7211f6de59e200e40913b9363ed0614a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 0}
-  _animator: {fileID: 0}
-  _xinput: 0
-  _yinput: 0
   _speed: 5
   _jumpForce: 8
   _maxJumps: 2
   _bulletPrefab: {fileID: 1822755538699793455, guid: f324e50b5431352469702e0391f964c8, type: 3}
   _shootCooldown: 3
   _attackCooldown: 1
-  _allowWallJump: 0
-  _ammo: 10
-  _HP: 3
-  _Score: 0
-  _groundRayObject: {fileID: 0}
-  _attackCountdown: 0
-  _shootCountdown: 0
-  _jumpCount: 0
-  _performJump: 0
-  _shoot: 0
-  _attack: 0
-  _isGrounded: 0
-  _goDown: 0
-  _isHittedInAir: 0
-  _keysCollected: 0
-  _isAlive: 1
+  _dashDistance: 1
+  _dashSpeed: 1
+  _potionsDuration: 15
+  _healValue: 1
+  _damage: 1
+  _potionEffect: {fileID: 4994059076859554588, guid: 886eeba75af80114ebb8b15ca725b46b, type: 3}
 --- !u!61 &3641519154780563073
 BoxCollider2D:
   m_ObjectHideFlags: 0

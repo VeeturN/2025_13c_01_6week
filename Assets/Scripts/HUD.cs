@@ -19,6 +19,10 @@ public class HUD : MonoBehaviour
     [SerializeField] private Image hpBar;
     [SerializeField] private Image hpSpeed;
     [SerializeField] private Image hpStrenght;
+    [SerializeField] private Image secretMapTopRight;
+    [SerializeField] private Image secretMapTopLeft;
+    [SerializeField] private Image secretMapBottomRight;
+    [SerializeField] private Image secretMapBottomLeft;
     private int maxHp = 10;
     private void Awake()
     {
@@ -31,19 +35,41 @@ public class HUD : MonoBehaviour
         hpBar.fillAmount = 1f;
         hpSpeed.fillAmount = 0f;
         hpStrenght.fillAmount = 0f;
+        
+        secretMapTopRight.enabled = false;
+        secretMapTopLeft.enabled = false;
+        secretMapBottomRight.enabled = false;
+        secretMapBottomLeft.enabled = false;
     }
     private void Start()
     {
         GameEventSystem.OnHUDParameterChanged += UpdateHUD;
+        GameEventSystem.OnMapFragmentCollected += UpdateSecretMapsField;
         GameEventSystem.OnPotionTimeChaged += UpdatePotionBar;
-
     }
     private void OnDestroy()
     {
         GameEventSystem.OnHUDParameterChanged -= UpdateHUD;
         GameEventSystem.OnPotionTimeChaged -= UpdatePotionBar;
     }
-    
+    private void UpdateSecretMapsField(SecretMapFragment secretMapFragment)
+    {
+        switch (secretMapFragment.GetMapFragmentEnum())
+        {
+            case MapFragmentEnum.TopLeft:
+                secretMapTopLeft.enabled = true;
+                break;
+            case MapFragmentEnum.TopRight:
+                secretMapTopRight.enabled = true;
+                break;
+            case MapFragmentEnum.BottomRight:
+                secretMapBottomRight.enabled = true;
+                break;
+            case MapFragmentEnum.BottomLeft:
+                secretMapBottomLeft.enabled = true;
+                break;
+        }
+    }
     private void UpdateHUD(int currentValue, HUDType hudType)
     {
         switch (hudType)
@@ -71,7 +97,6 @@ public class HUD : MonoBehaviour
                 break;
         }
     }
-
     private void UpdatePotionBar(float x, PotionEnum y)
     {
         switch (y)
@@ -83,6 +108,5 @@ public class HUD : MonoBehaviour
                 hpStrenght.fillAmount = x;
                 break;
         }
-        
     }
 }

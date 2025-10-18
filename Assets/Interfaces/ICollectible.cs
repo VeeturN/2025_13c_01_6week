@@ -5,8 +5,5 @@ using UnityEngine;
 
 public interface ICollectible
 {
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        throw new NotImplementedException();
-    }
+    public void OnTriggerEnter2D(Collider2D other);
 }
