@@ -75,9 +75,7 @@ public class Inventory : MonoBehaviour
         _secretMapsCounter++;
         if (_secretMapsCounter==4)
         {
-            Debug.Log("wszystkie czesci mapy zebrane!");
-            //tutaj dorobic wywolanie triggera ktory sie rozproszy na jakas idk animacje
-            //albo cos co sie wyswietli na chwile na ekranie
+            GameEventSystem.GivePlayerRewardForAllMapFragmentsCollected(new Color(0f, 1f, 1f, 0.5f));
         }
     }
     public static int GetAmmo()

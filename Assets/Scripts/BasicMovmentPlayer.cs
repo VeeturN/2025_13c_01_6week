@@ -42,6 +42,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isHittedInAir = false;
     private bool _isAlive = true;
     private float _grav;
+    private  SpriteRenderer[] _renderers;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -50,16 +51,19 @@ public class BasicPlayerMovment : MonoBehaviour {
         BoxCollider2D col = GetComponent<BoxCollider2D>();
         _playerHalfWidth = col.bounds.extents.x;
         _playerHalfHeight = col.bounds.extents.y;
+        _renderers = GetComponentsInChildren<SpriteRenderer>();
+        _rb.freezeRotation = true;
     }
     public void Start()
     {
-        GameEventSystem.OnUseItem += UseItem; 
-        _rb.freezeRotation = true;
+        GameEventSystem.OnUseItem += UseItem;
+        GameEventSystem.OnAllMapFragmentCollected += SetPlayerCustomSkin;
     }
 
     private void OnDestroy()
     {
         GameEventSystem.OnUseItem -= UseItem;
+        GameEventSystem.OnAllMapFragmentCollected -= SetPlayerCustomSkin;
     }
 
     private void Update() {
@@ -261,7 +265,13 @@ public class BasicPlayerMovment : MonoBehaviour {
             enemy.hit(_damage);
         }
     }
-
+    private void SetPlayerCustomSkin(Color color)
+    {
+        foreach (var r in _renderers)
+        {
+            r.color = color;
+        }
+    }
     public void UseItem(int item)
     {
         switch (item)

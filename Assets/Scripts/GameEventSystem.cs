@@ -12,7 +12,13 @@ public class GameEventSystem
     public static event Action<AbstractValuable> OnValuableCollected;
     public static event Action<float, PotionEnum> OnPotionTimeChaged;
     public static event Action<SecretMapFragment> OnMapFragmentCollected;
-
+    public static event Action<Color> OnAllMapFragmentCollected;
+    
+    public static void GivePlayerRewardForAllMapFragmentsCollected(Color color)
+    {
+        OnAllMapFragmentCollected?.Invoke(color);
+    }
+    
     public static void CollectSecretMapFragment(SecretMapFragment secretMapFragment)
     {
         OnMapFragmentCollected?.Invoke(secretMapFragment);
