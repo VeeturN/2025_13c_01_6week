@@ -16,9 +16,7 @@ public class TotemScript : Enemy.EnemyBase
 
     [Header("Kolizja Totemu")]
     [SerializeField] private BoxCollider2D bodyCollider2D;
-
-    [Header("Zdrowie Totemu")]
-    [SerializeField] private RectTransform healthBarFill;
+    
     private float healthBarInitialScaleX = 1f;
 
     private Animator _totemAnimator;
@@ -87,10 +85,6 @@ public class TotemScript : Enemy.EnemyBase
     {
         UpdateCollider();
         attackCountdown = attackCooldown;
-
-        if (healthBarFill != null)
-            healthBarInitialScaleX = healthBarFill.localScale.x;
-        
         PlayIdle();
     }
 
@@ -203,18 +197,7 @@ public class TotemScript : Enemy.EnemyBase
             }
         }
     }
-
-    public override void TakeDamage()
-    {
-        float ratio = _startHP > 0 ? Mathf.Clamp01((float)_HP / _startHP) : 0f;
-        if (healthBarFill != null)
-        {
-            Vector3 s = healthBarFill.localScale;
-            s.x = ratio;
-            healthBarFill.localScale = s;
-        } 
-        base.TakeDamage();
-    }
+    
     public override void hit(int dmg)
     {
         if (_totemAnimator != null && _totemAnimator.GetBool("IsDying"))
@@ -261,10 +244,7 @@ public class TotemScript : Enemy.EnemyBase
         //wyłaczenie coliderów 
         foreach (var col in GetComponentsInChildren<Collider2D>())
             col.enabled = false;
-
-        if (healthBar != null) healthBar.enabled = false;
-        if (healthBarFill != null) healthBarFill.gameObject.SetActive(false);
-
+        
         if (_deathPiecesPrefab != null)
         {
             //tworzy kopię prefaba totempices

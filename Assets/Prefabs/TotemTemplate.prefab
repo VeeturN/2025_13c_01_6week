@@ -99,11 +99,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startHP: 3
   _attackInterval: 2
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 5889334380475846614}
   facingRight: 1
   config: {fileID: 0}
   bodyCollider2D: {fileID: -1941871964765096116}
-  healthBarFill: {fileID: 2650992984943853470}
   _deathPiecesPrefab: {fileID: 7470136540866770375, guid: bc6b9d4081152424a8b22774e03825fc, type: 3}
 --- !u!212 &800463956396683678
 SpriteRenderer:
@@ -284,11 +283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.176
+      value: -0.185
       objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.403
+      value: 0.421
       objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -315,11 +314,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
---- !u!224 &2650992984943853470 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6107362593444979841, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+--- !u!114 &5889334380475846614 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2427602458028577993, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
   m_PrefabInstance: {fileID: 8073702856125487903}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6717894495126276130 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
