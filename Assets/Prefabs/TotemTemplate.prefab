@@ -104,6 +104,7 @@ MonoBehaviour:
   config: {fileID: 0}
   bodyCollider2D: {fileID: -1941871964765096116}
   healthBarFill: {fileID: 2650992984943853470}
+  _deathPiecesPrefab: {fileID: 7470136540866770375, guid: bc6b9d4081152424a8b22774e03825fc, type: 3}
 --- !u!212 &800463956396683678
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -199,7 +200,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.06034}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1001 &8073702856125487903
 PrefabInstance:

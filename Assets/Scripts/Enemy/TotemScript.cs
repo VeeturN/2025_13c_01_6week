@@ -29,6 +29,8 @@ public class TotemScript : Enemy.EnemyBase
     private float attackCooldown;
     private GameObject projectilePrefab;
     private string dieStateName;
+    
+    [SerializeField] private GameObject _deathPiecesPrefab;
 
     // dane kolizji
     private readonly Vector2[] baseColliderSizes = new Vector2[]
@@ -213,10 +215,6 @@ public class TotemScript : Enemy.EnemyBase
         } 
         base.TakeDamage();
     }
-
-
-
-
     public override void hit(int dmg)
     {
         if (_totemAnimator != null && _totemAnimator.GetBool("IsDying"))
@@ -240,7 +238,6 @@ public class TotemScript : Enemy.EnemyBase
             }
         }
     }
-
     private System.Collections.IEnumerator DieRoutine()
     {
         if (_totemAnimator != null && _totemAnimator.layerCount > 0)//zabezpieczenie
@@ -259,14 +256,25 @@ public class TotemScript : Enemy.EnemyBase
         }
         Die();
     }
-
     public void Die()
     {
+        //wyłaczenie coliderów 
         foreach (var col in GetComponentsInChildren<Collider2D>())
             col.enabled = false;
 
         if (healthBar != null) healthBar.enabled = false;
         if (healthBarFill != null) healthBarFill.gameObject.SetActive(false);
+
+        if (_deathPiecesPrefab != null)
+        {
+            //tworzy kopię prefaba totempices
+            var script = Instantiate(_deathPiecesPrefab, transform.position, Quaternion.identity).GetComponent<TotemPieces>();
+            if (script != null)
+            {
+                script.Init(config.totemType, config.partType);
+                script.LaunchPieces();
+            }
+        }
 
         Destroy(gameObject);
     }
