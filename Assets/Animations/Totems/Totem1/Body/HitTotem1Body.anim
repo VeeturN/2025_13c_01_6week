@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack
+  m_Name: HitTotem1Body
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,17 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 9a0235aa044cd7b4fa8406289e0491e3, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 6e2240f92341c67418cdec4e177d7c02, type: 3}
-    - time: 0.3
-      value: {fileID: 21300000, guid: 1fb22baa770ab4d478cefb28d59075bf, type: 3}
-    - time: 0.45
-      value: {fileID: 21300000, guid: 0f64849c113035f41834ca360fef78ff, type: 3}
-    - time: 0.5833333
-      value: {fileID: 21300000, guid: 78d56d3fb60fbf348953860f0772e1bc, type: 3}
-    - time: 0.75
-      value: {fileID: 21300000, guid: 83bdbdaaf03f2a24f821ebfb81b44b44, type: 3}
+      value: {fileID: 21300000, guid: 4d377b6a724647b4996c9ddbcb08fc19, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: b985f82cc714ca5449a6a40f3f64f3f0, type: 3}
+    - time: 0.21666667
+      value: {fileID: 21300000, guid: ed39a3c040c1f624e8aa2698f06335ad, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 4c40405a7b10dd947979176f55962ca7, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -54,18 +50,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 9a0235aa044cd7b4fa8406289e0491e3, type: 3}
-    - {fileID: 21300000, guid: 6e2240f92341c67418cdec4e177d7c02, type: 3}
-    - {fileID: 21300000, guid: 1fb22baa770ab4d478cefb28d59075bf, type: 3}
-    - {fileID: 21300000, guid: 0f64849c113035f41834ca360fef78ff, type: 3}
-    - {fileID: 21300000, guid: 78d56d3fb60fbf348953860f0772e1bc, type: 3}
-    - {fileID: 21300000, guid: 83bdbdaaf03f2a24f821ebfb81b44b44, type: 3}
+    - {fileID: 21300000, guid: 4d377b6a724647b4996c9ddbcb08fc19, type: 3}
+    - {fileID: 21300000, guid: b985f82cc714ca5449a6a40f3f64f3f0, type: 3}
+    - {fileID: 21300000, guid: ed39a3c040c1f624e8aa2698f06335ad, type: 3}
+    - {fileID: 21300000, guid: 4c40405a7b10dd947979176f55962ca7, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.76666665
+    m_StopTime: 0.35000002
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -85,15 +79,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.5
-    functionName: SpawnProjectile
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.75
-    functionName: DoneAttack
+  - time: 0.33333334
+    functionName: endHiting
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

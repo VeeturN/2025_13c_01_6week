@@ -1,69 +1,95 @@
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.UI;
+using Enemy;
+using UnityEngine.Serialization;
 
-public class TotemScript : MonoBehaviour
+public class TotemScript : Enemy.EnemyBase
 {
     public enum TotemType { Totem1, Totem2, Totem3 }
     public enum PartType { Body, Head }
-    public enum AnimationType { Idle, Attack, Hit, Destroyed }
+    [Header("Kierunek Totemu")]
+    [SerializeField] private bool facingRight = true; //jak zaznacze patrzy w lewo
 
-    [Header("Ustawienia Totemu")]
-    [SerializeField] private TotemType totemType = TotemType.Totem1;
-    [SerializeField] private PartType partType = PartType.Body;
-    [SerializeField] private AnimationType animationType = AnimationType.Idle;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    
+    [Header("Konfiguracja Totemu (ScriptableObject)")]
+    [SerializeField] private TotemConfig config;
+
     [Header("Kolizja Totemu")]
     [SerializeField] private BoxCollider2D bodyCollider2D;
-    [Header("Strzelanie Totemu")]
-    [SerializeField] private bool isAutoAttack = true;
-    [SerializeField] private float attackCooldown = 3f;
-    private float attackCountdown = 0f;
-    [Header("Animator Totemu")]
-    [SerializeField] private Animator animator;
-    [Header("Prefab pocisku Totemu")]
-    [SerializeField] private GameObject projectilePrefab;
+
     [Header("Zdrowie Totemu")]
-    [SerializeField] private int startHP = 3; // edytowalne w Inspectorze
-    [SerializeField] private Image healthBar;  // opcjonalne, pasek nad głową (Image Type = Filled)
-    [SerializeField] private RectTransform healthBarFill; // alternatywa: zielony RectTransform skalowany po X
-    [Header("Animator - nazwy stanów")]
-    [SerializeField] private string dieStateName = "Die";
-
-    private bool isAttacking = false;
-    private int currentHP;
+    [SerializeField] private RectTransform healthBarFill;
     private float healthBarInitialScaleX = 1f;
-    private bool isDyingStarted = false;
 
-    // rozmiary głowy
+    private Animator _totemAnimator;
+    private float attackCountdown;
+    private bool isAttacking = false;
+    private bool isDyingStarted = false;
+    private bool isAutoAttack;
+    private float attackCooldown;
+    private GameObject projectilePrefab;
+    private string dieStateName;
+
+    // dane kolizji
     private readonly Vector2[] baseColliderSizes = new Vector2[]
     {
-        new Vector2(2.905996f, 1.06034f),   
-        new Vector2(1.06909f, 1.063114f),     
-        new Vector2(1.199975f, 1.112224f)    
+        new Vector2(2.905996f, 1.06034f),
+        new Vector2(1.06909f, 1.063114f),
+        new Vector2(1.199975f, 1.112224f)
     };
-    // ofsety głowy
     private readonly Vector2[] bodyColliderOffsets = new Vector2[]
     {
-        new Vector2(-0.003210068f, -0.2032474f),   
-        new Vector2(-0.02392387f, -0.2477759f),    
-        new Vector2(0.1552958f, -0.2539251f)     
+        new Vector2(-0.003210068f, -0.2032474f),
+        new Vector2(-0.02392387f, -0.2477759f),
+        new Vector2(0.1552958f, -0.2539251f)
     };
+    
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _totemAnimator = GetComponent<Animator>();
+
+        //wczytuje rzeczy z scripttable object z zabezpieczeniem(config)
+        if (config != null)
+        {
+            //tutaj przypisanie animatora i zabezpieczenie przed brakiem controllera
+            if (_totemAnimator != null && config.animatorController != null)
+            {
+                _totemAnimator.runtimeAnimatorController = config.animatorController;
+            }
+            else
+            {
+                Debug.LogWarning($"Brak przypisanego AnimatorController w configu dla {gameObject.name}");
+            }
+            
+            isAutoAttack = config.isAutoAttack;
+            attackCooldown = _attackInterval;
+            projectilePrefab = config.projectilePrefab;
+            dieStateName = config.dieStateName;
+
+            _startHP = config.startHP;
+            _HP = _startHP;
+            //tutaj mam to patrzenie lewo prawo
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * (facingRight ? 1 : -1);
+            transform.localScale = scale;
+        }
+        else
+        {
+            Debug.LogWarning("Brak przypisanego TotemConfig do " + gameObject.name);
+        }
+    }
 
     private void Start()
     {
-        LoadSpriteFromProject();
         UpdateCollider();
-        GetComponent<Rigidbody2D>().freezeRotation = true;
         attackCountdown = attackCooldown;
-        currentHP = startHP;
+
         if (healthBarFill != null)
-        {
             healthBarInitialScaleX = healthBarFill.localScale.x;
-        }
-        TakeDamage(); // zaktualizuj pasek na starcie
+        
+        PlayIdle();
     }
 
     private void FixedUpdate()
@@ -80,165 +106,133 @@ public class TotemScript : MonoBehaviour
         }
         else if (!isAutoAttack)
         {
-            if (animator != null)
-                animator.SetBool("IsAttacking", false);
+            _totemAnimator.SetBool("IsAttacking", false);
         }
     }
 
+    //tutaż jest używana tzw kurtna do nieblokowania gry
     private System.Collections.IEnumerator AttackRoutine()
     {
         isAttacking = true;
         PlayAttack();
-        float attackAnimLength = animator != null ? animator.GetCurrentAnimatorStateInfo(0).length : 0.5f;
-        yield return new WaitForSeconds(attackAnimLength);
-        if (animator != null)
-            animator.SetBool("IsAttacking", false);
-        PlayIdle();
+        //tutaj czekam po za główną grą
+        yield return new WaitUntil(() =>
+            !_totemAnimator.GetBool("IsAttacking"));
+
         isAttacking = false;
     }
 
     private void UpdateCollider()
     {
+        int index = (int)config.totemType;
         Vector3 scale = transform.localScale;
-        if (bodyCollider2D != null)
+
+        //specjalne zachowanie dla totem3
+        if (config.totemType == TotemType.Totem3)
         {
-            bodyCollider2D.enabled = true;
-            bodyCollider2D.size = new Vector2(baseColliderSizes[(int)totemType].x * scale.x, baseColliderSizes[(int)totemType].y * scale.y);
-            bodyCollider2D.offset = bodyColliderOffsets[(int)totemType];
+            if (scale.x > 0) //prawo
+            {
+                bodyCollider2D.size = new Vector2(1.219414f * scale.x, baseColliderSizes[index].y * scale.y);
+                bodyCollider2D.offset = new Vector2(0.1394997f * scale.x, bodyColliderOffsets[index].y);
+            }
+            else //lewo
+            {
+                bodyCollider2D.size = new Vector2(baseColliderSizes[index].x * Mathf.Abs(scale.x), baseColliderSizes[index].y * scale.y);
+                bodyCollider2D.offset = new Vector2(bodyColliderOffsets[index].x * Mathf.Sign(scale.x), bodyColliderOffsets[index].y);
+            }
+        }
+        else
+        {
+            // standardowe zachowanie dla Totem1 i Totem2
+            bodyCollider2D.size = new Vector2(baseColliderSizes[index].x * Mathf.Abs(scale.x),
+                baseColliderSizes[index].y * scale.y);
+            bodyCollider2D.offset = new Vector2(bodyColliderOffsets[index].x * Mathf.Sign(scale.x),
+                bodyColliderOffsets[index].y);
         }
     }
-
+    #region Animacje
     public void PlayIdle()
     {
-        animationType = AnimationType.Idle;
-        LoadSpriteFromProject();
+        if (_totemAnimator == null) return;
+
+        _totemAnimator.SetBool("IsAttacking", false);
+        _totemAnimator.SetBool("isHit", false);
+        _totemAnimator.SetBool("IsDying", false);
     }
 
     public void PlayHit()
     {
-        animationType = AnimationType.Hit;
-        if (animator != null)
-        {
-            animator.SetBool("isHit", true);
-        }
-        LoadSpriteFromProject();
+        if (_totemAnimator == null) return;
+        _totemAnimator.SetBool("isHit", true);
     }
 
     public void PlayAttack()
     {
-        animationType = AnimationType.Attack;
-        if (animator != null)
-        {
-            animator.SetBool("IsAttacking", true);
-        }
-        LoadSpriteFromProject();
+        if (_totemAnimator == null) return;
+        _totemAnimator.SetBool("IsAttacking", true);
     }
 
-    public void Attack()
-    {
-        animationType = AnimationType.Attack;
-        if (animator != null)
-        {
-            animator.SetBool("IsAttacking", true);
-        }
-        LoadSpriteFromProject();
-        SpawnProjectile();
-    }
-
+    //wywołanie w eventach
     public void DoneAttack()
     {
-        animator.SetBool("IsAttacking", false);
+        if (_totemAnimator != null)
+            _totemAnimator.SetBool("IsAttacking", false);
+        PlayIdle();
     }
-
-    private void SpawnProjectile()
+    #endregion
+    private void SpawnProjectile()//wywołanie w eventach
     {
-        Debug.Log("Totem strzela!");
-        if (projectilePrefab != null)
-        {
-            var obj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            var proj = obj.GetComponent<TotemBullet>();
-            if (proj != null)
-            {
-                proj.Init(Vector2.left); //lewo
-            }
-        }else
-        {
-           // Debug.LogWarning("Brak przypisanego prefab pocisku!");
-        }
-    }
-    
-    
-    public void TakeDamage()
-    {
-        if (startHP <= 0)
-            return;
+        if (projectilePrefab == null) return;//zabezpieczenie
 
-        float ratio = Mathf.Clamp01((float)currentHP / startHP);
-
-        if (healthBar != null)
+        var obj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);//brak rotacji i pozycja startowa
+        var enemyBullet = obj.GetComponent<EnemyBullet>();//zabezpiezczenie jakby nic nie było ale można dać coś innego
+        if (enemyBullet != null)
         {
-            // tryb Image Filled
-            healthBar.fillAmount = ratio;
-        }
-        else if (healthBarFill != null)
-        {
-            // tryb skalowania RectTransform po X (zachowując Y/Z)
-            var s = healthBarFill.localScale;
-            s.x = healthBarInitialScaleX * ratio;
-            healthBarFill.localScale = s;
-        }
-    }
-    
-    private void LoadSpriteFromProject()
-    {
-#if UNITY_EDITOR
-        if (spriteRenderer == null)
-        {
-           // Debug.LogError("Brak SpriteRenderer!");
-            return;
-        }
-        // musze iść po ścieżce abym dotar do spritów z kodu...
-        string path = $"Assets/Sprites/Totems/{totemType}/{partType}/{animationType}";
-
-        // szukam tutaj czegokolwiek z spritem
-        string[] guids = AssetDatabase.FindAssets("t:Sprite", new[] { path });
-        if (guids.Length == 0)
-        {
-           // Debug.LogWarning($"Nie znaleziono sprite’a w {path}");
-            return;
-        }
-        // wczytuje sprity
-        string assetPath = AssetDatabase.GUIDToAssetPath(guids[0]);
-        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
-
-        if (sprite != null)
-        {
-            spriteRenderer.sprite = sprite;
-           // Debug.Log($"Załadowano sprite '{sprite.name}' z {assetPath}");
+            float dirX = transform.localScale.x < 0 ? 1f : -1f;
+            enemyBullet.Init(new Vector2(dirX, 0f));
         }
         else
-        {
-            //Debug.LogWarning($"Nie udało się załadować sprite’a z {assetPath}");
+        {//difultowo totem bulet
+            var totemBullet = obj.GetComponent<TotemBullet>();
+            if (totemBullet != null)
+            {
+                float dirX = transform.localScale.x < 0 ? 1f : -1f;
+                totemBullet.Init(new Vector2(dirX, 0f));
+            }
         }
-#endif
     }
 
-    public void hit()
+    public override void TakeDamage()
     {
-        // tylko animacja otrzymania obrażeń – bez ruchu/odrzutu
-        if (animator != null && animator.GetBool("IsDying"))
-            return; // już martwy
+        float ratio = _startHP > 0 ? Mathf.Clamp01((float)_HP / _startHP) : 0f;
+        if (healthBarFill != null)
+        {
+            Vector3 s = healthBarFill.localScale;
+            s.x = ratio;
+            healthBarFill.localScale = s;
+        } 
+        base.TakeDamage();
+    }
 
-        currentHP = Mathf.Max(0, currentHP - 1);
+
+
+
+    public override void hit(int dmg)
+    {
+        if (_totemAnimator != null && _totemAnimator.GetBool("IsDying"))
+            return;
+
+        _HP -=dmg;
         PlayHit();
         TakeDamage();
-        if (currentHP <= 0)
+
+        if (_HP <= 0)
         {
-            if (animator != null)
-            {
-                animator.SetBool("IsDying", true);
-            }
+            if (_totemAnimator != null)
+                _totemAnimator.SetBool("IsDying", true);
+
             isAutoAttack = false;
+
             if (!isDyingStarted)
             {
                 isDyingStarted = true;
@@ -247,47 +241,33 @@ public class TotemScript : MonoBehaviour
         }
     }
 
-    public void endHiting()
+    private System.Collections.IEnumerator DieRoutine()
     {
-        if (animator != null)
+        if (_totemAnimator != null && _totemAnimator.layerCount > 0)//zabezpieczenie
         {
-            animator.SetBool("isHit", false);
+            var info = _totemAnimator.GetCurrentAnimatorStateInfo(0);
+            while (!info.IsName(dieStateName))
+            {
+                yield return null;
+                info = _totemAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+            while (info.normalizedTime < 0.99f)//tutaj czekam aż animacja się skończy
+            {
+                yield return null;
+                info = _totemAnimator.GetCurrentAnimatorStateInfo(0);
+            }
         }
+        Die();
     }
 
     public void Die()
     {
-        // Docelowo podpinane z Animation Event w klipie Die
-        // Możesz tu dodać np. Destroy(gameObject) albo wyłączenie kolizji
-        // Na razie zostawiamy puste, abyś mógł sam zdecydować o zachowaniu
         foreach (var col in GetComponentsInChildren<Collider2D>())
-        {
             col.enabled = false;
-        }
-        // opcjonalnie ukryj pasek
+
         if (healthBar != null) healthBar.enabled = false;
         if (healthBarFill != null) healthBarFill.gameObject.SetActive(false);
-        Destroy(gameObject);
-    }
 
-    private System.Collections.IEnumerator DieRoutine()
-    {
-        // Czekaj aż animator wejdzie w stan "Die"
-        if (animator != null)
-        {
-            var info = animator.GetCurrentAnimatorStateInfo(0);
-            while (!info.IsName(dieStateName))
-            {
-                yield return null;
-                info = animator.GetCurrentAnimatorStateInfo(0);
-            }
-            // Odczekaj do końca klipu
-            while (info.normalizedTime < 0.99f)
-            {
-                yield return null;
-                info = animator.GetCurrentAnimatorStateInfo(0);
-            }
-        }
-        Die();
+        Destroy(gameObject);
     }
 }

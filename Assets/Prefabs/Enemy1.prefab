@@ -216,14 +216,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d22509b617762468a663e07f7ebcc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHP: 4
+  _attackInterval: 1
+  healthBar: {fileID: 3924093645436546822}
   _patrolPointA: {fileID: 8285469807111601502}
   patrolPointB: {fileID: 1723196303004232902}
   _speed: 2
-  _startHP: 4
-  _attackInterval: 1
-  _enableRandomJump: 1
-  _jumpChancePerSecond: 0
-  healthBar: {fileID: 3924093645436546822}
 --- !u!1 &2683677441818203806
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,6 +464,10 @@ PrefabInstance:
     - target: {fileID: 981103237148941691, guid: 4176991e84ae3b9439c5b1f937ad42af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3395214964511471754, guid: 4176991e84ae3b9439c5b1f937ad42af, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6481989004189030539, guid: 4176991e84ae3b9439c5b1f937ad42af, type: 3}
       propertyPath: m_Name
