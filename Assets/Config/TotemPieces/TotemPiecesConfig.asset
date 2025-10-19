@@ -17,7 +17,6 @@ MonoBehaviour:
     partType: 1
     pieceSprites:
     - {fileID: 21300000, guid: a61bf038a499a7b4a8885b06d204675a, type: 3}
-    - {fileID: 21300000, guid: 30979e2e95982c14c9ea93da394f2237, type: 3}
     - {fileID: 21300000, guid: 0da69c8d1f867a54ba5380451d25c71d, type: 3}
     - {fileID: 21300000, guid: fa6dc0d6379427c44bd9d9ddbd285905, type: 3}
   - totemType: 0
@@ -36,7 +35,6 @@ MonoBehaviour:
     partType: 1
     pieceSprites:
     - {fileID: 21300000, guid: 530629cf80f17ed49888d06a8c21ab4d, type: 3}
-    - {fileID: 21300000, guid: 2286fb445b638c9488aa08599ab8050d, type: 3}
     - {fileID: 21300000, guid: 705a965c0328be24db90fefed697cc15, type: 3}
     - {fileID: 21300000, guid: e97f509a0e07ca646b42043593d8fa4b, type: 3}
   - totemType: 2
@@ -49,6 +47,5 @@ MonoBehaviour:
     partType: 1
     pieceSprites:
     - {fileID: 21300000, guid: bb137be2c0340a541832605e0bd9a1b5, type: 3}
-    - {fileID: 21300000, guid: 901875820d28975449982f41305afa6d, type: 3}
     - {fileID: 21300000, guid: 5ad73180a9f86fe41ab5d2bc478e2a14, type: 3}
     - {fileID: 21300000, guid: 44c2e21653e4c69419de22da52cf7536, type: 3}

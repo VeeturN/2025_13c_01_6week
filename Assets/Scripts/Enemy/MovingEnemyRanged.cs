@@ -7,6 +7,13 @@ public class MovingEnemyRanged : MovingEnemyBase
     [SerializeField] private Transform _shootPoint;
     private bool _mele = false;
 
+    private CircleCollider2D _col;
+
+    private void Awake()
+    {
+        base.Awake();
+        _col = GetComponent<CircleCollider2D>();
+    }
     protected override void MoveTowardsPlayer()
     {
         float deltaX = _player.transform.position.x - transform.position.x;
@@ -88,5 +95,12 @@ public class MovingEnemyRanged : MovingEnemyBase
             return base.ShouldJump();
         }
         return false;
+    }
+
+    public void CreateAttackEffect()
+    {
+        float distance = _col.radius*0.8f;
+        Vector3 effectPos = transform.position + new Vector3(0f, -distance, 0f);
+        GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().PinkStarAttackEffect(effectPos, transform.localScale);
     }
 }

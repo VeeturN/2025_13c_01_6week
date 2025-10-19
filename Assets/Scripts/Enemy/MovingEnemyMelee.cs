@@ -3,7 +3,13 @@ using UnityEngine;
 
 public class MovingEnemyMelee : MovingEnemyBase
 {
+    private CircleCollider2D _col;
 
+    private void Awake()
+    {
+        base.Awake();
+        _col = GetComponent<CircleCollider2D>();
+    }
     protected override void MoveTowardsPlayer()
     {
         float deltaX = _player.transform.position.x - transform.position.x;
@@ -52,5 +58,13 @@ public class MovingEnemyMelee : MovingEnemyBase
         }
 
         return false;
+    }
+
+    public void CreateAttackEffect()
+    {
+        float direction = transform.localScale.x > 0 ? -1 : 1;
+        float distance = _col.radius*2;
+        Vector3 effectPos = transform.position + new Vector3(distance * direction, 0f, 0f);
+        GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().FierceToothAttackEffect(effectPos, transform.localScale);
     }
 }

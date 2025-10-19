@@ -18,7 +18,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private int _potionsDuration=15;
     [SerializeField] private int _healValue=1;
     [SerializeField] private int _damage = 1;
-    [SerializeField] private GameObject _potionEffect;
+    private EffectsManager _effectsManager;
     private Rigidbody2D _rb;
     private Animator _animator;
     private float _xinput;
@@ -55,6 +55,13 @@ public class BasicPlayerMovment : MonoBehaviour {
         _playerHalfHeight = col.bounds.extents.y;
         _renderers = GetComponentsInChildren<SpriteRenderer>();
         _rb.freezeRotation = true;
+
+
+        GameObject obj = GameObject.FindGameObjectWithTag("EffectsManager");
+        if (obj != null)
+            _effectsManager = obj.GetComponent<EffectsManager>();
+        else
+            Debug.LogWarning("Brakuje EffectsManager na scenie");
     }
     public void Start()
     {
@@ -127,6 +134,8 @@ public class BasicPlayerMovment : MonoBehaviour {
                     _jumpCount++;
                     _rb.velocity = new Vector2(_rb.velocity.x, 0);
                     _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+                    if(_isGrounded)
+                    _effectsManager.JumpEffect(transform.position + Vector3.down * _playerHalfHeight / 5);
                 }
 
                 if (_shoot && _shootCountdown <= 0 && Inventory.GetAmmo() > 0)
@@ -139,7 +148,9 @@ public class BasicPlayerMovment : MonoBehaviour {
                 }
                 else if (_attack && _attackCountdown <= 0)
                 {
-                    _animator.SetBool("isAttacking" + UnityEngine.Random.Range(1, 4), true);
+                    int chosenAttack = UnityEngine.Random.Range(1, 4);
+                    _animator.SetBool("isAttacking" + chosenAttack, true);
+                    _effectsManager.PlayerAttackEffect(chosenAttack, transform.position+Vector3.right*(transform.localScale.x>0?_playerHalfWidth:-_playerHalfWidth)*3, transform.localScale);
                     _attackCountdown = _attackCooldown;
                     _attack = false;
                 }
@@ -192,6 +203,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     }
     private void CheckGround()
     {
+        bool toPlayFallEffect = !_isGrounded;
         Debug.DrawRay(transform.position + Vector3.right * _playerHalfWidth/2, Vector2.down * _playerHalfHeight, Color.red);
         Debug.DrawRay(transform.position + Vector3.left * _playerHalfWidth/2, Vector2.down * _playerHalfHeight, Color.red);
         if ((Physics2D.Raycast(transform.position+Vector3.right*_playerHalfWidth/2, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground"))||
@@ -202,7 +214,8 @@ public class BasicPlayerMovment : MonoBehaviour {
             _canDash = true;
             _jumpCount = 0;
         }
-        
+        if(_isGrounded && toPlayFallEffect)
+            _effectsManager.FallEffect(transform.position+Vector3.down*_playerHalfHeight/5);
         
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -289,7 +302,7 @@ public class BasicPlayerMovment : MonoBehaviour {
                 break;
         }
         if (item <= 3)
-            Instantiate(_potionEffect, transform.position+Vector3.up*_playerHalfHeight, Quaternion.identity).transform.SetParent(transform);
+            _effectsManager.PotionEffect(transform.position + Vector3.up * _playerHalfHeight, transform);
     }
 
     public IEnumerator UseSpeedPotionCoroutine(int time)
@@ -319,5 +332,10 @@ public class BasicPlayerMovment : MonoBehaviour {
         }
         _damage /=2;
         IsStrengthPotionInUse = false;
+    }
+
+    public void RunEffect()
+    {
+        _effectsManager.RunEffect(transform.position + Vector3.down * _playerHalfHeight / 5, transform.localScale);
     }
 }
