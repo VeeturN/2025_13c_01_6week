@@ -43,6 +43,8 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isAlive = true;
     private float _grav;
     private  SpriteRenderer[] _renderers;
+    public bool IsSpeedPotionInUse { get; set; } = false;
+    public bool IsStrengthPotionInUse { get; set; } = false;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -292,6 +294,7 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     public IEnumerator UseSpeedPotionCoroutine(int time)
     {
+        IsSpeedPotionInUse = true;
         float t = time;
         _speed *= 1.5f;
         while(t > 0)
@@ -301,9 +304,11 @@ public class BasicPlayerMovment : MonoBehaviour {
             t -= 0.01f;
         }
         _speed /= 1.5f;
+        IsSpeedPotionInUse = false;
     }
     public IEnumerator UseStrengthPotionCorutine(int time)
     {
+        IsStrengthPotionInUse = true;
         float t = time;
         _damage *= 2;
         while (t > 0)
@@ -313,5 +318,6 @@ public class BasicPlayerMovment : MonoBehaviour {
             t -= 0.01f;
         }
         _damage /=2;
+        IsStrengthPotionInUse = false;
     }
 }

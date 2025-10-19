@@ -12,10 +12,12 @@ public class Inventory : MonoBehaviour
     private static int _ammoCounter;
     private static int _hpCounter;
     private static int _secretMapsCounter;
+    private BasicPlayerMovment _player;
 
 
     private void Awake()
     {
+        _player = GetComponent<BasicPlayerMovment>();
         _score = 0;
         _strenghtPotionCounter = 0;
         _hpPotionCounter = 0;
@@ -116,7 +118,7 @@ public class Inventory : MonoBehaviour
         switch (item)
         {
             case 1:
-                if (_speedPotionCounter > 0)
+                if (_speedPotionCounter > 0 && !_player.IsSpeedPotionInUse)
                 {
                     hasEnough = _speedPotionCounter > 0;
                     _speedPotionCounter--;
@@ -132,7 +134,7 @@ public class Inventory : MonoBehaviour
                 }
                 break;
             case 3:
-                if (_strenghtPotionCounter > 0)
+                if (_strenghtPotionCounter > 0 && !_player.IsStrengthPotionInUse)
                 {
                     hasEnough = _strenghtPotionCounter > 0;
                     _strenghtPotionCounter--;
