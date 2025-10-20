@@ -75,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 873105117
-  m_SortingLayer: -1
+  m_SortingLayer: -3
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: aa78f71a54482414688bd4ff4f798262, type: 3}
   m_Color: {r: 0.7169812, g: 0.1792453, b: 0.26878786, a: 1}
@@ -120,18 +120,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01786232, y: 0.3597231}
+  m_Offset: {x: -0.019431114, y: 0.36801028}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.84, y: 1.28}
+    oldSize: {x: 3, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.609192, y: 0.5693445}
+  m_Size: {x: 3.0208035, y: 0.2710061}
   m_EdgeRadius: 0
 --- !u!251 &5295875630074373405
 PlatformEffector2D:

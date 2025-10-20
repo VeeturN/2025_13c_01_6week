@@ -201,9 +201,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.029675066, y: -0.023245811}
+  m_Offset: {x: -0.002181828, y: -0.05112064}
   serializedVersion: 2
-  m_Radius: 0.5513855
+  m_Radius: 0.42395794
 --- !u!114 &1395706704527646229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,14 +216,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69257aab58532640a7d1ba26114d450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHP: 4
+  _attackInterval: 2
+  healthBar: {fileID: 7282887134515520021}
   _patrolPointA: {fileID: 8285469807111601502}
   patrolPointB: {fileID: 1723196303004232902}
   _speed: 2
-  _startHP: 4
-  _attackInterval: 2
   _bulletPrefab: {fileID: 1822755538699793455, guid: 65c3fd9507159fe4484058435c6b2266, type: 3}
   _shootPoint: {fileID: 6339799495794270169}
-  healthBar: {fileID: 7282887134515520021}
 --- !u!1 &2683677441818203806
 GameObject:
   m_ObjectHideFlags: 0
