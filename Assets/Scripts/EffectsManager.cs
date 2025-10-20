@@ -30,9 +30,9 @@ public class EffectsManager : MonoBehaviour
     {
         Instantiate(_playerAttackEffect[attackNum-1], pos, Quaternion.identity).transform.localScale = scale;
     }
-    public void PlayerAirAttackEffect(int i)
+    public void PlayerAirAttackEffect(int attackNum, Vector3 pos, Vector3 scale)
     {
-
+        Instantiate(_airPlayerAttackEffect[attackNum-1], pos, Quaternion.identity).transform.localScale = scale;
     }
     public void FierceToothAttackEffect(Vector3 pos, Vector3 scale)
     {

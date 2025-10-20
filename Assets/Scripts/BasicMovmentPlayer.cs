@@ -34,11 +34,13 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _dash = false;
     private bool _inDash = false;
     private bool _canDash = true;
+    private bool _canAirAttack = true;
     private float _endDashPosX;
     private float _lastDashPosX;
     private bool _isGrounded;
     private bool _goDown;
     private List<EnemyBase> _enemiesInRange;
+    private List<EnemyBase> _enemiesInAirRange;
     private bool _isHittedInAir = false;
     private bool _isAlive = true;
     private float _grav;
@@ -48,8 +50,10 @@ public class BasicPlayerMovment : MonoBehaviour {
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _grav = _rb.gravityScale;
         _animator = GetComponent<Animator>();
         _enemiesInRange = new List<EnemyBase>();
+        _enemiesInAirRange = new List<EnemyBase>();
         BoxCollider2D col = GetComponent<BoxCollider2D>();
         _playerHalfWidth = col.bounds.extents.x;
         _playerHalfHeight = col.bounds.extents.y;
@@ -148,25 +152,44 @@ public class BasicPlayerMovment : MonoBehaviour {
                 }
                 else if (_attack && _attackCountdown <= 0)
                 {
-                    int chosenAttack = UnityEngine.Random.Range(1, 4);
-                    _animator.SetBool("isAttacking" + chosenAttack, true);
-                    _effectsManager.PlayerAttackEffect(chosenAttack, transform.position+Vector3.right*(transform.localScale.x>0?_playerHalfWidth:-_playerHalfWidth)*3, transform.localScale);
-                    _attackCountdown = _attackCooldown;
-                    _attack = false;
+                    if (_isGrounded)
+                    {
+                        int chosenAttack = UnityEngine.Random.Range(1, 4);
+                        _animator.SetBool("isAttacking" + chosenAttack, true);
+                        _effectsManager.PlayerAttackEffect(chosenAttack, transform.position + Vector3.right * (transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 3, transform.localScale);
+                        _attackCountdown = _attackCooldown;
+                        _attack = false;
+                    }
+                    else if(_canAirAttack)
+                    {
+                        _canAirAttack = false;
+                        int chosenAttack = UnityEngine.Random.Range(1, 3);
+                        _animator.SetBool("isAirAttacking" + chosenAttack, true);
+                        if(chosenAttack == 1)
+                            _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? -_playerHalfWidth : _playerHalfWidth), -_playerHalfHeight * 1.7f, 0), new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
+                        else if (chosenAttack == 2)
+                            _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 2, -_playerHalfHeight * 1.5f, 0), transform.localScale);
+                        _attackCountdown = _attackCooldown;
+                        _attack = false;
+                    }
                 }
+                if (_animator.GetBool("isAirAttacking1") || _animator.GetBool("isAirAttacking2"))
+                {
+                    _rb.velocity = Vector3.zero;
+                    _rb.gravityScale = 0;
+                }
+                else
+                    _rb.gravityScale = _grav; 
 
-                if (_dash)
+                if (_dash && !isAttackingAnimation())
                 {
-                    _endDashPosX = transform.position.x + (transform.localScale.x>=0?_dashDistance:-_dashDistance);
+                    _endDashPosX = transform.position.x + (transform.localScale.x >= 0 ? _dashDistance : -_dashDistance);
                     _inDash = true;
-                    _dash=false;
+                    _dash = false;
                     _canDash = false;
-                    Debug.Log(_endDashPosX);
                 }
-                else if(_inDash)
+                else if (_inDash)
                 {
-                    if (_rb.gravityScale != 0)
-                        _grav = _rb.gravityScale;
                     _rb.gravityScale = 0;
                     if (((transform.localScale.x > 0 && transform.position.x < _endDashPosX)
                         || (transform.localScale.x < 0 && transform.position.x > _endDashPosX))
@@ -212,6 +235,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         {
             _isGrounded = true;
             _canDash = true;
+            _canAirAttack = true;
             _jumpCount = 0;
         }
         if(_isGrounded && toPlayFallEffect)
@@ -230,10 +254,12 @@ public class BasicPlayerMovment : MonoBehaviour {
         _animator.SetBool("isThrowingSword", false);
     }
     //animacja nie tykać
-    public void Attack()
+    public void DoneAttacking()
     {
         for(int i=1;i<4;i++)
         _animator.SetBool("isAttacking" + i, false);
+        for(int i = 1; i < 3; i++)
+        _animator.SetBool("isAirAttacking" + i, false);
     }
     //animacja nie tykać
     public void hit()
@@ -259,22 +285,45 @@ public class BasicPlayerMovment : MonoBehaviour {
     //animacja nie tykać
     public bool isAttackingAnimation()
     {
-        return _animator.GetBool("isAttacking1") || _animator.GetBool("isAttacking2") || _animator.GetBool("isAttacking3") || _animator.GetBool("isThrowingSword");
+        return _animator.GetBool("isAttacking1") 
+            || _animator.GetBool("isAttacking2") 
+            || _animator.GetBool("isAttacking3")
+            || _animator.GetBool("isAirAttacking1")
+            || _animator.GetBool("isAirAttacking2")
+            || _animator.GetBool("isThrowingSword");
     }
     //polaczone z animacja
     public void AddEnemyInRange(EnemyBase enemy)
     {
         _enemiesInRange.Add(enemy);
     }
+
+    public void AddEnemyInAirRange(EnemyBase enemy)
+    {
+        _enemiesInAirRange.Add(enemy);
+    }
     //polaczone z animacja
     public void RemoveEnemyInRange(EnemyBase enemy)
     {
         _enemiesInRange.Remove(enemy);
     }
+    public void RemoveEnemyInAirRange(EnemyBase enemy)
+    {
+        _enemiesInAirRange.Remove(enemy);
+    }
     //animacja nie tykać
     public void HitEnemiesInMeleeRange()
     {
         foreach(EnemyBase enemy in _enemiesInRange)
+        {
+            if (enemy == null) { continue; }
+            enemy.hit(_damage);
+        }
+    }
+
+    public void HitEnemiesInAirMeleeRange()
+    {
+        foreach (EnemyBase enemy in _enemiesInAirRange)
         {
             if (enemy == null) { continue; }
             enemy.hit(_damage);
