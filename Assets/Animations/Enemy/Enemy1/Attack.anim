@@ -22,13 +22,13 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 21300000, guid: 9ca25020ad236254badaa7880a1bec7b, type: 3}
-    - time: 0.2
+    - time: 0.13333334
       value: {fileID: 21300000, guid: 8dcc50f81ffd5fb4b8a7ec6a9de23a50, type: 3}
-    - time: 0.4
+    - time: 0.28333333
       value: {fileID: 21300000, guid: 261f5fee025e39144a80b8d15233d2eb, type: 3}
-    - time: 0.6333333
+    - time: 0.45
       value: {fileID: 21300000, guid: 653f7c2c397637e49911b61068d6fbf0, type: 3}
-    - time: 0.8333333
+    - time: 0.5833333
       value: {fileID: 21300000, guid: c1f4662c8175c3c4bba969f39d6d9bf1, type: 3}
     attribute: m_Sprite
     path: 
@@ -62,7 +62,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.84999996
+    m_StopTime: 0.59999996
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -89,7 +89,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.8333333
+  - time: 0.13333334
+    functionName: CreateAttackEffect
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5833333
     functionName: madeAttack
     data: 
     objectReferenceParameter: {fileID: 0}

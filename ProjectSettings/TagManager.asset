@@ -10,6 +10,7 @@ TagManager:
   - JumpThroughPlatform
   - Enemy
   - Pickable
+  - EffectsManager
   layers:
   - Default
   - TransparentFX
