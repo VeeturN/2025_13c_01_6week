@@ -105,13 +105,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _jumpForce: 8
+  _jumpForce: 7
   _maxJumps: 2
   _bulletPrefab: {fileID: 1822755538699793455, guid: f324e50b5431352469702e0391f964c8, type: 3}
-  _shootCooldown: 3
-  _attackCooldown: 1
-  _dashDistance: 1
-  _dashSpeed: 1
+  _shootCooldown: 1.5
+  _attackCooldown: 0.5
+  _dashDistance: 3
+  _dashSpeed: 15
   _potionsDuration: 15
   _healValue: 1
   _damage: 1
@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 4276922040310653079}
   m_Layer: 0
   m_Name: AttackAirRange
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -2,11 +2,10 @@ using Enemy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-public class BasicPlayerMovment : MonoBehaviour {
+public class BasicPlayerMovment : MonoBehaviour
+{
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 5;
     [SerializeField] private int _maxJumps = 2;
@@ -15,8 +14,8 @@ public class BasicPlayerMovment : MonoBehaviour {
     [SerializeField] private float _attackCooldown = 1;
     [SerializeField] private float _dashDistance = 1;
     [SerializeField] private float _dashSpeed = 1;
-    [SerializeField] private int _potionsDuration=15;
-    [SerializeField] private int _healValue=1;
+    [SerializeField] private int _potionsDuration = 15;
+    [SerializeField] private int _healValue = 1;
     [SerializeField] private int _damage = 1;
     private EffectsManager _effectsManager;
     private Rigidbody2D _rb;
@@ -25,8 +24,8 @@ public class BasicPlayerMovment : MonoBehaviour {
     private float _yinput;
     private float _playerHalfHeight;
     private float _playerHalfWidth;
-    private float _attackCountdown;
-    private float _shootCountdown;
+    private bool _canAttack = true;
+    private bool _canShoot = true;
     private int _jumpCount = 0;
     private bool _performJump;
     private bool _shoot = false;
@@ -44,7 +43,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     private bool _isHittedInAir = false;
     private bool _isAlive = true;
     private float _grav;
-    private  SpriteRenderer[] _renderers;
+    private SpriteRenderer[] _renderers;
     public bool IsSpeedPotionInUse { get; set; } = false;
     public bool IsStrengthPotionInUse { get; set; } = false;
     private void Awake()
@@ -79,24 +78,25 @@ public class BasicPlayerMovment : MonoBehaviour {
         GameEventSystem.OnAllMapFragmentCollected -= SetPlayerCustomSkin;
     }
 
-    private void Update() {
-        _xinput=Input.GetAxis("Horizontal");
+    private void Update()
+    {
+        _xinput = Input.GetAxis("Horizontal");
         _yinput = Input.GetAxis("Vertical");
-        if (Input.GetButtonDown("Jump") && _jumpCount<_maxJumps)
+        if (Input.GetButtonDown("Jump") && _jumpCount < _maxJumps)
         {
-            _performJump=true;
+            _performJump = true;
         }
-        if (Input.GetButtonDown("Range") && !isAttackingAnimation());
+        if (Input.GetButtonDown("Range") && !isAttackingAnimation())
         {
-            _shoot=true;
+            _shoot = true;
         }
         if (Input.GetButtonDown("Melee") && !isAttackingAnimation())
         {
             _attack = true;
         }
-        if (_yinput<0)
+        if (_yinput < 0)
         {
-            _goDown=true;
+            _goDown = true;
         }
         if (Input.GetButtonDown("Fire3") && !_isGrounded && _canDash)
         {
@@ -105,63 +105,45 @@ public class BasicPlayerMovment : MonoBehaviour {
     }
     private void FixedUpdate()
     {
-        if (_isAlive)
-        {
-            if (!_isHittedInAir)
-            {
-                _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
-
-
-                CheckGround();
-
-                if (_rb.velocity.x != 0 && !_inDash)
-                    transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
-
-                if (_shootCountdown > 0)
-                    _shootCountdown -= 0.05f;
-                if (_attackCountdown > 0)
-                    _attackCountdown -= 0.05f;
-
-                SetLoopAnims();
-
-
-                if (_performJump)
-                    Jump();
-
-                if (_shoot && _shootCountdown <= 0 && Inventory.GetAmmo() > 0)
-                    Shoot();
-                else if (_attack && _attackCountdown <= 0)
-                {
-                    if (_isGrounded)
-                        Attack();
-                    else if (_canAirAttack)
-                        AirAttack();
-                }
-                if (_animator.GetBool("isAirAttacking1") || _animator.GetBool("isAirAttacking2"))
-                    StopFalling();
-                else
-                    _rb.gravityScale = _grav;
-
-                if (_dash && !isAttackingAnimation())
-                    StartDash();
-                else if (_inDash)
-                    CheckDash();
-
-                if (_goDown)
-                    Drop();
-            }
-        }
-        else {
+        if(!_isAlive)
             _rb.velocity = Vector2.zero;
+        else if (!_isHittedInAir)
+        {
+            _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
+            CheckGround();
+            if (_rb.velocity.x != 0 && !_inDash)
+                transform.localScale = new Vector3(_rb.velocity.x > 0 ? 1 : -1, 1, 1);
+            SetLoopAnims();
+            if (_performJump)
+                Jump();
+            if (_shoot && _canShoot && Inventory.GetAmmo() > 0)
+                Shoot();
+            else if (_attack && _canAttack)
+            {
+                if (_isGrounded)
+                    Attack();
+                else if (_canAirAttack)
+                    AirAttack();
+            }
+            if (_animator.GetBool("isAirAttacking1") || _animator.GetBool("isAirAttacking2"))
+                StopFalling();
+            else
+                _rb.gravityScale = _grav;
+            if (_dash && !isAttackingAnimation())
+                StartDash();
+            else if (_inDash)
+                CheckDash();
+            if (_goDown)
+                Drop();
         }
     }
     private void CheckGround()
     {
         bool toPlayFallEffect = !_isGrounded;
-        Debug.DrawRay(transform.position + Vector3.right * _playerHalfWidth/2, Vector2.down * _playerHalfHeight, Color.red);
-        Debug.DrawRay(transform.position + Vector3.left * _playerHalfWidth/2, Vector2.down * _playerHalfHeight, Color.red);
-        if ((Physics2D.Raycast(transform.position+Vector3.right*_playerHalfWidth/2, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground"))||
-            Physics2D.Raycast(transform.position + Vector3.left * _playerHalfWidth/2, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")))
+        Debug.DrawRay(transform.position + Vector3.right * _playerHalfWidth / 2, Vector2.down * _playerHalfHeight, Color.red);
+        Debug.DrawRay(transform.position + Vector3.left * _playerHalfWidth / 2, Vector2.down * _playerHalfHeight, Color.red);
+        if ((Physics2D.Raycast(transform.position + Vector3.right * _playerHalfWidth / 2, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")) ||
+            Physics2D.Raycast(transform.position + Vector3.left * _playerHalfWidth / 2, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")))
             && _rb.velocity.y <= 0)
         {
             _isGrounded = true;
@@ -169,9 +151,9 @@ public class BasicPlayerMovment : MonoBehaviour {
             _canAirAttack = true;
             _jumpCount = 0;
         }
-        if(_isGrounded && toPlayFallEffect)
-            _effectsManager.FallEffect(transform.position+Vector3.down*_playerHalfHeight/5);
-        
+        if (_isGrounded && toPlayFallEffect)
+            _effectsManager.FallEffect(transform.position + Vector3.down * _playerHalfHeight / 5);
+
     }
 
     private void Attack()
@@ -179,7 +161,7 @@ public class BasicPlayerMovment : MonoBehaviour {
         int chosenAttack = UnityEngine.Random.Range(1, 4);
         _animator.SetBool("isAttacking" + chosenAttack, true);
         _effectsManager.PlayerAttackEffect(chosenAttack, transform.position + Vector3.right * (transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 3, transform.localScale);
-        _attackCountdown = _attackCooldown;
+        StartCoroutine(AttackCooldownCoroutine());
         _attack = false;
     }
 
@@ -192,8 +174,15 @@ public class BasicPlayerMovment : MonoBehaviour {
             _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? -_playerHalfWidth : _playerHalfWidth), -_playerHalfHeight * 1.7f, 0), new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
         else if (chosenAttack == 2)
             _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 2, -_playerHalfHeight * 1.5f, 0), transform.localScale);
-        _attackCountdown = _attackCooldown;
+        StartCoroutine(AttackCooldownCoroutine());
         _attack = false;
+    }
+
+    private IEnumerator AttackCooldownCoroutine()
+    {
+        _canAttack = false;
+        yield return new WaitForSeconds(_attackCooldown);
+        _canAttack = true;
     }
 
     private void StartDash()
@@ -248,9 +237,15 @@ public class BasicPlayerMovment : MonoBehaviour {
     private void Shoot()
     {
         _animator.SetBool("isThrowingSword", true);
-        _shootCountdown = _shootCooldown;
         _shoot = false;
+        StartCoroutine(ShootCooldownCoroutine());
         GameEventSystem.DecreseAmmo(1);
+    }
+    private IEnumerator ShootCooldownCoroutine()
+    {
+        _canShoot = false;
+        yield return new WaitForSeconds(_shootCooldown);
+        _canShoot = true;
     }
 
     private void StopFalling()
@@ -261,8 +256,8 @@ public class BasicPlayerMovment : MonoBehaviour {
 
     private void SetLoopAnims()
     {
-        _animator.SetBool("isRunning", _rb.velocity.x!=0 && _isGrounded);
-        _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y< -0.05f);
+        _animator.SetBool("isRunning", _rb.velocity.x != 0 && _isGrounded);
+        _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < -0.05f);
         _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0.05f);
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -279,37 +274,37 @@ public class BasicPlayerMovment : MonoBehaviour {
     //animacja nie tykać
     public void DoneAttacking()
     {
-        for(int i=1;i<4;i++)
-        _animator.SetBool("isAttacking" + i, false);
-        for(int i = 1; i < 3; i++)
-        _animator.SetBool("isAirAttacking" + i, false);
+        for (int i = 1; i < 4; i++)
+            _animator.SetBool("isAttacking" + i, false);
+        for (int i = 1; i < 3; i++)
+            _animator.SetBool("isAirAttacking" + i, false);
     }
     //animacja nie tykać
     public void hit()
     {
-        _isHittedInAir=true;
-        Inventory.SetHp(Inventory.GetHp()-1);
-        if(Inventory.GetHp()<=0)
-        _animator.SetBool("isDying", true);
+        _isHittedInAir = true;
+        Inventory.SetHp(Inventory.GetHp() - 1);
+        if (Inventory.GetHp() <= 0)
+            _animator.SetBool("isDying", true);
         else
-        _animator.SetBool("isHitted", true);
+            _animator.SetBool("isHitted", true);
     }
     //animacja nie tykać
     public void gotHitted()
     {
-        _isHittedInAir=false;   
+        _isHittedInAir = false;
         _animator.SetBool("isHitted", false);
     }
     //animacja nie tykać
     public void Die()
     {
-        _isAlive = false;  
+        _isAlive = false;
     }
     //animacja nie tykać
     public bool isAttackingAnimation()
     {
-        return _animator.GetBool("isAttacking1") 
-            || _animator.GetBool("isAttacking2") 
+        return _animator.GetBool("isAttacking1")
+            || _animator.GetBool("isAttacking2")
             || _animator.GetBool("isAttacking3")
             || _animator.GetBool("isAirAttacking1")
             || _animator.GetBool("isAirAttacking2")
@@ -337,7 +332,7 @@ public class BasicPlayerMovment : MonoBehaviour {
     //animacja nie tykać
     public void HitEnemiesInMeleeRange()
     {
-        foreach(EnemyBase enemy in _enemiesInRange)
+        foreach (EnemyBase enemy in _enemiesInRange)
         {
             if (enemy == null) { continue; }
             enemy.hit(_damage);
@@ -370,7 +365,7 @@ public class BasicPlayerMovment : MonoBehaviour {
                 Inventory.SetHp(Inventory.GetHp() + _healValue);
                 break;
             case 3:
-                StartCoroutine(UseStrengthPotionCorutine(_potionsDuration));
+                StartCoroutine(UseStrengthPotionCoroutine(_potionsDuration));
                 break;
         }
         if (item <= 3)
@@ -382,16 +377,16 @@ public class BasicPlayerMovment : MonoBehaviour {
         IsSpeedPotionInUse = true;
         float t = time;
         _speed *= 1.5f;
-        while(t > 0)
+        while (t > 0)
         {
-            GameEventSystem.UpdateHUDPotionTimer(t/time, PotionEnum.Blue);
+            GameEventSystem.UpdateHUDPotionTimer(t / time, PotionEnum.Blue);
             yield return new WaitForSeconds(0.01f);
             t -= 0.01f;
         }
         _speed /= 1.5f;
         IsSpeedPotionInUse = false;
     }
-    public IEnumerator UseStrengthPotionCorutine(int time)
+    public IEnumerator UseStrengthPotionCoroutine(int time)
     {
         IsStrengthPotionInUse = true;
         float t = time;
@@ -402,7 +397,7 @@ public class BasicPlayerMovment : MonoBehaviour {
             yield return new WaitForSeconds(0.01f);
             t -= 0.01f;
         }
-        _damage /=2;
+        _damage /= 2;
         IsStrengthPotionInUse = false;
     }
 
