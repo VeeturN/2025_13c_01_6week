@@ -86,11 +86,11 @@ public class BasicPlayerMovment : MonoBehaviour {
         {
             _performJump=true;
         }
-        if (Input.GetButtonDown("Range"))
+        if (Input.GetButtonDown("Range") && !isAttackingAnimation());
         {
             _shoot=true;
         }
-        if (Input.GetButtonDown("Melee"))
+        if (Input.GetButtonDown("Melee") && !isAttackingAnimation())
         {
             _attack = true;
         }
@@ -122,102 +122,33 @@ public class BasicPlayerMovment : MonoBehaviour {
                 if (_attackCountdown > 0)
                     _attackCountdown -= 0.05f;
 
-                _animator.SetBool("isRunning", _rb.velocity.x!=0 && _isGrounded);
-                _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y < -0.05f);
-                _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0.05f);
+                SetLoopAnims();
 
-                if (isAttackingAnimation())
-                {
-                    _attack = false;
-                    _shoot = false;
-                }
 
                 if (_performJump)
-                {
-                    _performJump = false;
-                    _jumpCount++;
-                    _rb.velocity = new Vector2(_rb.velocity.x, 0);
-                    _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-                    if(_isGrounded)
-                    _effectsManager.JumpEffect(transform.position + Vector3.down * _playerHalfHeight / 5);
-                }
+                    Jump();
 
                 if (_shoot && _shootCountdown <= 0 && Inventory.GetAmmo() > 0)
-                {
-                    _animator.SetBool("isThrowingSword", true);
-                    _shootCountdown = _shootCooldown;
-                    _shoot = false;
-                    GameEventSystem.DecreseAmmo(1);
-                    
-                }
+                    Shoot();
                 else if (_attack && _attackCountdown <= 0)
                 {
                     if (_isGrounded)
-                    {
-                        int chosenAttack = UnityEngine.Random.Range(1, 4);
-                        _animator.SetBool("isAttacking" + chosenAttack, true);
-                        _effectsManager.PlayerAttackEffect(chosenAttack, transform.position + Vector3.right * (transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 3, transform.localScale);
-                        _attackCountdown = _attackCooldown;
-                        _attack = false;
-                    }
-                    else if(_canAirAttack)
-                    {
-                        _canAirAttack = false;
-                        int chosenAttack = UnityEngine.Random.Range(1, 3);
-                        _animator.SetBool("isAirAttacking" + chosenAttack, true);
-                        if(chosenAttack == 1)
-                            _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? -_playerHalfWidth : _playerHalfWidth), -_playerHalfHeight * 1.7f, 0), new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
-                        else if (chosenAttack == 2)
-                            _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 2, -_playerHalfHeight * 1.5f, 0), transform.localScale);
-                        _attackCountdown = _attackCooldown;
-                        _attack = false;
-                    }
+                        Attack();
+                    else if (_canAirAttack)
+                        AirAttack();
                 }
                 if (_animator.GetBool("isAirAttacking1") || _animator.GetBool("isAirAttacking2"))
-                {
-                    _rb.velocity = Vector3.zero;
-                    _rb.gravityScale = 0;
-                }
+                    StopFalling();
                 else
-                    _rb.gravityScale = _grav; 
+                    _rb.gravityScale = _grav;
 
                 if (_dash && !isAttackingAnimation())
-                {
-                    _endDashPosX = transform.position.x + (transform.localScale.x >= 0 ? _dashDistance : -_dashDistance);
-                    _inDash = true;
-                    _dash = false;
-                    _canDash = false;
-                }
+                    StartDash();
                 else if (_inDash)
-                {
-                    _rb.gravityScale = 0;
-                    if (((transform.localScale.x > 0 && transform.position.x < _endDashPosX)
-                        || (transform.localScale.x < 0 && transform.position.x > _endDashPosX))
-                        && Math.Abs(transform.position.x - _lastDashPosX) > 0.02f)
-                        _rb.velocity = new Vector2(transform.localScale.x > 0 ? _dashSpeed : -_dashSpeed, 0);
-                    else
-                    {
-                        _rb.gravityScale = _grav;
-                        _inDash = false;
-                    }
-                    _lastDashPosX = transform.position.x;
-                }
+                    CheckDash();
 
                 if (_goDown)
-                {
-                    // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
-                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.5f);
-                    foreach (var col in colliders)
-                    {
-                        //tutaj sprawdzam czy to ten konkretny komponent i wykonuje konkretną rzecz
-                        if (col.CompareTag("JumpThroughPlatform"))
-                        {
-                            col.GetComponent<JumpThroughPlatform>()?.AllowPlayerToFallThrough(gameObject);
-                        }
-                    }
-
-                    _goDown = false;
-                }
+                    Drop();
             }
         }
         else {
@@ -241,6 +172,98 @@ public class BasicPlayerMovment : MonoBehaviour {
         if(_isGrounded && toPlayFallEffect)
             _effectsManager.FallEffect(transform.position+Vector3.down*_playerHalfHeight/5);
         
+    }
+
+    private void Attack()
+    {
+        int chosenAttack = UnityEngine.Random.Range(1, 4);
+        _animator.SetBool("isAttacking" + chosenAttack, true);
+        _effectsManager.PlayerAttackEffect(chosenAttack, transform.position + Vector3.right * (transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 3, transform.localScale);
+        _attackCountdown = _attackCooldown;
+        _attack = false;
+    }
+
+    private void AirAttack()
+    {
+        _canAirAttack = false;
+        int chosenAttack = UnityEngine.Random.Range(1, 3);
+        _animator.SetBool("isAirAttacking" + chosenAttack, true);
+        if (chosenAttack == 1)
+            _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? -_playerHalfWidth : _playerHalfWidth), -_playerHalfHeight * 1.7f, 0), new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z));
+        else if (chosenAttack == 2)
+            _effectsManager.PlayerAirAttackEffect(chosenAttack, transform.position + new Vector3((transform.localScale.x > 0 ? _playerHalfWidth : -_playerHalfWidth) * 2, -_playerHalfHeight * 1.5f, 0), transform.localScale);
+        _attackCountdown = _attackCooldown;
+        _attack = false;
+    }
+
+    private void StartDash()
+    {
+        _endDashPosX = transform.position.x + (transform.localScale.x >= 0 ? _dashDistance : -_dashDistance);
+        _inDash = true;
+        _dash = false;
+        _canDash = false;
+        _rb.gravityScale = 0;
+    }
+
+    private void CheckDash()
+    {
+        if (((transform.localScale.x > 0 && transform.position.x < _endDashPosX)
+    || (transform.localScale.x < 0 && transform.position.x > _endDashPosX))
+    && Math.Abs(transform.position.x - _lastDashPosX) > 0.02f)
+            _rb.velocity = new Vector2(transform.localScale.x > 0 ? _dashSpeed : -_dashSpeed, 0);
+        else
+        {
+            _rb.gravityScale = _grav;
+            _inDash = false;
+        }
+        _lastDashPosX = transform.position.x;
+    }
+
+    private void Jump()
+    {
+        _performJump = false;
+        _jumpCount++;
+        _rb.velocity = new Vector2(_rb.velocity.x, 0);
+        _rb.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+        if (_isGrounded)
+            _effectsManager.JumpEffect(transform.position + Vector3.down * _playerHalfHeight / 5);
+    }
+
+    private void Drop()
+    {
+        // tutaj szukam dokoło gracza czy jest coś przez co mogę spaść
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+        foreach (var col in colliders)
+        {
+            //tutaj sprawdzam czy to ten konkretny komponent i wykonuje konkretną rzecz
+            if (col.CompareTag("JumpThroughPlatform"))
+            {
+                col.GetComponent<JumpThroughPlatform>()?.AllowPlayerToFallThrough(gameObject);
+            }
+        }
+
+        _goDown = false;
+    }
+
+    private void Shoot()
+    {
+        _animator.SetBool("isThrowingSword", true);
+        _shootCountdown = _shootCooldown;
+        _shoot = false;
+        GameEventSystem.DecreseAmmo(1);
+    }
+
+    private void StopFalling()
+    {
+        _rb.velocity = Vector3.zero;
+        _rb.gravityScale = 0;
+    }
+
+    private void SetLoopAnims()
+    {
+        _animator.SetBool("isRunning", _rb.velocity.x!=0 && _isGrounded);
+        _animator.SetBool("isFalling", !_isGrounded && _rb.velocity.y< -0.05f);
+        _animator.SetBool("isJumping", !_isGrounded && _rb.velocity.y > 0.05f);
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
