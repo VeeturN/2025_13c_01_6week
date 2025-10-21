@@ -100,7 +100,7 @@ MonoBehaviour:
   _startHP: 3
   _attackInterval: 2
   healthBar: {fileID: 5889334380475846614}
-  facingRight: 1
+  lookLeft: 1
   config: {fileID: 0}
   bodyCollider2D: {fileID: -1941871964765096116}
   _deathPiecesPrefab: {fileID: 7470136540866770375, guid: bc6b9d4081152424a8b22774e03825fc, type: 3}
@@ -144,7 +144,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1183245681
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bcf03da7eaa85c044a139700e0b3e6a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -283,11 +283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.185
+      value: -0.116
       objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.421
+      value: 0.223
       objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -299,6 +299,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3256468169306886973, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878423138493838907, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878423138493838907, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1482529749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878423138493838907, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8743877291634071245, guid: 8b5144b8b6a7d6b439b89a885f41573d, type: 3}

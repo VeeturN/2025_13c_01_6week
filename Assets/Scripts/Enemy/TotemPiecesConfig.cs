@@ -8,12 +8,12 @@ public class TotemPiecesConfig : ScriptableObject
     {
         public TotemScript.TotemType totemType;
         public TotemScript.PartType partType;
-        public Sprite[] pieceSprites;   // domyslnie 4
+        public Sprite[] pieceSprites;   // domyslnie 3
     }
 
     public TotemPieceVariant[] variants;
 
-    // Zwraca sprite’y dla danego wariantu
+    // zwraca tutaj dobre sprity
     public Sprite[] GetSprites(TotemScript.TotemType totemType, TotemScript.PartType partType)
     {
         foreach (var v in variants)

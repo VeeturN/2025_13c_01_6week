@@ -19,3 +19,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 6940557982883899960, guid: 2e2bcd791191f434a9b60cbb1af77707, type: 3}
   startHP: 5
   dieStateName: Die
+  colliderAdjust:
+    trimLeftPercent: 0.33
+    trimRightPercent: 0.32
+    trimTopPercent: 0.3
+    trimBottomPercent: 0
