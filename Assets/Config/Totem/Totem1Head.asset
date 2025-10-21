@@ -16,7 +16,11 @@ MonoBehaviour:
   partType: 1
   animatorController: {fileID: 22100000, guid: 4f3edeab9c9b31c4dbe2f2dc28974442, type: 2}
   isAutoAttack: 1
-  attackCooldown: 2
   projectilePrefab: {fileID: 6940557982883899960, guid: 2e2bcd791191f434a9b60cbb1af77707, type: 3}
   startHP: 5
   dieStateName: Die
+  colliderAdjust:
+    trimLeftPercent: 0.4
+    trimRightPercent: 0.27
+    trimTopPercent: 0.3
+    trimBottomPercent: 0

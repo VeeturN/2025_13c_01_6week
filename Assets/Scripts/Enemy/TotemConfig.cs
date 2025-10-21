@@ -22,5 +22,16 @@ public class TotemConfig : ScriptableObject
 
         [Header("Nazwy stanów animacji")]
         public string dieStateName = "Die";
+        [Header("Dopasowanie collidera")]
+        public ColliderAdjust colliderAdjust;
+        //dopasowanie coliderów
+        [System.Serializable]
+        public struct ColliderAdjust
+        {
+                [Range(0f, 0.5f)] public float trimLeftPercent;
+                [Range(0f, 0.5f)] public float trimRightPercent;
+                [Range(0f, 0.5f)] public float trimTopPercent;
+                [Range(0f, 0.5f)] public float trimBottomPercent;
+        }
 }
 

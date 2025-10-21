@@ -1,79 +1,45 @@
 ﻿using UnityEngine;
 
-
-[RequireComponent(typeof(EnemyBullet))]
 public class TotemBullet : MonoBehaviour
 {
-    [SerializeField] private Animator _animator; 
-    [SerializeField] private float _speed = 8f; 
-    [SerializeField] private string _destroyParamName = "IsDestroy";
+    private bool _left;
+    [SerializeField] private float _speed = 8f;
+    private float _startPositionX;
 
-    private EnemyBullet _enemyBullet;
-    private Rigidbody2D _rigidbody2D;
-    private Collider2D _collider2D;
-
-    private void Awake()
+    public void Init(bool left)
     {
-        _enemyBullet = GetComponent<EnemyBullet>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _collider2D = GetComponent<Collider2D>();
-        if (_enemyBullet != null)
-            _enemyBullet.enabled = false;
+        _left = left;
+        _startPositionX = transform.position.x;
+        // obrót w poziomie
+        Vector3 scale = transform.localScale;
+        scale.x = !_left ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+        transform.localScale = scale;
     }
 
-    public void Init(Vector2 dir)
+
+    private void FixedUpdate()
     {
-        // nadaje prędkość
-        if (_rigidbody2D == null) _rigidbody2D = GetComponent<Rigidbody2D>();
-        if (_rigidbody2D != null)
-            _rigidbody2D.velocity = dir.normalized * _speed;
+        transform.position += new Vector3((_left ? _speed : -_speed) * Time.fixedDeltaTime, 0, 0);
+
+        if (Mathf.Abs(transform.position.x - _startPositionX) > 50)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // sprawdza czy trafił w gracza nie jego dzieci
-        GameObject rootHit = collision.attachedRigidbody != null ? collision.attachedRigidbody.gameObject : collision.gameObject;
-        BasicPlayerMovment player = rootHit.GetComponent<BasicPlayerMovment>();
+        // obrażenia tylko dla gracza
+        BasicPlayerMovment player = collision.GetComponent<BasicPlayerMovment>();
         if (player != null)
         {
             player.hit();
+            Destroy(gameObject);
+            return;
         }
-        //niszczy się jak trafi w cokolwiek innego
-        if (!collision.CompareTag("Enemy") && !collision.CompareTag("Pickable") && !collision.CompareTag("Attack"))
-        {
-            BeginDestroy();
-        }
-    }
 
-    private void BeginDestroy()
-    {
-        if (_collider2D != null) _collider2D.enabled = false;
-        if (_rigidbody2D != null) _rigidbody2D.velocity = Vector2.zero;
-        //zabezpieczenie jeśli jest animator wywołuje zniszczenie
-        if (_animator != null && !string.IsNullOrEmpty(_destroyParamName) && AnimatorHasBool(_animator, _destroyParamName))
-        {
-            _animator.SetBool(_destroyParamName, true);
-        }
-        else
+        // niszczy się z czymkolwiek innym
+        if (!collision.CompareTag("Enemy") && !collision.CompareTag("Pickable") && !collision.CompareTag("Attack"))
         {
             Destroy(gameObject);
         }
     }
-
-    // w animacji 
-    public void DestroySelf()
-    {
-        Destroy(gameObject);
-    }
-
-    private static bool AnimatorHasBool(Animator animator, string paramName)//zabeczpieczenie
-    {
-        foreach (var p in animator.parameters)
-        {
-            if (p.type == AnimatorControllerParameterType.Bool && p.name == paramName)
-                return true;
-        }
-        return false;
-    }
 }
-

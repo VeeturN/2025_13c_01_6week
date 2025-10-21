@@ -1,6 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
-using Enemy;
+using System.Collections;
 using UnityEngine.Serialization;
 
 public class TotemScript : Enemy.EnemyBase
@@ -8,7 +7,7 @@ public class TotemScript : Enemy.EnemyBase
     public enum TotemType { Totem1, Totem2, Totem3 }
     public enum PartType { Body, Head }
     [Header("Kierunek Totemu")]
-    [SerializeField] private bool facingRight = true; //jak zaznacze patrzy w lewo
+    [SerializeField] private bool lookLeft = true; //jak zaznacze patrzy w lewo
 
     
     [Header("Konfiguracja Totemu (ScriptableObject)")]
@@ -17,8 +16,6 @@ public class TotemScript : Enemy.EnemyBase
     [Header("Kolizja Totemu")]
     [SerializeField] private BoxCollider2D bodyCollider2D;
     
-    private float healthBarInitialScaleX = 1f;
-
     private Animator _totemAnimator;
     private float attackCountdown;
     private bool isAttacking = false;
@@ -29,20 +26,6 @@ public class TotemScript : Enemy.EnemyBase
     private string dieStateName;
     
     [SerializeField] private GameObject _deathPiecesPrefab;
-
-    // dane kolizji
-    private readonly Vector2[] baseColliderSizes = new Vector2[]
-    {
-        new Vector2(2.905996f, 1.06034f),
-        new Vector2(1.06909f, 1.063114f),
-        new Vector2(1.199975f, 1.112224f)
-    };
-    private readonly Vector2[] bodyColliderOffsets = new Vector2[]
-    {
-        new Vector2(-0.003210068f, -0.2032474f),
-        new Vector2(-0.02392387f, -0.2477759f),
-        new Vector2(0.1552958f, -0.2539251f)
-    };
     
     protected override void Awake()
     {
@@ -72,25 +55,26 @@ public class TotemScript : Enemy.EnemyBase
             _HP = _startHP;
             //tutaj mam to patrzenie lewo prawo
             Vector3 scale = transform.localScale;
-            scale.x = Mathf.Abs(scale.x) * (facingRight ? 1 : -1);
+            scale.x = Mathf.Abs(scale.x) * (lookLeft ? 1 : -1);
             transform.localScale = scale;
+            
+            UpdateCollider();
         }
         else
         {
-            Debug.LogWarning("Brak przypisanego TotemConfig do " + gameObject.name);
+            Debug.LogWarning("Brak przypisanego TotemConfig do " + gameObject.name);//zabezpieczenie
         }
     }
 
     private void Start()
     {
-        UpdateCollider();
         attackCountdown = attackCooldown;
         PlayIdle();
     }
 
     private void FixedUpdate()
     {
-        UpdateCollider();
+        //wyliczanie casu do nowego ataku
         if (isAutoAttack && !isAttacking)
         {
             attackCountdown -= Time.fixedDeltaTime;
@@ -107,7 +91,7 @@ public class TotemScript : Enemy.EnemyBase
     }
 
     //tutaż jest używana tzw kurtna do nieblokowania gry
-    private System.Collections.IEnumerator AttackRoutine()
+    private IEnumerator AttackRoutine()
     {
         isAttacking = true;
         PlayAttack();
@@ -117,33 +101,47 @@ public class TotemScript : Enemy.EnemyBase
 
         isAttacking = false;
     }
-
     private void UpdateCollider()
     {
-        int index = (int)config.totemType;
-        Vector3 scale = transform.localScale;
+        if (bodyCollider2D == null || config == null) return;
 
-        //specjalne zachowanie dla totem3
-        if (config.totemType == TotemType.Totem3)
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr == null || sr.sprite == null) return;
+
+        //rozmiar sprite
+        Vector2 localSize = sr.sprite.rect.size / sr.sprite.pixelsPerUnit;
+
+        // dopasowanie do skali obiektu
+        var adj = config.colliderAdjust;
+
+        // specjalne traktowanie totem1 i totem3 przy lookLeft = false
+        bool shouldMirrorTrim = !lookLeft &&
+                                (config.totemType == TotemScript.TotemType.Totem1 ||
+                                 config.totemType == TotemScript.TotemType.Totem3);
+
+        if (shouldMirrorTrim)
         {
-            if (scale.x > 0) //prawo
-            {
-                bodyCollider2D.size = new Vector2(1.219414f * scale.x, baseColliderSizes[index].y * scale.y);
-                bodyCollider2D.offset = new Vector2(0.1394997f * scale.x, bodyColliderOffsets[index].y);
-            }
-            else //lewo
-            {
-                bodyCollider2D.size = new Vector2(baseColliderSizes[index].x * Mathf.Abs(scale.x), baseColliderSizes[index].y * scale.y);
-                bodyCollider2D.offset = new Vector2(bodyColliderOffsets[index].x * Mathf.Sign(scale.x), bodyColliderOffsets[index].y);
-            }
+            var mirrored = adj;
+            mirrored.trimLeftPercent = adj.trimRightPercent;
+            mirrored.trimRightPercent = adj.trimLeftPercent;
+            adj = mirrored;
         }
-        else
+
+        // nowy rozmiar collidera
+        float newWidth = localSize.x * (1f - adj.trimLeftPercent - adj.trimRightPercent);
+        float newHeight = localSize.y * (1f - adj.trimTopPercent - adj.trimBottomPercent);
+        float offsetX = (adj.trimRightPercent - adj.trimLeftPercent) * localSize.x / 2f;
+        float offsetY = (adj.trimBottomPercent - adj.trimTopPercent) * localSize.y / 2f;
+
+        // jego ustawienie
+        bodyCollider2D.size = new Vector2(newWidth, newHeight);
+        bodyCollider2D.offset = new Vector2(offsetX, offsetY);
+
+        if (!lookLeft)
         {
-            // standardowe zachowanie dla Totem1 i Totem2
-            bodyCollider2D.size = new Vector2(baseColliderSizes[index].x * Mathf.Abs(scale.x),
-                baseColliderSizes[index].y * scale.y);
-            bodyCollider2D.offset = new Vector2(bodyColliderOffsets[index].x * Mathf.Sign(scale.x),
-                bodyColliderOffsets[index].y);
+            Vector2 o = bodyCollider2D.offset;
+            o.x *= -1;
+            bodyCollider2D.offset = o;
         }
     }
     #region Animacje
@@ -176,26 +174,13 @@ public class TotemScript : Enemy.EnemyBase
         PlayIdle();
     }
     #endregion
-    private void SpawnProjectile()//wywołanie w eventach
+    //pociski
+    private void SpawnProjectile()
     {
-        if (projectilePrefab == null) return;//zabezpieczenie
+        if (projectilePrefab == null) return;
 
-        var obj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);//brak rotacji i pozycja startowa
-        var enemyBullet = obj.GetComponent<EnemyBullet>();//zabezpiezczenie jakby nic nie było ale można dać coś innego
-        if (enemyBullet != null)
-        {
-            float dirX = transform.localScale.x < 0 ? 1f : -1f;
-            enemyBullet.Init(new Vector2(dirX, 0f));
-        }
-        else
-        {//difultowo totem bulet
-            var totemBullet = obj.GetComponent<TotemBullet>();
-            if (totemBullet != null)
-            {
-                float dirX = transform.localScale.x < 0 ? 1f : -1f;
-                totemBullet.Init(new Vector2(dirX, 0f));
-            }
-        }
+        var obj = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        obj.GetComponent<TotemBullet>().Init(!lookLeft); // jeśli lookLeft = true, kierunek w lewo
     }
     
     public override void hit(int dmg)
@@ -220,8 +205,8 @@ public class TotemScript : Enemy.EnemyBase
                 StartCoroutine(DieRoutine());
             }
         }
-    }
-    private System.Collections.IEnumerator DieRoutine()
+    } 
+    private IEnumerator DieRoutine()
     {
         if (_totemAnimator != null && _totemAnimator.layerCount > 0)//zabezpieczenie
         {

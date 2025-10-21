@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6591191201841367253}
   - component: {fileID: 4189534101224394813}
   - component: {fileID: -3190590152475500863}
-  - component: {fileID: 6347591939113468134}
   - component: {fileID: -6820849195543516592}
   m_Layer: 0
   m_Name: TotemBullet
@@ -182,19 +181,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6347591939113468134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6940557982883899960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f471acc4030f3d94e84d89a4362e6c91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 5
 --- !u!114 &-6820849195543516592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +193,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedc0403ddd94437a9000f8b84e4c315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: -3190590152475500863}
-  _speed: 8
-  _destroyParamName: IsDestroy
+  _speed: 3
