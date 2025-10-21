@@ -5,7 +5,7 @@ public class MovingEnemyMelee : MovingEnemyBase
 {
     private CircleCollider2D _col;
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         _col = GetComponent<CircleCollider2D>();

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 697c8a2d4c3ae3348a701b5cc6889bb2
+  - enabled: 1
     path: Assets/Scenes/Jedrek.unity
     guid: 951d0a0f5846dc24493b4da592d5c366
   - enabled: 1

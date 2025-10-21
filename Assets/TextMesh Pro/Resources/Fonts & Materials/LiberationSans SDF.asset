@@ -3925,10 +3925,6 @@ MonoBehaviour:
     m_GlyphIndex: 18
     m_Scale: 1
   - m_ElementType: 1
-    m_Unicode: 48
-    m_GlyphIndex: 19
-    m_Scale: 1
-  - m_ElementType: 1
     m_Unicode: 58
     m_GlyphIndex: 29
     m_Scale: 1

@@ -1,7 +1,10 @@
 ﻿// csharp
+
+using System;
 using Enemy;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public abstract class MovingEnemyBase : EnemyBase
 {
@@ -9,15 +12,26 @@ public abstract class MovingEnemyBase : EnemyBase
     [SerializeField] protected Transform patrolPointB;
     [SerializeField] protected float _speed = 2f;
     private bool _isTouching;
+    
 
     
     protected bool _movingToB = true;
-    
+    private float _enemyColiderRadius;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        _enemyColiderRadius = GetComponent<CircleCollider2D>().radius;
+    }
 
 
     protected virtual void FixedUpdate()
     {
-        _isTouching = Physics2D.Raycast((Vector2)transform.position + Vector2.down*0.5f+Vector2.right*1f,Vector2.left,2f,LayerMask.GetMask("Ground"));
+        _isTouching = Physics2D.Raycast(transform.position + Vector3.down * _enemyColiderRadius / 1.3f + Vector3.right * (_enemyColiderRadius * 2.3f), Vector2.left, 2f, LayerMask.GetMask("Ground"));
+        // csharp
+        Debug.DrawRay(transform.position+Vector3.down*_enemyColiderRadius/1.3f+Vector3.right * (float)(_enemyColiderRadius * 2.3), Vector3.left*2f, Color.red);
+
         if (_HP <= 0)
         {
             _animator.SetBool("isDead", true);
