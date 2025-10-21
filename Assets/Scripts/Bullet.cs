@@ -14,12 +14,6 @@ public class Bullet : MonoBehaviour
         _right = right;
         _startPositionX=transform.position.x;
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         transform.position += new Vector3((_right?_speed:-_speed)*Time.fixedDeltaTime, 0);
