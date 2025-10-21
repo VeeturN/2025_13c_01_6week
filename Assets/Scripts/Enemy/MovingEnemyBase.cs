@@ -12,9 +12,11 @@ public abstract class MovingEnemyBase : EnemyBase
     [SerializeField] protected Transform patrolPointB;
     [SerializeField] protected float _speed = 2f;
     private bool _isTouching;
-    
+    private bool _isGrounded;
 
-    
+
+
+
     protected bool _movingToB = true;
     private float _enemyColiderRadius;
 
@@ -31,7 +33,7 @@ public abstract class MovingEnemyBase : EnemyBase
         _isTouching = Physics2D.Raycast(transform.position + Vector3.down * _enemyColiderRadius / 1.3f + Vector3.right * (_enemyColiderRadius * 2.3f), Vector2.left, 2f, LayerMask.GetMask("Ground"));
         // csharp
         Debug.DrawRay(transform.position+Vector3.down*_enemyColiderRadius/1.3f+Vector3.right * (float)(_enemyColiderRadius * 2.3), Vector3.left*2f, Color.red);
-
+        CheckGround();
         if (_HP <= 0)
         {
             _animator.SetBool("isDead", true);
@@ -80,12 +82,17 @@ public abstract class MovingEnemyBase : EnemyBase
             _movingToB = !_movingToB;
     }
 
+    public void RunEffect()
+    {
+        GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().RunEffect(transform.position + Vector3.down * _enemyColiderRadius / 4, new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z));
+    }
+
     protected virtual void Jump()
     {
         if (Mathf.Abs(_rb.velocity.y) < 0.01f)
         {
-            float jumpForce = Random.Range(3f, 6f);
-            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().JumpEffect(transform.position + Vector3.down * _enemyColiderRadius / 4);
+            _rb.AddForce(Vector2.up * Random.Range(3f, 6f), ForceMode2D.Impulse);
         }
     }
 
@@ -151,16 +158,36 @@ public abstract class MovingEnemyBase : EnemyBase
     
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        bool isDashing = _animator.GetBool("isAttacking");
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _movingToB = !_movingToB;
         }
-        else if (collision.gameObject.CompareTag("Player") && isDashing)
+        else if (collision.gameObject.CompareTag("Player") && _animator.GetBool("isAttacking"))
         {
             collision.gameObject.GetComponent<BasicPlayerMovment>().hit();
             Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
             playerRb.AddForce(new Vector2((collision.transform.position.x - transform.position.x<0 ? -1 : 1)*3,2), ForceMode2D.Impulse);
         }
+    }
+
+    private void CheckGround()
+    {
+        bool toPlayFallEffect = !_isGrounded;
+        Debug.DrawRay(transform.position + Vector3.right * _enemyColiderRadius / 2, Vector2.down * _enemyColiderRadius, Color.red);
+        Debug.DrawRay(transform.position + Vector3.left * _enemyColiderRadius / 2, Vector2.down * _enemyColiderRadius, Color.red);
+        if ((Physics2D.Raycast(transform.position + Vector3.right * _enemyColiderRadius / 2, Vector2.down, _enemyColiderRadius, LayerMask.GetMask("Ground")) ||
+            Physics2D.Raycast(transform.position + Vector3.left * _enemyColiderRadius / 2, Vector2.down, _enemyColiderRadius, LayerMask.GetMask("Ground")))
+            && _rb.velocity.y <= 0)
+        {
+            _isGrounded = true;
+        }
+        if (_isGrounded && toPlayFallEffect)
+            GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().FallEffect(transform.position + Vector3.down * _enemyColiderRadius / 5);
+
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _isGrounded = false;
     }
 }
