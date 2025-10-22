@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startHP: 4
   _attackInterval: 2
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 7394980246834274117}
   _patrolPointA: {fileID: 8285469807111601502}
   patrolPointB: {fileID: 1723196303004232902}
   _speed: 2
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 6339799495794270169}
   m_Layer: 0
   m_Name: Gun
-  m_TagString: Untagged
+  m_TagString: Pickable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -417,6 +417,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4176991e84ae3b9439c5b1f937ad42af, type: 3}
+--- !u!114 &7394980246834274117 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 80021541465643663, guid: 4176991e84ae3b9439c5b1f937ad42af, type: 3}
+  m_PrefabInstance: {fileID: 7474977513109063114}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7647640223284304049 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 981103237148941691, guid: 4176991e84ae3b9439c5b1f937ad42af, type: 3}
