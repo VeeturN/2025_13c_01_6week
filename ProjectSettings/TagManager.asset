@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Pickable
   - EffectsManager
+  - Camera
   layers:
   - Default
   - TransparentFX
