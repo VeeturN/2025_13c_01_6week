@@ -47,6 +47,7 @@ public class MovingEnemyRanged : MovingEnemyBase
                 }
                 else
                 {
+                    Debug.Log("ASDASDASDASDASDSD");
                     _animator.SetBool("isShooting", true);
                     Shoot();
                     _hitTimer = 0f;
@@ -76,6 +77,7 @@ public class MovingEnemyRanged : MovingEnemyBase
     {
         if (_bulletPrefab != null && _shootPoint != null && _player != null)
         {
+            Debug.Log("CFEL");
             Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity)
                 .GetComponent<EnemyBullet>()
                 .Init(_player.transform.position - _shootPoint.position);
