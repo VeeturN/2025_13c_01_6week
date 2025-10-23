@@ -139,4 +139,8 @@ public class TotemPieces : MonoBehaviour
         yield return new WaitForSeconds(fallLifetime);
         Destroy(piece);
     }
+    public void OnBecomeInvisible()
+    {
+        Destroy(gameObject);
+    }
 }

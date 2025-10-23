@@ -215,9 +215,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 560dc44399664b828061d1507e2a5d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchForce: 5
-  gravityScale: 4
-  drag: 5
+  launchForce: 2
+  gravityScale: 1
+  drag: 1
   waitOnGround: 2
   fallLifetime: 2
   _config: {fileID: 11400000, guid: 2dc5972dc475c714ea792cee1a92c5cd, type: 2}
