@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8f43fccb04845ecac1d25d6f9f3bb16, type: 3}
+  m_Name: TotemBullet
+  m_EditorClassIdentifier: 
+  speed: 4
+  lifetime: 3
+  damage: 1
+  animatorController: {fileID: 22100000, guid: 4030c2e9c6f532644b68141c5afa52ac, type: 2}
+  colliderAdjust:
+    trimLeftPercent: 0.19
+    trimRightPercent: 0.17
+    trimTopPercent: 0.3
+    trimBottomPercent: 0.3
+  spawnOffset: {x: 0, y: -0.24}

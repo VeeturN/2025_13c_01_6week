@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PearAOC
+  m_Controller: {fileID: 9100000, guid: 74596f5ba74312a46941349e309da43e, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 139774db629dcea4e82137cea09da708, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5e769c15b30a99b4ca0a5c575e43cc39, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 43045abf9168d2942b39c9cf2a772321, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 799aebd00892ee842ac8530acdce9927, type: 2}
