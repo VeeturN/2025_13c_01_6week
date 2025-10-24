@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Enemy
 {
-    public abstract class EnemyBase:MonoBehaviour
+    public abstract class EnemyBase:MonoBehaviour, IHitable
     {
         [SerializeField] protected int _startHP = 3;
         [SerializeField] protected float _attackInterval = 2f;
@@ -26,11 +26,11 @@ namespace Enemy
             UpdateHealthBar();
         }
         
-        public virtual void hit(int damage)
+        public virtual void hit(int damage, float xPos)
         {
             _isHittedInAir = true;
             _rb.velocity = Vector2.zero;
-            _rb.AddForce(new Vector2((GameObject.FindGameObjectWithTag("Player").transform.position.x < transform.position.x ? 1 : -1) * 150, 150));
+            _rb.AddForce(new Vector2((xPos < transform.position.x ? 1 : -1) * 150, 150));
             _HP-=damage;
             UpdateHealthBar();
             _animator.SetBool("isHit", true);

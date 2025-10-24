@@ -38,8 +38,8 @@ public class BasicPlayerMovment : MonoBehaviour
     private float _lastDashPosX;
     private bool _isGrounded;
     private bool _goDown;
-    private List<EnemyBase> _enemiesInRange;
-    private List<EnemyBase> _enemiesInAirRange;
+    private List<IHitable> _hittablesInRange;
+    private List<IHitable> _hittablesInAirRange;
     private bool _isHittedInAir = false;
     private bool _isAlive = true;
     private float _grav;
@@ -51,8 +51,8 @@ public class BasicPlayerMovment : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _grav = _rb.gravityScale;
         _animator = GetComponent<Animator>();
-        _enemiesInRange = new List<EnemyBase>();
-        _enemiesInAirRange = new List<EnemyBase>();
+        _hittablesInRange = new List<IHitable>();
+        _hittablesInAirRange = new List<IHitable>();
         BoxCollider2D col = GetComponent<BoxCollider2D>();
         _playerHalfWidth = col.bounds.extents.x;
         _playerHalfHeight = col.bounds.extents.y;
@@ -311,40 +311,40 @@ public class BasicPlayerMovment : MonoBehaviour
             || _animator.GetBool("isThrowingSword");
     }
     //polaczone z animacja
-    public void AddEnemyInRange(EnemyBase enemy)
+    public void AddHittableInRange(IHitable obj)
     {
-        _enemiesInRange.Add(enemy);
+        _hittablesInRange.Add(obj);
     }
 
-    public void AddEnemyInAirRange(EnemyBase enemy)
+    public void AddHittableInAirRange(IHitable obj)
     {
-        _enemiesInAirRange.Add(enemy);
+        _hittablesInAirRange.Add(obj);
     }
     //polaczone z animacja
-    public void RemoveEnemyInRange(EnemyBase enemy)
+    public void RemoveHittableInRange(IHitable obj)
     {
-        _enemiesInRange.Remove(enemy);
+        _hittablesInRange.Remove(obj);
     }
-    public void RemoveEnemyInAirRange(EnemyBase enemy)
+    public void RemoveHittableInAirRange(IHitable obj)
     {
-        _enemiesInAirRange.Remove(enemy);
+        _hittablesInAirRange.Remove(obj);
     }
     //animacja nie tykać
     public void HitEnemiesInMeleeRange()
     {
-        foreach (EnemyBase enemy in _enemiesInRange)
+        foreach (IHitable obj in _hittablesInRange)
         {
-            if (enemy == null) { continue; }
-            enemy.hit(_damage);
+            if (obj == null) { continue; }
+            obj.hit(_damage,transform.position.x);
         }
     }
 
     public void HitEnemiesInAirMeleeRange()
     {
-        foreach (EnemyBase enemy in _enemiesInAirRange)
+        foreach (IHitable obj in _hittablesInAirRange)
         {
-            if (enemy == null) { continue; }
-            enemy.hit(_damage);
+            if (obj == null) { continue; }
+            obj.hit(_damage, transform.position.x);
         }
     }
     private void SetPlayerCustomSkin(Color color)

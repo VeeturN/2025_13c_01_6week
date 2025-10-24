@@ -199,7 +199,7 @@ public class EnemyRangeStayOnePlaceScript : Enemy.EnemyBase
         }
     }
     
-    public override void hit(int dmg)
+    public override void hit(int dmg, float xPos)
     {
         if (_totemAnimator != null && _totemAnimator.GetBool("IsDying"))
             return;

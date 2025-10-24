@@ -12,6 +12,7 @@ TagManager:
   - Pickable
   - EffectsManager
   - Camera
+  - Hittable
   layers:
   - Default
   - TransparentFX
