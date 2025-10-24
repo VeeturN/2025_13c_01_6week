@@ -183,7 +183,7 @@ public class TotemScript : Enemy.EnemyBase
         obj.GetComponent<TotemBullet>().Init(!lookLeft); // jeśli lookLeft = true, kierunek w lewo
     }
     
-    public override void hit(int dmg)
+    public override void hit(int dmg, float xPos)
     {
         if (_totemAnimator != null && _totemAnimator.GetBool("IsDying"))
             return;

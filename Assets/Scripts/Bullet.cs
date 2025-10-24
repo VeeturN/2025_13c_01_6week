@@ -24,10 +24,10 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Hittable"))
         {
-            EnemyBase enemy = collision.GetComponentInParent<EnemyBase>();
-            if (enemy != null) enemy.hit(1);
+            IHitable obj = collision.GetComponentInParent<IHitable>();
+            if (obj != null) obj.hit(1,transform.position.x);
         }
 
 

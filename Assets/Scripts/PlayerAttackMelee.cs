@@ -19,19 +19,19 @@ public class PlayerAttackMelee : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Hittable"))
         {
-            var enemy = collision.GetComponentInParent<EnemyBase>();
-            player.AddEnemyInRange(enemy);
-        }
+            IHitable obj = collision.GetComponentInParent<IHitable>();
+            player.AddHittableInRange(obj);
+        } 
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Hittable"))
         {
-            var enemy = collision.GetComponentInParent<EnemyBase>();
-            player.RemoveEnemyInRange(enemy);
+            IHitable obj = collision.GetComponentInParent<IHitable>();
+            player.RemoveHittableInRange(obj);
         }
     }
 }
