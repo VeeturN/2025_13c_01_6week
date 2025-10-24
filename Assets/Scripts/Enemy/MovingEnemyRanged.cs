@@ -39,15 +39,14 @@ public class MovingEnemyRanged : MovingEnemyBase
             _hitTimer += Time.fixedDeltaTime;
             if (_hitTimer > _attackInterval)
             {
-                if (_mele)
+                if (_mele && !_animator.GetBool("isShooting"))
                 {
                     _animator.SetBool("isAttacking", true);
                     _rb.velocity = new Vector2(Mathf.Sign(_player.transform.position.x - transform.position.x) * (_speed * 4f), _rb.velocity.y);
                     _hitTimer = 0f;
                 }
-                else
+                else if(!_animator.GetBool("isAttacking"))
                 {
-                    Debug.Log("ASDASDASDASDASDSD");
                     _animator.SetBool("isShooting", true);
                     Shoot();
                     _hitTimer = 0f;

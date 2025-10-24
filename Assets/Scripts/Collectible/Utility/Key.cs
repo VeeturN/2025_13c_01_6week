@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Key : MonoBehaviour,  ICollectible
 {
+    private Animator _animator;
+    public void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -13,8 +18,12 @@ public class Key : MonoBehaviour,  ICollectible
             if (player != null)
             {
                 Inventory.SetKeysCollected(Inventory.GetKeysCollected()+1);
-                Destroy(gameObject);
+                _animator.SetBool("isCollected", true);
             }
         }
+    }
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }
