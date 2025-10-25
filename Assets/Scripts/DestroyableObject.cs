@@ -6,11 +6,16 @@ public class DestroyableObject : MonoBehaviour, IHitable
 {
     [SerializeField] private int _HP;
     [SerializeField] PhysicsMaterial2D _bouncyMat;
+    [SerializeField] private ObjectDestructionPieces _destructionPieces;
+    [SerializeField] private string _objectType;
+    [SerializeField] private string _partType;
     private Rigidbody2D _rb;
     private BoxCollider2D _col;
     private float _halfHeight;
+    private Animator _animator;
     public void Awake()
     {
+        _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
         _rb.freezeRotation = true;
         _col = GetComponent<BoxCollider2D>();
@@ -23,6 +28,10 @@ public class DestroyableObject : MonoBehaviour, IHitable
         _rb.bodyType = RigidbodyType2D.Dynamic;
         _rb.AddForce(new Vector2((xPos < transform.position.x ? 1 : -1) * 100, 150));
         _HP -= damage;
+        if (_HP > 0)
+            _animator.SetBool("isHitted", true);
+        else
+            _animator.SetBool("isDestroyed", true);
     }
     private void FixedUpdate()
     {
@@ -47,5 +56,16 @@ public class DestroyableObject : MonoBehaviour, IHitable
                 break;
             }
         }
+    }
+    public void Destroyed()
+    {
+        ObjectDestructionPieces pieces = Instantiate(_destructionPieces, transform.position, Quaternion.identity);
+        pieces.Init(_objectType, _partType);
+        pieces.LaunchPieces();
+        Destroy(gameObject);
+    }
+    public void EndHitting()
+    {
+        _animator.SetBool("isHitted", false);
     }
 }
