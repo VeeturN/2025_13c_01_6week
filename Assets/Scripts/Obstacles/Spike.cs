@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Spike : MonoBehaviour
 {
-    private float maxKnockback = 3f;
-    private float minKnockback = 1f;
+    private float maxKnockback = 10f;
+    private float minKnockback = 5f;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
