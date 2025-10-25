@@ -47,6 +47,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 1482529749
+    locked: 0
   - name: Background
     uniqueID: 897874611
     locked: 0
@@ -62,18 +65,15 @@ TagManager:
   - name: DecorationEffects
     uniqueID: 1549019861
     locked: 0
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Players
     uniqueID: 1183245681
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: Effect
     uniqueID: 3766571507
     locked: 0
   - name: Foreground
     uniqueID: 321634147
-    locked: 0
-  - name: UI
-    uniqueID: 1482529749
     locked: 0

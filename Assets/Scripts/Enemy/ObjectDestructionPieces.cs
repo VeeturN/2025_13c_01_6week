@@ -39,35 +39,25 @@ public class ObjectDestructionPieces : MonoBehaviour
             Debug.LogWarning("Brak sprite'ów dla tego wariantu obiektu!(ObjectDestructionPieces)");
             return;
         }
-
-        int index = 0;
-        foreach (Transform child in transform)
+        // dzieci na podstawie liczby spritów
+        for (int i = 0; i < _sprites.Length; i++)
         {
-            var sr = child.GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                if (index < _sprites.Length)
-                {
-                    sr.sprite = _sprites[index];
-                    child.gameObject.SetActive(true);
-                }
-                else
-                {
-                    child.gameObject.SetActive(false);
-                    continue;
-                }
+            GameObject piece = new GameObject($"Piece_{i}");//nazwa
+            piece.transform.SetParent(transform);
+            piece.transform.localPosition = Vector3.zero; 
 
-                var col = child.GetComponent<BoxCollider2D>();
-                if (col == null)
-                    col = child.gameObject.AddComponent<BoxCollider2D>();
-
-                col.size = sr.sprite.bounds.size * _colliderScale;
-                col.offset = sr.sprite.bounds.center;
-                col.enabled = true;
-            }
-            index++;
+            var sr = piece.AddComponent<SpriteRenderer>();
+            sr.sprite = _sprites[i];
+            
+            var col = piece.AddComponent<BoxCollider2D>();
+            col.size = sr.sprite.bounds.size * _colliderScale;
+            col.offset = sr.sprite.bounds.center;
+            col.enabled = true;
         }
+
+        Debug.Log($"[ObjectDestructionPieces] Utworzono {_sprites.Length} kawałków.");
     }
+
     public void LaunchPieces()
     {
         //to zapewnia że nie wywołą się wiele razy(bez tego nie działa)
@@ -116,25 +106,38 @@ public class ObjectDestructionPieces : MonoBehaviour
 
     private IEnumerator FallAfterGround(Rigidbody2D rb, GameObject piece)
     {
+        if (rb == null || piece == null) yield break; // zabezpieczenie
         Collider2D col = piece.GetComponent<Collider2D>();
 
         bool touched = false;
         while (!touched)
         {
+            // tutaj czy został zniszczony w międzyczasie
+            if (rb == null || piece == null)
+                yield break;
+
             if (rb.IsTouchingLayers())
                 touched = true;
+
             yield return null;
         }
 
         yield return new WaitForSeconds(waitOnGround);
-        //usunięcie kolizji aby mogły spaść
+
         if (col != null)
             Destroy(col);
+
+        // 🔹 ponowne sprawdzenie przed użyciem
+        if (rb == null || piece == null)
+            yield break;
 
         rb.gravityScale = gravityScale;
         rb.drag = drag;
 
         yield return new WaitForSeconds(fallLifetime);
-        Destroy(piece);
+
+        if (piece != null)
+            Destroy(piece);
     }
+
 }
