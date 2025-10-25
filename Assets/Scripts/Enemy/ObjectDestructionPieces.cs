@@ -4,11 +4,11 @@ using System.Collections;
 public class ObjectDestructionPieces : MonoBehaviour
 {
     [Header("Fizyka kawałków")]
-    [SerializeField] private float launchForce = 5f;
-    [SerializeField] private float gravityScale = 3f;
-    [SerializeField] private float drag = 5f;
+    [SerializeField] private float launchForce = 1.5f;
+    [SerializeField] private float gravityScale = 2f;
+    [SerializeField] private float drag = 1f;
     [SerializeField] private float waitOnGround = 2f;
-    [SerializeField] private float fallLifetime = 2f;
+    [SerializeField] private float fallLifetime = 5f;
 
     [Header("Konfiguracja sprite'ów")]
     [SerializeField] private ObjectDestructionConfig _config;
@@ -25,7 +25,7 @@ public class ObjectDestructionPieces : MonoBehaviour
         else
             Debug.LogWarning("[ObjectDestructionPieces] Brak przypisanego configu!");
 
-        if (_sprites == null || _sprites.Length == 0)
+        if (_sprites == null || _sprites.Length == 0) 
             Debug.LogWarning($"[ObjectDestructionPieces] Brak sprite'ów dla {objectType}/{partType}!");
 
         ApplySprites();
