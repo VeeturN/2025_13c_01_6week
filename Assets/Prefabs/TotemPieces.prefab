@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4986090148407040173}
   m_Layer: 7
   m_Name: TotemPieces
-  m_TagString: Untagged
+  m_TagString: Pickable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

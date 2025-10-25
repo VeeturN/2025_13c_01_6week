@@ -42,12 +42,16 @@ public class ObjectDestructionPieces : MonoBehaviour
         // dzieci na podstawie liczby spritów
         for (int i = 0; i < _sprites.Length; i++)
         {
-            GameObject piece = new GameObject($"Piece_{i}");//nazwa
-            piece.transform.SetParent(transform);
+            GameObject piece = new GameObject($"Piece_{i}");//nazwa obiektu
+            piece.transform.SetParent(transform);//dziecko
             piece.transform.localPosition = Vector3.zero; 
-
+            piece.layer = LayerMask.NameToLayer("TotemPices");//warstwa kolizji
             var sr = piece.AddComponent<SpriteRenderer>();
-            sr.sprite = _sprites[i];
+            sr.sprite = _sprites[i];//przypisanie sprite
+            
+            //odpowiedzialne żeby pojawiało się za totemem
+            sr.sortingLayerName = "UI"; 
+            sr.sortingOrder = 0; 
             
             var col = piece.AddComponent<BoxCollider2D>();
             col.size = sr.sprite.bounds.size * _colliderScale;
@@ -66,11 +70,12 @@ public class ObjectDestructionPieces : MonoBehaviour
 
         foreach (Transform child in transform)
         {
-            if (!child.gameObject.activeSelf) continue;
+            if (!child.gameObject.activeSelf) continue;//zabezpieczenie
 
             Rigidbody2D rb = child.GetComponent<Rigidbody2D>();
             rb = child.gameObject.AddComponent<Rigidbody2D>();
 
+            //fizyka
             rb.mass = 0.25f;
             rb.drag = drag;
             rb.angularDrag = 100f;
@@ -80,7 +85,7 @@ public class ObjectDestructionPieces : MonoBehaviour
 
             Collider2D col = child.GetComponent<Collider2D>();
             if (col != null)
-            {
+            {   //brak kolizji z graczem
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
                 if (player != null)
                 {
@@ -88,10 +93,18 @@ public class ObjectDestructionPieces : MonoBehaviour
                     if (playerCol != null)
                         Physics2D.IgnoreCollision(col, playerCol);
                 }
+                //brak kolizji z wrogami
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach (var enemy in enemies)
+                {
+                    Collider2D enemyCol = enemy.GetComponent<Collider2D>();
+                    if (enemyCol != null)
+                        Physics2D.IgnoreCollision(col, enemyCol);
+                }
             }
 
             Vector2 randomDir = new Vector2(Random.Range(-1f, 1f), Random.Range(0.5f, 1.2f)).normalized;
-            rb.AddForce(randomDir * launchForce, ForceMode2D.Impulse);
+            rb.AddForce(randomDir * launchForce, ForceMode2D.Impulse);//losowy kierunek
 
             StartCoroutine(FallAfterGround(rb, child.gameObject));
         }
