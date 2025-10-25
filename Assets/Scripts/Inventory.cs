@@ -63,6 +63,23 @@ public class Inventory : MonoBehaviour
         _ammoCounter =(_ammoCounter + x);
         GameEventSystem.UpdateHUD(_ammoCounter, HUDType.Ammo);
     }
+
+    public static void CollectAmmo(int x)
+    {
+        _ammoCounter =(_ammoCounter + x);
+        GameEventSystem.UpdateHUD(_ammoCounter, HUDType.Ammo);
+    }
+
+    public static int GetScore()
+    {
+        return _score;
+    }
+
+    public static void SetScore(int score)
+    {
+        _score = score;
+    }
+
     public static int GetKeysCollected()
     {
         return _keysCounter;
@@ -80,6 +97,16 @@ public class Inventory : MonoBehaviour
             GameEventSystem.GivePlayerRewardForAllMapFragmentsCollected(new Color(0f, 1f, 1f, 0.5f));
         }
     }
+
+    public static void CollectSecretMapFragment()
+    {
+        _secretMapsCounter++;
+        if (_secretMapsCounter==4)
+        {
+            GameEventSystem.GivePlayerRewardForAllMapFragmentsCollected(new Color(0f, 1f, 1f, 0.5f));
+        }
+    }
+
     public static int GetAmmo()
     {
         return _ammoCounter;
