@@ -26,7 +26,7 @@ public class ObjectDestructionPieces : MonoBehaviour
             Debug.LogWarning("[ObjectDestructionPieces] Brak przypisanego configu!");
 
         if (_sprites == null || _sprites.Length == 0)
-            Debug.LogWarning($"[ObjectDestructionPieces] Brak sprite'ów dla {objectType}/{partType}!");
+    - beczka         Debug.LogWarning($"[ObjectDestructionPieces] Brak sprite'ów dla {objectType}/{partType}!");
 
         ApplySprites();
     }
