@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _HP: 3
   _bouncyMat: {fileID: 6200000, guid: 01a96da3f5f8ea748ba7f7d538a72faf, type: 2}
-  _destructionPieces: {fileID: 279274868299100358, guid: aab1e0da8aae43d4fa85a9f1c345b13a, type: 3}
+  _destructionPieces: {fileID: 4986090148407040173, guid: bc6b9d4081152424a8b22774e03825fc, type: 3}
   _objectType: Barrel
   _partType: Base
 --- !u!61 &3211001528336125650

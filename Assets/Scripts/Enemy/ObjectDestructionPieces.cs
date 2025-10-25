@@ -50,7 +50,7 @@ public class ObjectDestructionPieces : MonoBehaviour
             sr.sprite = _sprites[i];//przypisanie sprite
             
             //odpowiedzialne żeby pojawiało się za totemem
-            sr.sortingLayerName = "UI"; 
+            sr.sortingLayerName = "Decorations"; 
             sr.sortingOrder = 0; 
             
             var col = piece.AddComponent<BoxCollider2D>();
