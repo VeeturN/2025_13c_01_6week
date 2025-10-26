@@ -69,3 +69,10 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 8239be799f60feb478c44145e994b3a5, type: 3}
     - {fileID: 21300000, guid: db55b93a2ce93d14b8ee85b2b48783e7, type: 3}
     - {fileID: 21300000, guid: 934ec584cc82fe84daa58fc5b05dd97f, type: 3}
+  - objectType: Box
+    partType: 
+    pieceSprites:
+    - {fileID: 21300000, guid: a04d0c5d8f4e8bd42aaed671806daa30, type: 3}
+    - {fileID: 21300000, guid: 9db895ee85a117b4592b1e01ed0e510e, type: 3}
+    - {fileID: 21300000, guid: f43a96cc7997ea846903e9c789259708, type: 3}
+    - {fileID: 21300000, guid: fb12e5981e18c6e4c8744e688d573f75, type: 3}
