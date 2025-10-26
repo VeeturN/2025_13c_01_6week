@@ -43,6 +43,7 @@ public class BasicPlayerMovment : MonoBehaviour
     private bool _isHittedInAir = false;
     private bool _isAlive = true;
     private float _grav;
+    private bool _stopMovement = false;
     private SpriteRenderer[] _renderers;
     public bool IsSpeedPotionInUse { get; set; } = false;
     public bool IsStrengthPotionInUse { get; set; } = false;
@@ -107,7 +108,7 @@ public class BasicPlayerMovment : MonoBehaviour
     {
         if(!_isAlive)
             _rb.velocity = Vector2.zero;
-        else if (!_isHittedInAir)
+        else if (!_isHittedInAir && !_stopMovement)
         {
             _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
             CheckGround();
@@ -400,7 +401,20 @@ public class BasicPlayerMovment : MonoBehaviour
         _damage /= 2;
         IsStrengthPotionInUse = false;
     }
-
+    public void StopMovement()
+    {
+        _stopMovement = true;
+        for (int i = 0; i < _animator.parameterCount; i++)
+        {
+            var p = _animator.GetParameter(i);
+            if (p.type == AnimatorControllerParameterType.Bool)
+                _animator.SetBool(p.name, false);
+        }
+    }
+    public void ResumeMovement()
+    {
+        _stopMovement = false;
+    }
     public void RunEffect()
     {
         _effectsManager.RunEffect(transform.position + Vector3.down * _playerHalfHeight / 5, transform.localScale);
