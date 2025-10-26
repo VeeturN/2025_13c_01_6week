@@ -16,8 +16,10 @@ public class Ship : MonoBehaviour
     private float _startPosX;
     private bool _up=true;
     private bool _goToPoint = false;
+    EffectsManager _effectsManager;
     void Awake()
     {
+        _effectsManager = GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>();
         _sailAnimator = _sail.GetComponent<Animator>();
         _noReturn.gameObject.SetActive(false);
         _col = GetComponent<BoxCollider2D>();
@@ -51,11 +53,16 @@ public class Ship : MonoBehaviour
             _goToPoint = true;
             BasicPlayerMovment player = collision.gameObject.GetComponent<BasicPlayerMovment>();
             player.StopMovement();
-            StartCoroutine(TripCoroutine(player));
+            EffectScript[] waterSplashes = _effectsManager.WaterSplashEffect(
+                transform.position+Vector3.right*_halfWidth/3*2 + Vector3.up * _halfHeight / 2,
+                transform.position + Vector3.left * _halfWidth + Vector3.up* _halfHeight / 2);
+            foreach (EffectScript effect in waterSplashes)
+                effect.transform.SetParent(transform);
+            StartCoroutine(TripCoroutine(player,waterSplashes));
         }
     }
 
-    private IEnumerator TripCoroutine(BasicPlayerMovment player)
+    private IEnumerator TripCoroutine(BasicPlayerMovment player, EffectScript[] waterSplashes)
     {
         _sailAnimator.SetBool("isGoing", true);
         player.transform.SetParent(transform);
@@ -66,6 +73,8 @@ public class Ship : MonoBehaviour
             player.transform.localPosition = stayingPos;
             yield return null;
         }
+        foreach(EffectScript effect in waterSplashes)
+            effect.DestroySelf();
         _sailAnimator.SetBool("isGoing", false);
         player.ResumeMovement();
         _noReturn.gameObject.SetActive(true);

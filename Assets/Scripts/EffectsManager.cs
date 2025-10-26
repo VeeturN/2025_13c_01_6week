@@ -5,14 +5,15 @@ using UnityEngine.UIElements;
 
 public class EffectsManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _runEffect;
-    [SerializeField] private GameObject _jumpEffect;
-    [SerializeField] private GameObject _fallEffect;
-    [SerializeField] private GameObject[] _playerAttackEffect = new GameObject[3];
-    [SerializeField] private GameObject[] _airPlayerAttackEffect = new GameObject[2];
-    [SerializeField] private GameObject _fierceToothAttackEffect;
-    [SerializeField] private GameObject _pinkStarAttackEffect;
-    [SerializeField] private GameObject _potionEffect;
+    [SerializeField] private EffectScript _runEffect;
+    [SerializeField] private EffectScript _jumpEffect;
+    [SerializeField] private EffectScript _fallEffect;
+    [SerializeField] private EffectScript[] _playerAttackEffect = new EffectScript[3];
+    [SerializeField] private EffectScript[] _airPlayerAttackEffect = new EffectScript[2];
+    [SerializeField] private EffectScript _fierceToothAttackEffect;
+    [SerializeField] private EffectScript _pinkStarAttackEffect;
+    [SerializeField] private EffectScript _potionEffect;
+    [SerializeField] private EffectScript[] _waterSplash = new EffectScript[2];
 
     public void RunEffect(Vector3 pos, Vector3 scale)
     {
@@ -45,5 +46,10 @@ public class EffectsManager : MonoBehaviour
     public void PotionEffect(Vector3 pos, Transform parent)
     {
         Instantiate(_potionEffect, pos, Quaternion.identity).transform.SetParent(parent);
+    }
+    
+    public EffectScript[] WaterSplashEffect(Vector3 frontPos, Vector3 backPos)
+    {
+        return new EffectScript[] { Instantiate(_waterSplash[0],frontPos,Quaternion.identity), Instantiate(_waterSplash[1],backPos,Quaternion.identity) };
     }
 }
