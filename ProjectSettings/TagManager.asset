@@ -77,3 +77,6 @@ TagManager:
   - name: Foreground
     uniqueID: 321634147
     locked: 0
+  - name: SecretRoom
+    uniqueID: 922466829
+    locked: 0
