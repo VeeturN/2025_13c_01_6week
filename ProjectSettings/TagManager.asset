@@ -47,9 +47,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: UI
-    uniqueID: 1482529749
-    locked: 0
   - name: Background
     uniqueID: 897874611
     locked: 0
@@ -79,4 +76,7 @@ TagManager:
     locked: 0
   - name: SecretRoom
     uniqueID: 922466829
+    locked: 0
+  - name: UI
+    uniqueID: 1482529749
     locked: 0
