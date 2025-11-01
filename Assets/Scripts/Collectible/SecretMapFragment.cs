@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SecretMapFragment : MonoBehaviour, ICollectible
+public class SecretMapFragment : Saveable, ICollectible
 {
     private bool _isCollected;
     [SerializeField] private MapFragmentEnum _mapFragmentEnum;
