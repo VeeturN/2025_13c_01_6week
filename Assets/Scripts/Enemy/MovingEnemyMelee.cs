@@ -1,4 +1,6 @@
 // csharp
+
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MovingEnemyMelee : MovingEnemyBase
@@ -10,6 +12,12 @@ public class MovingEnemyMelee : MovingEnemyBase
         base.Awake();
         _col = GetComponent<CircleCollider2D>();
     }
+
+    protected void Start()
+    {
+        _EnemyPrefabName = "Enemy1";
+    }
+
     protected override void MoveTowardsPlayer()
     {
         float deltaX = _player.transform.position.x - transform.position.x;

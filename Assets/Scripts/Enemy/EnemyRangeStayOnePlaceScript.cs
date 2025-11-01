@@ -76,6 +76,7 @@ public class EnemyRangeStayOnePlaceScript : Enemy.EnemyBase
     {
         attackCountdown = attackCooldown;
         PlayIdle();
+        _EnemyPrefabName = "TotemTemplate";
     }
 
     private void FixedUpdate()

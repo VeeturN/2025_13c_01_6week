@@ -97,7 +97,7 @@ public class BasicPlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Melee") && !isAttackingAnimation())
         {
             _attack = true;
-            SaveManager.LoadXML();
+            
         }
         if (_yinput < 0)
         {
@@ -106,6 +106,7 @@ public class BasicPlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Fire3") && !_isGrounded && _canDash)
         {
             _dash = true;
+            SaveManager.LoadXML();
         }
     }
     private void FixedUpdate()
