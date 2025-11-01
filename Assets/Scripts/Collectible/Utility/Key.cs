@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Key : MonoBehaviour,  ICollectible
+public class Key : Saveable,  ICollectible
 {
     private Animator _animator;
     public void Awake()

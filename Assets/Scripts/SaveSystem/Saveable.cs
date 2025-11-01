@@ -2,12 +2,19 @@
 using System;
 
 [DisallowMultipleComponent]
-public class UniqueID : MonoBehaviour
+public class Saveable : MonoBehaviour
 {
     [SerializeField, HideInInspector]
     private string uniqueID;
 
+    public bool _isOnScene;
+    
     public string ID => uniqueID;
+
+    private void Start()
+    {
+        _isOnScene = true;
+    }
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -19,7 +26,7 @@ public class UniqueID : MonoBehaviour
         }
 
         // Sprawdzenie duplikatów tylko w edytorze (bez EditorSceneManager)
-        var all = UnityEngine.Object.FindObjectsOfType<UniqueID>();
+        var all = UnityEngine.Object.FindObjectsOfType<Saveable>();
         foreach (var other in all)
         {
             if (other == this) continue;
@@ -39,5 +46,9 @@ public class UniqueID : MonoBehaviour
         {
             uniqueID = Guid.NewGuid().ToString();
         }
+    }
+    public void RemotlyDestroy()
+    {
+        Destroy(gameObject);
     }
 }

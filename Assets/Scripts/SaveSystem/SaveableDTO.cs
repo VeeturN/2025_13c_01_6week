@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
 
 [System.Serializable]
-public class CoinDTO
+public class SaveableDTO
 {
     public string id;
     public Vector2 position;
-    public bool collected;
+    public bool isOnScene;
 }
         
     

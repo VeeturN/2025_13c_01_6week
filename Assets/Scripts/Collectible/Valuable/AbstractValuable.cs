@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public abstract class AbstractValuable : UniqueID, ICollectible
+public abstract class AbstractValuable : Saveable, ICollectible
 {
     protected int _value;
     public bool _isCollected;
@@ -20,6 +20,7 @@ public abstract class AbstractValuable : UniqueID, ICollectible
             return;
         }
         _isCollected=true;
+        _isOnScene = false;
         GameEventSystem.CollectValuable(this);
         Destroy(gameObject, 1f);
     }
@@ -27,9 +28,5 @@ public abstract class AbstractValuable : UniqueID, ICollectible
     {
         return _value;
     }
-
-    public void RemotlyDestroy()
-    {
-        Destroy(gameObject);
-    }
+    
 }

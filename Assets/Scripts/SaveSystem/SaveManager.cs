@@ -10,20 +10,21 @@ public static class SaveManager
         XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
         FileStream stream = new FileStream(Application.dataPath + "/../save.xml", FileMode.Create);
         SaveLevelDataDTO data = new SaveLevelDataDTO();
-        //coiny
-        data._coins = new List<CoinDTO>();
-        data._levelId = 1;
-        var coins = Object.FindObjectsOfType<GoldCoin>();
         
-        foreach (var coin in coins)
+        data._saveables = new List<SaveableDTO>();
+        
+        data._levelId = 1;
+        var savables = Object.FindObjectsOfType<Saveable>();
+        
+        foreach (var saveable in savables)
         {
-            var coinData = new CoinDTO
+            var coinData = new SaveableDTO
             {
-                id = coin.ID, 
-                position = new Vector2(coin.transform.position.x, coin.transform.position.y),
-                collected = coin._isCollected
+                id = saveable.ID, 
+                position = new Vector2(saveable.transform.position.x, saveable.transform.position.y),
+                isOnScene = saveable._isOnScene
             };
-            data._coins.Add(coinData);
+            data._saveables.Add(coinData);
         }
         serializer.Serialize(stream, data);
         stream.Close();
@@ -34,18 +35,25 @@ public static class SaveManager
         SaveLevelDataDTO data = serializer.Deserialize(stream) as SaveLevelDataDTO;
         stream.Close();
         
-        var coins = Object.FindObjectsOfType<GoldCoin>();
-        foreach (var coin in coins)
+        var saveables = Object.FindObjectsOfType<Saveable>();
+        foreach (var saveable in saveables)
         {   
-            var savedCoin = data._coins.Find(c => c.id == coin.ID);
-            if (savedCoin != null)
+            var loadedObj = data._saveables.Find(c => c.id == saveable.ID);
+            if (loadedObj != null)
             {
-                coin._isCollected = false;
-                coin.transform.position = new Vector3(savedCoin.position.X,  savedCoin.position.Y);
+                if (!loadedObj.isOnScene)
+                {
+                    saveable.RemotlyDestroy();
+                }
+                else
+                {
+                    saveable._isOnScene = true;
+                    saveable.transform.position = new Vector3(loadedObj.position.X,  loadedObj.position.Y);
+                }
             }
             else
             {
-                coin.RemotlyDestroy();
+                saveable.RemotlyDestroy();
             }
         }
     }

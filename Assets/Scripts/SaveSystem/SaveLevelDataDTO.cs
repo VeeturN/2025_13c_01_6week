@@ -5,6 +5,6 @@ using System.Collections.Generic;
 public class SaveLevelDataDTO
 {
     public int _levelId;
-    public List <CoinDTO> _coins;
+    public List <SaveableDTO> _saveables;
     
 }

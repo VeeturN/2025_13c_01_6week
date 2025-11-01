@@ -1,14 +1,5 @@
 <?xml version="1.0"?>
 <SaveLevelDataDTO xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <_levelId>1</_levelId>
-  <_coins>
-    <CoinDTO>
-      <id>c8a5077f-9442-4436-abbb-c2dee39ffe91</id>
-      <position>
-        <X>-13.4982605</X>
-        <Y>-0.06360322</Y>
-      </position>
-      <collected>false</collected>
-    </CoinDTO>
-  </_coins>
+  <_saveables />
 </SaveLevelDataDTO>
