@@ -14,6 +14,10 @@ public class MovingEnemyRanged : MovingEnemyBase
         base.Awake();
         _col = GetComponent<CircleCollider2D>();
     }
+    protected void Start()
+    {
+        _EnemyPrefabName = "Enemy2";
+    }
     protected override void MoveTowardsPlayer()
     {
         float deltaX = _player.transform.position.x - transform.position.x;

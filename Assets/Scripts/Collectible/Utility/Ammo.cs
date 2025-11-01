@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ammo : MonoBehaviour, ICollectible
+public class Ammo : Saveable, ICollectible
 {
     public void OnTriggerEnter2D(Collider2D other)
     {

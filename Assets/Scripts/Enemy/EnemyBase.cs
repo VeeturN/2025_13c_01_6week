@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Enemy
 {
-    public abstract class EnemyBase:MonoBehaviour, IHitable
+    public abstract class EnemyBase:SaveableEnemy, IHitable
     {
         [SerializeField] protected int _startHP = 3;
         [SerializeField] protected float _attackInterval = 2f;

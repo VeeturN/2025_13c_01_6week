@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Potion : MonoBehaviour, ICollectible
+public class Potion : Saveable, ICollectible
 {
     private PotionEnum _potionType;
     private Animator _animator;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyableObject : MonoBehaviour, IHitable
+public class DestroyableObject : Saveable, IHitable
 {
     [SerializeField] private int _HP;
     [SerializeField] PhysicsMaterial2D _bouncyMat;
@@ -32,6 +32,8 @@ public class DestroyableObject : MonoBehaviour, IHitable
             _animator.SetBool("isHitted", true);
         else
             _animator.SetBool("isDestroyed", true);
+            _isOnScene = false;
+
     }
     private void FixedUpdate()
     {

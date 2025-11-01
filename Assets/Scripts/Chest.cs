@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Chest : MonoBehaviour
+public class Chest : Saveable
 {
     [SerializeField] private GameObject[] _itemsToDrop;
     private Transform _player; 
@@ -42,6 +42,7 @@ public class Chest : MonoBehaviour
             _animator.SetBool("IsOpen", true);
             Inventory.SetKeysCollected(Inventory.GetKeysCollected() - 1);
             _isOpened = true;
+            _isOnScene = false;
         }
     }
 
