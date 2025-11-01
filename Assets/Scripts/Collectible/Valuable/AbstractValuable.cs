@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public abstract class AbstractValuable : MonoBehaviour, ICollectible
+public abstract class AbstractValuable : UniqueID, ICollectible
 {
     protected int _value;
-    private bool _isCollected;
+    public bool _isCollected;
     private void Awake()
     {
         _isCollected=false;
@@ -26,5 +26,10 @@ public abstract class AbstractValuable : MonoBehaviour, ICollectible
     public int GetValue()
     {
         return _value;
+    }
+
+    public void RemotlyDestroy()
+    {
+        Destroy(gameObject);
     }
 }
