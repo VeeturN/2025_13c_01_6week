@@ -8,12 +8,9 @@ using Vector2 = System.Numerics.Vector2;
 
 public static class SaveManager
 {
-    
-    public static int _unlockedLevels;
-    public static Vector2 _playerPosiotion;
-    public static int _currentLevelIndex;
-    
-    //savowac i loadowac przy inicjalizacji
+    public static int _unlockedLevels=1;
+    public static Vector2 _playerPosiotion=new Vector2(0,0);
+    public static int _currentLevelIndex=1;
     public static void SaveLevelDataXML(int levelNumber) {
         XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
         string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
@@ -55,11 +52,25 @@ public static class SaveManager
         stream.Close();
     }
     public static void LoadLevelDataXML(int levelNumber) {
-        XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
         string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
+        string fullPath = Application.dataPath + $"/../{saveFileName}";
+        
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogWarning($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
+            return;
+        }
+        
+        XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
         FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Open);
         SaveLevelDataDTO data = serializer.Deserialize(stream) as SaveLevelDataDTO;
         stream.Close();
+        
+        if (data == null)
+        {
+            Debug.LogError($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
+            return;
+        }
         
         var saveables = Object.FindObjectsOfType<Saveable>();
         foreach (var saveable in saveables)
@@ -100,7 +111,6 @@ public static class SaveManager
             
         }
     }
-
     public static void SaveGameStateDataXML()
     {
         string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
@@ -125,7 +135,7 @@ public static class SaveManager
             data._shopItems.Add(new ShopItemDTO
             {
                 _price = item.getPrice(),
-               // _name = item.getName(),
+                _name = item.getName(),
                 _amount = item.getItemAmountInShop()
             });
         }
@@ -147,11 +157,16 @@ public static class SaveManager
         serializer.Serialize(stream, data);
         stream.Close();
     }
-
     public static void LoadGameStateDataXML()
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
         string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
+        string fullPath = Application.dataPath + $"/../{saveFileName}";
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogWarning($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
+            return;
+        }
+        XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
         FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Open);
         GameStateDTO data = serializer.Deserialize(stream) as GameStateDTO;
         stream.Close();
@@ -160,7 +175,6 @@ public static class SaveManager
             Debug.LogError("Błąd: Nie udało się zdeserializować danych!");
             return;
         }
-        // --- Przywracanie danych gracza ---
         Inventory.Score = data._score;
         GameEventSystem.UpdateHUD(Inventory.Score, HUDType.Score);
 
@@ -185,11 +199,9 @@ public static class SaveManager
         Inventory.SecretMapsCounter = data._secretMapsCounter;
         GameEventSystem.UpdateHUD(Inventory.SecretMapsCounter, HUDType.SecretMap);
         
-        // --- Przywracanie globalnych informacji ---
         SaveManager._unlockedLevels = data._unlockedLevels;
         SaveManager._currentLevelIndex = data._currentLevelIndex;
         SaveManager._playerPosiotion = data._playerPosiotion;
-        // --- Przywracanie stanu sklepu ---
         if (data._shopItems != null)
         {
             foreach (var item in data._shopItems)
@@ -221,14 +233,28 @@ public static class SaveManager
             }
         }
     }
-
-    public static void SaveCurrentSlot(int x)
+    public static void DeleteSaveSlot(int slotNumber)
     {
-        PlayerPrefs.SetInt("Slot", x);
+        string folderPath = Application.dataPath + "/../"; 
+        string searchPattern = $"slot_{slotNumber}_*"; 
+        string[] files = Directory.GetFiles(folderPath, searchPattern);
+        foreach (var file in files)
+        {
+            try
+            {
+                File.Delete(file);
+                Debug.Log($"✅ Usunięto plik zapisu: {file}");
+            }
+            catch (IOException e)
+            {
+                Debug.LogError($" Nie udało się usunąć pliku {file}: {e.Message}");
+            }
+        }
+        if (files.Length == 0)
+        {
+            Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
+        } 
     }
-    public static int GetCurrentSlot()
-    {
-        return PlayerPrefs.GetInt("Slot", 1);
-    }
-
+    public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
+    public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
 }
