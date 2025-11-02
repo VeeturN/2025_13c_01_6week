@@ -104,13 +104,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7211f6de59e200e40913b9363ed0614a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  _jumpForce: 7
+  _speed: 4
+  _jumpForce: 6
   _maxJumps: 2
   _bulletPrefab: {fileID: 1822755538699793455, guid: f324e50b5431352469702e0391f964c8, type: 3}
-  _shootCooldown: 1.5
-  _attackCooldown: 0.5
-  _dashDistance: 3
+  _shootCooldown: 0.6
+  _attackCooldown: 0.6
+  _dashDistance: 2
   _dashSpeed: 15
   _potionsDuration: 15
   _healValue: 1
@@ -175,7 +175,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.5
+  m_GravityScale: 1.4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

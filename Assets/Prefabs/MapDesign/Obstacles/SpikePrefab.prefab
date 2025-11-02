@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2938435150620168505}
   - component: {fileID: -2033073303306579916}
   - component: {fileID: 340800249766263833}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpikePrefab
   m_TagString: Pickable
   m_Icon: {fileID: 0}
@@ -171,3 +171,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb0b0c783a80ff48841712de839f936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxKnockback: 11
+  minKnockback: 6

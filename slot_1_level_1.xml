@@ -1,32 +1,6 @@
 <?xml version="1.0"?>
 <SaveLevelDataDTO xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <_levelId>1</_levelId>
-  <_saveables>
-    <SaveableDTO>
-      <id>11cf9ab4-7994-4f8b-99b3-5027c98ea1a9</id>
-      <position>
-        <X>-22.0411739</X>
-        <Y>-0.5944207</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>0f1796ff-24f9-4a84-9a0e-188196222011</id>
-      <position>
-        <X>-23.9</X>
-        <Y>-0.7</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-  </_saveables>
-  <_saveableEnemies>
-    <SaveableEnemyDTO>
-      <position>
-        <X>-11.7246466</X>
-        <Y>-0.4412248</Y>
-      </position>
-      <isOnScene>false</isOnScene>
-      <enemyPrefabName>Enemy1</enemyPrefabName>
-    </SaveableEnemyDTO>
-  </_saveableEnemies>
+  <_saveables />
+  <_saveableEnemies />
 </SaveLevelDataDTO>
