@@ -6,20 +6,20 @@ public class ShopItem
 {
     private int _price;
     private ShopItemName _name;
-    private int _itemAmountInShop;
+    private int _amount;
     private string _description;
     
     public int getPrice() { return _price; }
     public ShopItemName getName() { return _name; }
-    public int getItemAmountInShop() { return _itemAmountInShop; }
+    public int getItemAmountInShop() { return _amount; }
     public string getDescription() { return _description; }
-    public void setItemAmountInShop(int amount) { _itemAmountInShop = amount; }
+    public void setItemAmountInShop(int amount) { _amount = amount; }
 
-    public ShopItem( ShopItemName name,int  price, int  itemAmountInShop, string description)
+    public ShopItem( ShopItemName name,int  price, int  amount, string description)
     {
         _name = name;
         _price = price;
-        _itemAmountInShop = itemAmountInShop;
+        _amount = amount;
         _description = description;
     }
 }

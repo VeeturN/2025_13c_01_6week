@@ -14,7 +14,56 @@ public class Inventory : MonoBehaviour
     private static int _secretMapsCounter;
     private BasicPlayerMovment _player;
 
+    // --- GETTERY i SETTERY ---
 
+    public static int Score
+    {
+        get => _score;
+        set => _score = Mathf.Max(0, value);
+    }
+
+    public static int StrengthPotionCounter
+    {
+        get => _strenghtPotionCounter;
+        set => _strenghtPotionCounter = Mathf.Max(0, value);
+    }
+
+    public static int HpPotionCounter
+    {
+        get => _hpPotionCounter;
+        set => _hpPotionCounter = Mathf.Max(0, value);
+    }
+
+    public static int SpeedPotionCounter
+    {
+        get => _speedPotionCounter;
+        set => _speedPotionCounter = Mathf.Max(0, value);
+    }
+
+    public static int KeysCounter
+    {
+        get => _keysCounter;
+        set => _keysCounter = Mathf.Max(0, value);
+    }
+
+    public static int AmmoCounter
+    {
+        get => _ammoCounter;
+        set => _ammoCounter = Mathf.Max(0, value);
+    }
+
+    public static int HpCounter
+    {
+        get => _hpCounter;
+        set => _hpCounter = Mathf.Max(0, value);
+    }
+
+    public static int SecretMapsCounter
+    {
+        get => _secretMapsCounter;
+        set => _secretMapsCounter = Mathf.Max(0, value);
+    }
+    
     private void Awake()
     {
         _player = GetComponent<BasicPlayerMovment>();

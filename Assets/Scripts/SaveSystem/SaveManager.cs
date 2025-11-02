@@ -2,15 +2,22 @@
 using System.IO;
 using System.Xml.Serialization;
 using Enemy;
+using SaveSystem;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
 
 public static class SaveManager
 {
     
-    public static void SaveXML() {
+    public static int _unlockedLevels;
+    public static Vector2 _playerPosiotion;
+    public static int _currentLevelIndex;
+    
+    //savowac i loadowac przy inicjalizacji
+    public static void SaveLevelDataXML(int levelNumber) {
         XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
-        FileStream stream = new FileStream(Application.dataPath + "/../save.xml", FileMode.Create);
+        string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
+        FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
         SaveLevelDataDTO data = new SaveLevelDataDTO();
         
         data._saveables = new List<SaveableDTO>();
@@ -47,9 +54,10 @@ public static class SaveManager
         serializer.Serialize(stream, data);
         stream.Close();
     }
-    public static void LoadXML() {
+    public static void LoadLevelDataXML(int levelNumber) {
         XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
-        FileStream stream = new FileStream(Application.dataPath + "/../save.xml", FileMode.Open);
+        string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
+        FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Open);
         SaveLevelDataDTO data = serializer.Deserialize(stream) as SaveLevelDataDTO;
         stream.Close();
         
@@ -83,7 +91,7 @@ public static class SaveManager
 
         foreach (var VARIABLE in data._saveableEnemies)
         {
-            GameObject prefab = Resources.Load<GameObject>("Prefabs/MapDesign/"+VARIABLE.enemyPrefabName);
+            GameObject prefab = Resources.Load<GameObject>("NieTykac/"+VARIABLE.enemyPrefabName);
             Object.Instantiate(
                 prefab,
                 new Vector3(VARIABLE.position.X, VARIABLE.position.Y),
@@ -92,4 +100,135 @@ public static class SaveManager
             
         }
     }
+
+    public static void SaveGameStateDataXML()
+    {
+        string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
+        XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
+        FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
+        GameStateDTO data = new GameStateDTO();
+        data._shopItems = new List<ShopItemDTO>();
+        
+        //shopstate
+        var allShopItems = new List<ShopItem>
+        {
+            Shop.Key,
+            Shop.Ammo,
+            Shop.StrengthPotion,
+            Shop.HpPotion,
+            Shop.SpeedPotion,
+            Shop.SecretMapFragment
+        };
+
+        foreach (var item in allShopItems)
+        {
+            data._shopItems.Add(new ShopItemDTO
+            {
+                _price = item.getPrice(),
+               // _name = item.getName(),
+                _amount = item.getItemAmountInShop()
+            });
+        }
+        //player info
+        data._score = Inventory.Score;
+        data._strenghtPotionCounter = Inventory.StrengthPotionCounter;
+        data._hpPotionCounter = Inventory.HpPotionCounter;
+        data._speedPotionCounter = Inventory.SpeedPotionCounter;
+        data._keysCounter = Inventory.KeysCounter;
+        data._ammoCounter = Inventory.AmmoCounter;
+        data._hpCounter = Inventory.HpCounter;
+        data._secretMapsCounter = Inventory.SecretMapsCounter;
+        //globals
+        data._unlockedLevels = SaveManager._unlockedLevels;
+        data._currentLevelIndex = SaveManager._currentLevelIndex;
+        data._playerPosiotion = SaveManager._playerPosiotion;
+        
+        //zamknij stream, zapisz
+        serializer.Serialize(stream, data);
+        stream.Close();
+    }
+
+    public static void LoadGameStateDataXML()
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
+        string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
+        FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Open);
+        GameStateDTO data = serializer.Deserialize(stream) as GameStateDTO;
+        stream.Close();
+        if (data == null)
+        {
+            Debug.LogError("Błąd: Nie udało się zdeserializować danych!");
+            return;
+        }
+        // --- Przywracanie danych gracza ---
+        Inventory.Score = data._score;
+        GameEventSystem.UpdateHUD(Inventory.Score, HUDType.Score);
+
+        Inventory.StrengthPotionCounter = data._strenghtPotionCounter;
+        GameEventSystem.UpdateHUD(Inventory.StrengthPotionCounter, HUDType.StrengthPotion);
+
+        Inventory.HpPotionCounter = data._hpPotionCounter;
+        GameEventSystem.UpdateHUD(Inventory.HpPotionCounter, HUDType.HpPotion);
+
+        Inventory.SpeedPotionCounter = data._speedPotionCounter;
+        GameEventSystem.UpdateHUD(Inventory.SpeedPotionCounter, HUDType.SpeedPotion);
+
+        Inventory.KeysCounter = data._keysCounter;
+        GameEventSystem.UpdateHUD(Inventory.KeysCounter, HUDType.Key);
+
+        Inventory.AmmoCounter = data._ammoCounter;
+        GameEventSystem.UpdateHUD(Inventory.AmmoCounter, HUDType.Ammo);
+
+        Inventory.HpCounter = data._hpCounter;
+        GameEventSystem.UpdateHUD(Inventory.HpCounter, HUDType.Hp);
+
+        Inventory.SecretMapsCounter = data._secretMapsCounter;
+        GameEventSystem.UpdateHUD(Inventory.SecretMapsCounter, HUDType.SecretMap);
+        
+        // --- Przywracanie globalnych informacji ---
+        SaveManager._unlockedLevels = data._unlockedLevels;
+        SaveManager._currentLevelIndex = data._currentLevelIndex;
+        SaveManager._playerPosiotion = data._playerPosiotion;
+        // --- Przywracanie stanu sklepu ---
+        if (data._shopItems != null)
+        {
+            foreach (var item in data._shopItems)
+            {
+                switch (item._name)
+                {
+                    case ShopItemName.Key:
+                        Shop.Key.setItemAmountInShop(item._amount);
+                        break;
+                    case ShopItemName.Ammo:
+                        Shop.Ammo.setItemAmountInShop(item._amount);
+                        break;
+                    case ShopItemName.StrengthPotion:
+                        Shop.StrengthPotion.setItemAmountInShop(item._amount);
+                        break;
+                    case ShopItemName.HpPotion:
+                        Shop.HpPotion.setItemAmountInShop(item._amount);
+                        break;
+                    case ShopItemName.SpeedPotion:
+                        Shop.SpeedPotion.setItemAmountInShop(item._amount);
+                        break;
+                    case ShopItemName.SecretMap:
+                        Shop.SecretMapFragment.setItemAmountInShop(item._amount);
+                        break;
+                    default:
+                        Debug.LogWarning($"Nieznany przedmiot w sklepie: {item._name}");
+                        break;
+                }
+            }
+        }
+    }
+
+    public static void SaveCurrentSlot(int x)
+    {
+        PlayerPrefs.SetInt("Slot", x);
+    }
+    public static int GetCurrentSlot()
+    {
+        return PlayerPrefs.GetInt("Slot", 1);
+    }
+
 }

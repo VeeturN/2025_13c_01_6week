@@ -92,7 +92,8 @@ public class BasicPlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Range") && !isAttackingAnimation())
         {
             _shoot = true;
-            SaveManager.SaveXML();
+            SaveManager.SaveLevelDataXML(1);
+            SaveManager.SaveGameStateDataXML();
         }
         if (Input.GetButtonDown("Melee") && !isAttackingAnimation())
         {
@@ -106,7 +107,8 @@ public class BasicPlayerMovment : MonoBehaviour
         if (Input.GetButtonDown("Fire3") && !_isGrounded && _canDash)
         {
             _dash = true;
-            SaveManager.LoadXML();
+            SaveManager.LoadLevelDataXML(1);
+            SaveManager.LoadGameStateDataXML();
         }
     }
     private void FixedUpdate()

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<SaveLevelDataDTO xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <_levelId>1</_levelId>
+  <_saveables />
+  <_saveableEnemies>
+    <SaveableEnemyDTO>
+      <position>
+        <X>-7.884126</X>
+        <Y>-0.0272956491</Y>
+      </position>
+      <isOnScene>false</isOnScene>
+      <enemyPrefabName>Enemy1</enemyPrefabName>
+    </SaveableEnemyDTO>
+  </_saveableEnemies>
+</SaveLevelDataDTO>

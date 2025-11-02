@@ -18,6 +18,7 @@ public class Chest : Saveable
     {
         _animator = GetComponent<Animator>();
         GameEventSystem.OnChestOpen += OpenChest;
+        _isOnScene = true;
     }
     private void OnDestroy()
     {
