@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TypewriterEffect : MonoBehaviour
 {
+    [SerializeField] float _dialogDelay = 0.07f;
     SpriteRenderer _dialogBorder;
     private TextMeshPro _textMeshPro;
 
@@ -17,7 +18,7 @@ public class TypewriterEffect : MonoBehaviour
     public void Init(string text)
     {
         StopAllCoroutines();
-        StartCoroutine(TypeCoroutine(text, 0.1f));
+        StartCoroutine(TypeCoroutine(text, _dialogDelay));
     }
 
     private IEnumerator TypeCoroutine(string text, float delay)

@@ -136115,18 +136115,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrabbyTutorial
       objectReference: {fileID: 0}
-    - target: {fileID: 5542416508901320675, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
-      propertyPath: m_fontSize
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5542416508901320675, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
-      propertyPath: m_margin.z
-      value: -0.6668763
-      objectReference: {fileID: 0}
-    - target: {fileID: 5542416508901320675, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 1.3
-      objectReference: {fileID: 0}
     - target: {fileID: 6276327722349983287, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.954
@@ -136166,10 +136154,6 @@ PrefabInstance:
     - target: {fileID: 6276327722349983287, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6339546151824903347, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
-      propertyPath: m_Size.x
-      value: 2.4876242
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
