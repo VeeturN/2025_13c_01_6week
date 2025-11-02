@@ -12,17 +12,21 @@ public class TypewriterEffect : MonoBehaviour
     {
         _dialogBorder = GetComponentInParent<SpriteRenderer>();
         _textMeshPro = GetComponent<TextMeshPro>();
+    }
 
-        string dialog = "PRESS A OR D TO MOVE AROUND";
-        StartCoroutine(TypeCoroutine(dialog, 0.1f));
+    public void Init(string text)
+    {
+        StopAllCoroutines();
+        StartCoroutine(TypeCoroutine(text, 0.1f));
     }
 
     private IEnumerator TypeCoroutine(string text, float delay)
     {
+        text = text.ToUpper();
         _textMeshPro.text = text;
         _textMeshPro.ForceMeshUpdate();
         Vector3 fullBounds = _textMeshPro.textBounds.size;
-        transform.parent.position += Vector3.up * fullBounds.y/2;
+        transform.parent.position = transform.parent.parent.position + Vector3.up * fullBounds.y+0.8f*Vector3.up;
         _textMeshPro.text = "";
 
 
@@ -43,13 +47,6 @@ public class TypewriterEffect : MonoBehaviour
             _textMeshPro.text = prevText;
             _textMeshPro.ForceMeshUpdate();
             int oldLineCount = _textMeshPro.textInfo.lineCount;
-
-           // if (newLineCount > oldLineCount)
-            //{
-            //    Vector3 bounds = _textMeshPro.textBounds.size;
-            //    _dialogBorder.size = new Vector2(bounds.x+0.3f, bounds.y + 0.5f);
-            //}
-
             if (_textMeshPro.text!="")
             {
                 if (newLineCount > oldLineCount)

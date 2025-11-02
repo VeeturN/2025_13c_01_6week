@@ -13,6 +13,7 @@ TagManager:
   - EffectsManager
   - Camera
   - Hittable
+  - TutorialCrab
   layers:
   - Default
   - TransparentFX
@@ -22,8 +23,8 @@ TagManager:
   - UI
   - Ground
   - TotemPices
-  - 
-  - 
+  - Ammo
+  - Enemy
   - 
   - 
   - 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3264803588028303002}
   m_Layer: 0
   m_Name: CrabbyTutorial
-  m_TagString: Untagged
+  m_TagString: TutorialCrab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5b7b0a00dc5607469e6e7e417f444d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _typewriter: {fileID: 6680676324383530559}
 --- !u!1001 &7213160653284996648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,3 +183,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4413903709807582937, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
   m_PrefabInstance: {fileID: 7213160653284996648}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6680676324383530559 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4083864211826829335, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
+  m_PrefabInstance: {fileID: 7213160653284996648}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8875bdfc0d5844419f66733d9e18e12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

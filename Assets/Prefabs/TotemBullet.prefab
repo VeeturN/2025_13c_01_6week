@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4189534101224394813}
   - component: {fileID: -3190590152475500863}
   - component: {fileID: -6820849195543516592}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TotemBullet
   m_TagString: Pickable
   m_Icon: {fileID: 0}

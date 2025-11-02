@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class CrabbyTutorial : MonoBehaviour
 {
-    void Start()
+    [SerializeField] TypewriterEffect _typewriter;
+    public void Say(string text)
     {
-        
-    }
-
-    void Update()
-    {
-        
+        transform.GetChild(0).gameObject.SetActive(true);
+        _typewriter.Init(text);
     }
 }

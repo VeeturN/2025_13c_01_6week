@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 761490935725251187}
   - component: {fileID: 4380583482804167264}
   - component: {fileID: 1395706704527646229}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -216,6 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69257aab58532640a7d1ba26114d450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isOnScene: 0
+  _EnemyPrefabName: 
   _startHP: 4
   _attackInterval: 2
   healthBar: {fileID: 7394980246834274117}
