@@ -11,6 +11,7 @@ public static class SaveManager
     public static int _unlockedLevels=1;
     public static Vector2 _playerPosiotion=new Vector2(0,0);
     public static int _currentLevelIndex=1;
+    public static int _fpsCap=144;
     public static void SaveLevelDataXML(int levelNumber) {
         XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
         string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";

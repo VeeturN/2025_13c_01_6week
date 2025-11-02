@@ -3,7 +3,15 @@
   <_levelId>1</_levelId>
   <_saveables>
     <SaveableDTO>
-      <id>7ef32ea0-1549-4b14-a84e-ded516596d00</id>
+      <id>11cf9ab4-7994-4f8b-99b3-5027c98ea1a9</id>
+      <position>
+        <X>-22.0411739</X>
+        <Y>-0.5944207</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>0f1796ff-24f9-4a84-9a0e-188196222011</id>
       <position>
         <X>-23.9</X>
         <Y>-0.7</Y>
@@ -14,8 +22,8 @@
   <_saveableEnemies>
     <SaveableEnemyDTO>
       <position>
-        <X>-13.2605391</X>
-        <Y>-0.9817245</Y>
+        <X>-11.7246466</X>
+        <Y>-0.4412248</Y>
       </position>
       <isOnScene>false</isOnScene>
       <enemyPrefabName>Enemy1</enemyPrefabName>
