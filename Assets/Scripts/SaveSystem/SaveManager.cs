@@ -258,9 +258,10 @@ public static class SaveManager
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
 
-    public static void SaveCurrentUnlockedLevels(int currentSlot)
+    public static void SaveCurrentUnlockedLevels(int currentSlot, int  unlockedLevels)
     {
         string key  = "unlocked_levels_on_slot_" + currentSlot;
+        PlayerPrefs.SetInt(key, unlockedLevels);
     }
     public static int GetCurrentUnlockedLevels(int currentSlot)
     {
@@ -268,5 +269,17 @@ public static class SaveManager
         return PlayerPrefs.GetInt(key, 1);
     }
 
+    public static void SaveCurrentLevelIndex(int currentSlot, int currentLevelIndex)
+    {
+        string key  = "current_level_index_" + currentSlot;
+        PlayerPrefs.SetInt(key, currentLevelIndex);
+    }
+    public static int GetCurrentLevel(int currentSlot)
+    {
+        string key  = "current_level_index_" + currentSlot;
+        return PlayerPrefs.GetInt(key, 1);
+    }
+    
+    
 
 }
