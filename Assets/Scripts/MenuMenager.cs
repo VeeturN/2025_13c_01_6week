@@ -26,7 +26,10 @@ public class MenuMenager : MonoBehaviour
     private bool _slot3 = true;
     private bool _slot4 = true;
     [SerializeField] private Button[] _newSlotButtons;
+    [SerializeField] private Button[] _LoadSlotButtons;
+    [SerializeField] private Button[] _lVLButtons;
     private int _lastClickedSlot = -1;
+    private int _OlafSzpontIndex = 0;
 
     public void Awake()
     {
@@ -57,16 +60,39 @@ public class MenuMenager : MonoBehaviour
     {
         _MainView.SetActive(false);
         _LoadSaveView.SetActive(true);
+        
+            _slot1=!IsSlotTaken(1);
+            _slot2=!IsSlotTaken(2);
+            _slot3=!IsSlotTaken(3);
+            _slot4=!IsSlotTaken(4);
+
+            if (!_slot1)
+            {
+                _LoadSlotButtons[0].interactable = true;
+            }
+            if (!_slot2)
+            {
+                _LoadSlotButtons[1].interactable = true;
+            }
+
+            if (!_slot3)
+            {
+                _LoadSlotButtons[2].interactable = true;
+            }
+            if (!_slot4)
+            {
+                _LoadSlotButtons[3].interactable = true;
+            }
     }
     public void NewSaveClicked()
     {
         _MainView.SetActive(false);
         _NewGameSaveView.SetActive(true);
         
-            _slot1=!isSlotTaken(0);
-            _slot2=!isSlotTaken(1);
-            _slot3=!isSlotTaken(2);
-            _slot4=!isSlotTaken(3);
+            _slot1=!IsSlotTaken(1);
+            _slot2=!IsSlotTaken(2);
+            _slot3=!IsSlotTaken(3);
+            _slot4=!IsSlotTaken(4);
 
             if (!_slot1)
             {
@@ -145,11 +171,28 @@ public class MenuMenager : MonoBehaviour
         _LoadSaveView.SetActive(false);
     }
     
-    public void SlotClicked()
+    public void SlotClicked(int slotNumber)
     {
+        _OlafSzpontIndex=SaveManager.GetCurrentUnlockedLevels(slotNumber);
+        Debug.Log("Loaded game from slot: " + slotNumber);
+        
         _LvlView.SetActive(true);
         _LoadSaveView.SetActive(false);
+        
+        for (int i = 0; i < _lVLButtons.Length; i++)
+        {
+            if (i < _OlafSzpontIndex)
+            {
+                _lVLButtons[i].interactable = true;
+            }
+            else
+            {
+                _lVLButtons[i].interactable = false;
+            }
+        }
     }
+    
+    
 
     #endregion
     
@@ -162,7 +205,7 @@ public class MenuMenager : MonoBehaviour
     
     
     
-    private bool isSlotTaken(int slotNumber)
+    private bool IsSlotTaken(int slotNumber)
     {
         string folderPath = Application.dataPath + "/../"; 
         string searchPattern = $"slot_{slotNumber}_*"; 
@@ -266,7 +309,7 @@ public class MenuMenager : MonoBehaviour
     {
         _AreUSureView.SetActive(false);
         _NewGameSaveView.SetActive(true);
-        UpdateSlotButtonColor(_lastClickedSlot, Color.green);
+        UpdateSlotButtonColor(_lastClickedSlot, Color.white);
         SaveManager.DeleteSaveSlot(_lastClickedSlot);
         if (_lastClickedSlot==0)
         {
@@ -292,7 +335,6 @@ public class MenuMenager : MonoBehaviour
     private void UpdateSlotButtonColor(int slotNumber, Color color)
     {
         int idx = slotNumber - 1;
-        if (_newSlotButtons == null || idx < 0 || idx >= _newSlotButtons.Length) return;
         var img = _newSlotButtons[idx]?.GetComponent<Image>();
         if (img != null) img.color = color;
     }
