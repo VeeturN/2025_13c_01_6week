@@ -218,7 +218,6 @@ public class MenuMenager : MonoBehaviour
         _NewGameSaveView.SetActive(false);
         SaveManager.SaveCurrentSlot(slotNumber);
         SaveManager._currentLevelIndex = 1;
-        SaveManager._unlockedLevels = 1;
         SceneManager.LoadScene("Jedrek");
         Debug.Log("New game started in slot: " + slotNumber);
     }

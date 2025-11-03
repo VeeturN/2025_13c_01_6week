@@ -8,7 +8,6 @@ using Vector2 = System.Numerics.Vector2;
 
 public static class SaveManager
 {
-    public static int _unlockedLevels=1;
     public static Vector2 _playerPosiotion=new Vector2(0,0);
     public static int _currentLevelIndex=1;
     public static int _fpsCap=144;
@@ -150,7 +149,7 @@ public static class SaveManager
         data._hpCounter = Inventory.HpCounter;
         data._secretMapsCounter = Inventory.SecretMapsCounter;
         //globals
-        data._unlockedLevels = SaveManager._unlockedLevels;
+       // data._unlockedLevels = SaveManager._unlockedLevels;
         data._currentLevelIndex = SaveManager._currentLevelIndex;
         data._playerPosiotion = playerPosition;
         
@@ -200,7 +199,7 @@ public static class SaveManager
         Inventory.SecretMapsCounter = data._secretMapsCounter;
         GameEventSystem.UpdateHUD(Inventory.SecretMapsCounter, HUDType.SecretMap);
         
-        SaveManager._unlockedLevels = data._unlockedLevels;
+      //  SaveManager._unlockedLevels = data._unlockedLevels;
         SaveManager._currentLevelIndex = data._currentLevelIndex;
         SaveManager._playerPosiotion = data._playerPosiotion;
         if (data._shopItems != null)
@@ -258,4 +257,16 @@ public static class SaveManager
     }
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
+
+    public static void SaveCurrentUnlockedLevels(int currentSlot)
+    {
+        string key  = "unlocked_levels_on_slot_" + currentSlot;
+    }
+    public static int GetCurrentUnlockedLevels(int currentSlot)
+    {
+        string key  = "unlocked_levels_on_slot_" + currentSlot;
+        return PlayerPrefs.GetInt(key, 1);
+    }
+
+
 }
