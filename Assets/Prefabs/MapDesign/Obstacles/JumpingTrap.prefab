@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2938435150620168505}
   - component: {fileID: -2033073303306579916}
   - component: {fileID: 59227711790057607}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: JumpingTrap
   m_TagString: Pickable
   m_Icon: {fileID: 0}
@@ -171,3 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7cf531ddc56f248b380c8b71fb9ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  impactSpeed: 8

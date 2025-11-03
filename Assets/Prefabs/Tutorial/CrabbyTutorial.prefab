@@ -133,6 +133,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dialog
       objectReference: {fileID: 0}
+    - target: {fileID: 2950092048619966923, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
+      propertyPath: m_text
+      value: ENTER YOUR TEXT HERE
+      objectReference: {fileID: 0}
+    - target: {fileID: 2950092048619966923, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
+      propertyPath: m_fontSize
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2950092048619966923, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
+      propertyPath: m_margin.z
+      value: -0.6668763
+      objectReference: {fileID: 0}
+    - target: {fileID: 2950092048619966923, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3738230436604131995, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
+      propertyPath: m_Size.x
+      value: 2.4876242
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083864211826829335, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
+      propertyPath: _dialogDelay
+      value: 0.07
+      objectReference: {fileID: 0}
     - target: {fileID: 4413903709807582937, guid: fe0609034d4a411418bd06cded5b4452, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.247

@@ -1,29 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Potion : Saveable, ICollectible
 {
-    private PotionEnum _potionType;
+    [SerializeField] private PotionEnum _potionType = PotionEnum.Random;
     private Animator _animator;
     void Start()
     {
         _animator = GetComponent<Animator>();
-        _potionType = (PotionEnum)UnityEngine.Random.Range(0, System.Enum.GetValues(typeof(PotionEnum)).Length);
+       while(_potionType == PotionEnum.Random)
+            _potionType = (PotionEnum)UnityEngine.Random.Range(0, System.Enum.GetValues(typeof(PotionEnum)).Length);
         switch (_potionType)
         {
             case PotionEnum.Red:
                 _animator.SetBool("Red", true);
                 break;
             case PotionEnum.Green:
-                _animator.SetBool("Green",true);
-                 break;
+                _animator.SetBool("Green", true);
+                break;
             case PotionEnum.Blue:
                 _animator.SetBool("Blue", true);
-                 break;
+                break;
         }
-    } 
+    }
 
     public void OnTriggerEnter2D(Collider2D other)
     {

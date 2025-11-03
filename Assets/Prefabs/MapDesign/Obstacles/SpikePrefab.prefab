@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2938435150620168505}
   - component: {fileID: -2033073303306579916}
   - component: {fileID: 340800249766263833}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpikePrefab
   m_TagString: Pickable
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2139275}
+  m_Offset: {x: -0.00000011920929, y: -0.28538814}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -157,7 +157,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.572145}
+  m_Size: {x: 0.9196069, y: 0.42922372}
   m_EdgeRadius: 0
 --- !u!114 &340800249766263833
 MonoBehaviour:
@@ -171,3 +171,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb0b0c783a80ff48841712de839f936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxKnockback: 11
+  minKnockback: 6

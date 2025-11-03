@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum PotionEnum
 {
-    Red, Green, Blue
+    Red, Green, Blue, Random
 }
