@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuMenager : MonoBehaviour
 {
@@ -18,6 +20,16 @@ public class MenuMenager : MonoBehaviour
     [SerializeField] private GameObject _ScoreBoardView;
     [SerializeField] private GameObject _ControlsView;
     [SerializeField] private GameObject _SettingsView;
+    [SerializeField] private GameObject _AreUSureView;
+    private bool _slot1 = true;
+    private bool _slot2 = true;
+    private bool _slot3 = true;
+    private bool _slot4 = true;
+    [SerializeField] private Button[] _newSlotButtons;
+    [SerializeField] private Button[] _LoadSlotButtons;
+    [SerializeField] private Button[] _lVLButtons;
+    private int _lastClickedSlot = -1;
+    private int _OlafSzpontIndex = 0;
 
     public void Awake()
     {
@@ -29,6 +41,7 @@ public class MenuMenager : MonoBehaviour
         _ScoreBoardView.SetActive(false);
         _ControlsView.SetActive(false);
         _SettingsView.SetActive(false);
+        _AreUSureView.SetActive(false);
     }
 
     #region Main view
@@ -47,11 +60,58 @@ public class MenuMenager : MonoBehaviour
     {
         _MainView.SetActive(false);
         _LoadSaveView.SetActive(true);
+        
+            _slot1=!IsSlotTaken(1);
+            _slot2=!IsSlotTaken(2);
+            _slot3=!IsSlotTaken(3);
+            _slot4=!IsSlotTaken(4);
+
+            if (!_slot1)
+            {
+                _LoadSlotButtons[0].interactable = true;
+            }
+            if (!_slot2)
+            {
+                _LoadSlotButtons[1].interactable = true;
+            }
+
+            if (!_slot3)
+            {
+                _LoadSlotButtons[2].interactable = true;
+            }
+            if (!_slot4)
+            {
+                _LoadSlotButtons[3].interactable = true;
+            }
     }
     public void NewSaveClicked()
     {
         _MainView.SetActive(false);
         _NewGameSaveView.SetActive(true);
+        
+            _slot1=!IsSlotTaken(1);
+            _slot2=!IsSlotTaken(2);
+            _slot3=!IsSlotTaken(3);
+            _slot4=!IsSlotTaken(4);
+
+            if (!_slot1)
+            {
+                UpdateSlotButtonColor(1, Color.red);
+            }
+            if (!_slot2)
+            {
+                UpdateSlotButtonColor(2, Color.red);
+            }
+
+            if (!_slot3)
+            {
+                UpdateSlotButtonColor(3, Color.red);
+            }
+            if (!_slot4)
+            {
+                UpdateSlotButtonColor(4, Color.red);
+            }
+
     }
     public void ScoreBoardClicked()
     {
@@ -111,11 +171,28 @@ public class MenuMenager : MonoBehaviour
         _LoadSaveView.SetActive(false);
     }
     
-    public void SlotClicked()
+    public void SlotClicked(int slotNumber)
     {
+        _OlafSzpontIndex=SaveManager.GetCurrentUnlockedLevels(slotNumber);
+        Debug.Log("Loaded game from slot: " + slotNumber);
+        
         _LvlView.SetActive(true);
         _LoadSaveView.SetActive(false);
+        
+        for (int i = 0; i < _lVLButtons.Length; i++)
+        {
+            if (i < _OlafSzpontIndex)
+            {
+                _lVLButtons[i].interactable = true;
+            }
+            else
+            {
+                _lVLButtons[i].interactable = false;
+            }
+        }
     }
+    
+    
 
     #endregion
     
@@ -126,9 +203,70 @@ public class MenuMenager : MonoBehaviour
         _NewGameSaveView.SetActive(false);
     }
     
-    public void SlotNewClicked()
+    
+    
+    private bool IsSlotTaken(int slotNumber)
     {
-        _LvlView.SetActive(true);
+        string folderPath = Application.dataPath + "/../"; 
+        string searchPattern = $"slot_{slotNumber}_*"; 
+        string[] files = Directory.GetFiles(folderPath, searchPattern);
+
+        if (files.Length > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void SlotNewClicked(int slotNumber)
+    {
+        _lastClickedSlot=slotNumber;
+        if (IsSlotAvailable(slotNumber))
+            StartNewGame(slotNumber);
+        else
+            HideButton();
+
+        MarkSlotTaken(slotNumber);
+        UpdateSlotButtonColor(slotNumber, Color.red);
+    }
+
+    private bool IsSlotAvailable(int slotNumber)
+    {
+        switch (slotNumber)
+        {
+            case 1: return _slot1;
+            case 2: return _slot2;
+            case 3: return _slot3;
+            case 4: return _slot4;
+            default: return false;
+        }
+    }
+
+    //Do usuniecia
+    private void MarkSlotTaken(int slotNumber)
+    {
+        switch (slotNumber)
+        {
+            case 1: _slot1 = false; break;
+            case 2: _slot2 = false; break;
+            case 3: _slot3 = false; break;
+            case 4: _slot4 = false; break;
+        }
+    }
+
+    private void StartNewGame(int slotNumber)
+    {
+        _NewGameSaveView.SetActive(false);
+        SaveManager.SaveCurrentSlot(slotNumber);
+        SaveManager._currentLevelIndex = 1;
+        SceneManager.LoadScene("Jedrek");
+        Debug.Log("New game started in slot: " + slotNumber);
+    }
+    private void HideButton()
+    {
+        _AreUSureView.SetActive(true);
         _NewGameSaveView.SetActive(false);
     }
 
@@ -160,4 +298,44 @@ public class MenuMenager : MonoBehaviour
     }
 
     #endregion
+    
+    #region AreUSure view
+    public void BackAreUSureClicked()
+    {
+        _NewGameSaveView.SetActive(true);
+        _AreUSureView.SetActive(false);
+    }
+    public void YesAreUSureClicked()
+    {
+        _AreUSureView.SetActive(false);
+        _NewGameSaveView.SetActive(true);
+        UpdateSlotButtonColor(_lastClickedSlot, Color.white);
+        SaveManager.DeleteSaveSlot(_lastClickedSlot);
+        if (_lastClickedSlot==0)
+        {
+            _slot1=true;
+        }
+        if (_lastClickedSlot==1)
+        {
+            _slot2=true;
+        }
+
+        if (_lastClickedSlot == 2)
+        {
+            _slot3=true;
+        }
+        if (_lastClickedSlot == 3)
+        {
+            _slot4=true;
+        }
+    }
+
+    #endregion
+    
+    private void UpdateSlotButtonColor(int slotNumber, Color color)
+    {
+        int idx = slotNumber - 1;
+        var img = _newSlotButtons[idx]?.GetComponent<Image>();
+        if (img != null) img.color = color;
+    }
 }

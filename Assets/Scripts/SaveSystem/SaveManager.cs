@@ -8,7 +8,6 @@ using Vector2 = System.Numerics.Vector2;
 
 public static class SaveManager
 {
-    public static int _unlockedLevels=1;
     public static Vector2 _playerPosiotion=new Vector2(0,0);
     public static int _currentLevelIndex=1;
     public static int _fpsCap=144;
@@ -112,7 +111,7 @@ public static class SaveManager
             
         }
     }
-    public static void SaveGameStateDataXML()
+    public static void SaveGameStateDataXML(Vector2 playerPosition)
     {
         string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
         XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
@@ -150,9 +149,9 @@ public static class SaveManager
         data._hpCounter = Inventory.HpCounter;
         data._secretMapsCounter = Inventory.SecretMapsCounter;
         //globals
-        data._unlockedLevels = SaveManager._unlockedLevels;
+       // data._unlockedLevels = SaveManager._unlockedLevels;
         data._currentLevelIndex = SaveManager._currentLevelIndex;
-        data._playerPosiotion = SaveManager._playerPosiotion;
+        data._playerPosiotion = playerPosition;
         
         //zamknij stream, zapisz
         serializer.Serialize(stream, data);
@@ -200,7 +199,7 @@ public static class SaveManager
         Inventory.SecretMapsCounter = data._secretMapsCounter;
         GameEventSystem.UpdateHUD(Inventory.SecretMapsCounter, HUDType.SecretMap);
         
-        SaveManager._unlockedLevels = data._unlockedLevels;
+      //  SaveManager._unlockedLevels = data._unlockedLevels;
         SaveManager._currentLevelIndex = data._currentLevelIndex;
         SaveManager._playerPosiotion = data._playerPosiotion;
         if (data._shopItems != null)
@@ -244,11 +243,11 @@ public static class SaveManager
             try
             {
                 File.Delete(file);
-                Debug.Log($"✅ Usunięto plik zapisu: {file}");
+                Debug.Log($"Usunięto plik zapisu: {file}");
             }
             catch (IOException e)
             {
-                Debug.LogError($" Nie udało się usunąć pliku {file}: {e.Message}");
+                Debug.LogError($"Nie udało się usunąć pliku {file}: {e.Message}");
             }
         }
         if (files.Length == 0)
@@ -258,4 +257,29 @@ public static class SaveManager
     }
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
+
+    public static void SaveCurrentUnlockedLevels(int currentSlot, int  unlockedLevels)
+    {
+        string key  = "unlocked_levels_on_slot_" + currentSlot;
+        PlayerPrefs.SetInt(key, unlockedLevels);
+    }
+    public static int GetCurrentUnlockedLevels(int currentSlot)
+    {
+        string key  = "unlocked_levels_on_slot_" + currentSlot;
+        return PlayerPrefs.GetInt(key, 1);
+    }
+
+    public static void SaveCurrentLevelIndex(int currentSlot, int currentLevelIndex)
+    {
+        string key  = "current_level_index_" + currentSlot;
+        PlayerPrefs.SetInt(key, currentLevelIndex);
+    }
+    public static int GetCurrentLevel(int currentSlot)
+    {
+        string key  = "current_level_index_" + currentSlot;
+        return PlayerPrefs.GetInt(key, 1);
+    }
+    
+    
+
 }
