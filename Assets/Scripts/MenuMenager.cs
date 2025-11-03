@@ -290,7 +290,7 @@ public class MenuMenager : MonoBehaviour
 
     #endregion
     
-    #region Controls view
+    #region Settings view
     public void BackSettingsClicked()
     {
         _MainView.SetActive(true);
@@ -311,20 +311,20 @@ public class MenuMenager : MonoBehaviour
         _NewGameSaveView.SetActive(true);
         UpdateSlotButtonColor(_lastClickedSlot, Color.white);
         SaveManager.DeleteSaveSlot(_lastClickedSlot);
-        if (_lastClickedSlot==0)
+        if (_lastClickedSlot==1)
         {
             _slot1=true;
         }
-        if (_lastClickedSlot==1)
+        if (_lastClickedSlot==2)
         {
             _slot2=true;
         }
 
-        if (_lastClickedSlot == 2)
+        if (_lastClickedSlot == 3)
         {
             _slot3=true;
         }
-        if (_lastClickedSlot == 3)
+        if (_lastClickedSlot == 4)
         {
             _slot4=true;
         }
