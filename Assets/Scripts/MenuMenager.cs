@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -163,6 +164,19 @@ public class MenuMenager : MonoBehaviour
     
     private bool isSlotTaken(int slotNumber)
     {
+        string folderPath = Application.dataPath + "/../"; 
+        string searchPattern = $"slot_{slotNumber}_*"; 
+        string[] files = Directory.GetFiles(folderPath, searchPattern);
+
+        if (files.Length > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
         // Implement your logic to check if the slot is taken
         return false; // Placeholder
     }
