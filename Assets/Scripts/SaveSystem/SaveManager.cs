@@ -244,11 +244,11 @@ public static class SaveManager
             try
             {
                 File.Delete(file);
-                Debug.Log($"✅ Usunięto plik zapisu: {file}");
+                Debug.Log($"Usunięto plik zapisu: {file}");
             }
             catch (IOException e)
             {
-                Debug.LogError($" Nie udało się usunąć pliku {file}: {e.Message}");
+                Debug.LogError($"Nie udało się usunąć pliku {file}: {e.Message}");
             }
         }
         if (files.Length == 0)
