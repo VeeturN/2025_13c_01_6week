@@ -77,6 +77,7 @@ public class BasicPlayerMovment : MonoBehaviour
        //yyyy powinno dzialac
         SaveManager.LoadGameStateDataXML();
         SaveManager.LoadLevelDataXML(SaveManager._currentLevelIndex);
+        transform.position = new Vector3(SaveManager._playerPosiotion.X, SaveManager._playerPosiotion.Y, 0);
     }
 
     private void OnDestroy()

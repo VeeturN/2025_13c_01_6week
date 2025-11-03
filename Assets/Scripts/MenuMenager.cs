@@ -176,9 +176,6 @@ public class MenuMenager : MonoBehaviour
         {
             return false;
         }
-        
-        // Implement your logic to check if the slot is taken
-        return false; // Placeholder
     }
     public void SlotNewClicked(int slotNumber)
     {

@@ -112,7 +112,7 @@ public static class SaveManager
             
         }
     }
-    public static void SaveGameStateDataXML()
+    public static void SaveGameStateDataXML(Vector2 playerPosition)
     {
         string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
         XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
@@ -152,7 +152,7 @@ public static class SaveManager
         //globals
         data._unlockedLevels = SaveManager._unlockedLevels;
         data._currentLevelIndex = SaveManager._currentLevelIndex;
-        data._playerPosiotion = SaveManager._playerPosiotion;
+        data._playerPosiotion = playerPosition;
         
         //zamknij stream, zapisz
         serializer.Serialize(stream, data);
