@@ -14,6 +14,7 @@ public abstract class MovingEnemyBase : EnemyBase
     private bool _isAlive = true;
     private bool _isTouching;
     private bool _isGrounded;
+    EffectsManager _effectsManager;
 
 
 
@@ -24,7 +25,8 @@ public abstract class MovingEnemyBase : EnemyBase
     protected override void Awake()
     {
         base.Awake();
-        
+
+        _effectsManager = GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>();
         _enemyColiderRadius = GetComponent<CircleCollider2D>().radius;
     }
 
@@ -103,14 +105,14 @@ public abstract class MovingEnemyBase : EnemyBase
 
     public void RunEffect()
     {
-        GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().RunEffect(transform.position + Vector3.down * _enemyColiderRadius / 4, new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z));
+       _effectsManager.RunEffect(transform.position + Vector3.down * _enemyColiderRadius / 4, new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z));
     }
 
     protected virtual void Jump()
     {
         if (Mathf.Abs(_rb.velocity.y) < 0.01f)
         {
-            GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().JumpEffect(transform.position + Vector3.down * _enemyColiderRadius / 4);
+            _effectsManager.JumpEffect(transform.position + Vector3.down * _enemyColiderRadius / 4);
             _rb.AddForce(Vector2.up * Random.Range(3f, 6f), ForceMode2D.Impulse);
         }
     }
@@ -200,7 +202,7 @@ public abstract class MovingEnemyBase : EnemyBase
             _isGrounded = true;
         }
         if (_isGrounded && toPlayFallEffect)
-            GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().FallEffect(transform.position + Vector3.down * _enemyColiderRadius / 5);
+            _effectsManager.FallEffect(transform.position + Vector3.down * _enemyColiderRadius / 5);
 
     }
 
@@ -212,5 +214,10 @@ public abstract class MovingEnemyBase : EnemyBase
     private void Die()
     {
         _isAlive= false;
+    }
+
+    public void SayDead()
+    {
+        _effectsManager.DeadDialogue(transform.position + Vector3.up * _enemyColiderRadius + Vector3.right * _enemyColiderRadius, transform);
     }
 }

@@ -60,3 +60,6 @@ MonoBehaviour:
   _waterSplash:
   - {fileID: 6131026348089983398, guid: fadd88e412c50c14aa4843c7b9469d47, type: 3}
   - {fileID: 2714998844425549367, guid: 2be239cc3342b05479024ba056226a41, type: 3}
+  _deadDialogue: {fileID: 7719382027096275043, guid: ccfb5802d7a79014bb013971a712b99d, type: 3}
+  _exclamationDialogue: {fileID: 7214204125206203598, guid: 042adfc15d7282241a7f909c78849891, type: 3}
+  _interrogationDialogue: {fileID: 8345142128174063299, guid: ff33f648eede00540a6c5e1d32a63f25, type: 3}

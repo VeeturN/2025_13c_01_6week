@@ -75,9 +75,9 @@ public class BasicPlayerMovment : MonoBehaviour
         GameEventSystem.OnAllMapFragmentCollected += SetPlayerCustomSkin;
         Application.targetFrameRate = SaveManager._fpsCap;
        //yyyy powinno dzialac
-        SaveManager.LoadGameStateDataXML();
-        SaveManager.LoadLevelDataXML(SaveManager._currentLevelIndex);
-        transform.position = new Vector3(SaveManager._playerPosiotion.X, SaveManager._playerPosiotion.Y, 0);
+    //    SaveManager.LoadGameStateDataXML();
+    //    SaveManager.LoadLevelDataXML(SaveManager._currentLevelIndex);
+    //    transform.position = new Vector3(SaveManager._playerPosiotion.X, SaveManager._playerPosiotion.Y, 0);
     }
 
     private void OnDestroy()
@@ -443,5 +443,10 @@ public class BasicPlayerMovment : MonoBehaviour
     public void RunEffect()
     {
         _effectsManager.RunEffect(transform.position + Vector3.down * _playerHalfHeight / 5, transform.localScale);
+    }
+
+    public void SayDead()
+    {
+        _effectsManager.DeadDialogue(transform.position + Vector3.up * _playerHalfHeight + Vector3.right * _playerHalfWidth, transform);
     }
 }

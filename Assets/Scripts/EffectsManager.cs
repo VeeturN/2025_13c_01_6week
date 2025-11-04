@@ -14,6 +14,9 @@ public class EffectsManager : MonoBehaviour
     [SerializeField] private EffectScript _pinkStarAttackEffect;
     [SerializeField] private EffectScript _potionEffect;
     [SerializeField] private EffectScript[] _waterSplash = new EffectScript[2];
+    [SerializeField] private EffectScript _deadDialogue;
+    [SerializeField] private EffectScript _exclamationDialogue;
+    [SerializeField] private EffectScript _interrogationDialogue;
 
     public void RunEffect(Vector3 pos, Vector3 scale)
     {
@@ -51,5 +54,17 @@ public class EffectsManager : MonoBehaviour
     public EffectScript[] WaterSplashEffect(Vector3 frontPos, Vector3 backPos)
     {
         return new EffectScript[] { Instantiate(_waterSplash[0],frontPos,Quaternion.identity), Instantiate(_waterSplash[1],backPos,Quaternion.identity) };
+    }
+    public void DeadDialogue(Vector3 pos, Transform parent)
+    {
+        Instantiate(_deadDialogue, pos, Quaternion.identity).transform.SetParent(parent);
+    }
+    public void ExclamationDialogue(Vector3 pos, Transform parent)
+    {
+        Instantiate(_exclamationDialogue, pos, Quaternion.identity).transform.SetParent(parent);
+    }
+    public void InterrogationDialogue(Vector3 pos, Transform parent)
+    {
+        Instantiate(_interrogationDialogue, pos, Quaternion.identity).transform.SetParent(parent);
     }
 }
