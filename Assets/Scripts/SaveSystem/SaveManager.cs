@@ -263,8 +263,6 @@ public static class SaveManager
     
     
     
-    
-    
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
     
@@ -289,12 +287,6 @@ public static class SaveManager
         string key  = "current_level_index_" + currentSlot;
         return PlayerPrefs.GetInt(key, 1);
     }
-    
-    public static Vector3 GetPlayerLastPosition()
-    {
-        return _playerPosiotion;
-    }
-    
     
     
 
