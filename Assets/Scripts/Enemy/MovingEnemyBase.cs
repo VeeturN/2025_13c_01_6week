@@ -10,7 +10,8 @@ public abstract class MovingEnemyBase : EnemyBase
 {
     [SerializeField] protected Transform _patrolPointA;
     [SerializeField] protected Transform patrolPointB;
-    [SerializeField] protected float _speed = 2f;
+    [SerializeField] protected float _speed = 3f;
+    private bool _isAlive = true;
     private bool _isTouching;
     private bool _isGrounded;
 
@@ -30,44 +31,62 @@ public abstract class MovingEnemyBase : EnemyBase
 
     protected virtual void FixedUpdate()
     {
-        _isTouching = Physics2D.Raycast(transform.position + Vector3.down * _enemyColiderRadius / 1.3f + Vector3.right * (_enemyColiderRadius * 2.3f), Vector2.left, 2f, LayerMask.GetMask("Ground"));
-        // csharp
-        Debug.DrawRay(transform.position+Vector3.down*_enemyColiderRadius/1.3f+Vector3.right * (float)(_enemyColiderRadius * 2.3), Vector3.left*2f, Color.red);
-        CheckGround();
-        if (_HP <= 0)
+        if (_isAlive)
         {
-            _animator.SetBool("isDead", true);
-            _animator.SetBool("isAttacking", false);
-            _animator.SetBool("isRunning", false);
-            return;
-        }
-        if (_isHittedInAir) return;
-
-        _animator.SetFloat("isJumping", _rb.velocity.y);
-
-        if (_player != null && IsPlayerInDetectionRange())
-        {
-            MoveTowardsPlayer();
-            if (_isTouching)
+            _isTouching =
+                Physics2D.Raycast(
+                    transform.position + Vector3.down * _enemyColiderRadius / 1.3f +
+                    Vector3.right * (_enemyColiderRadius * 2.3f), Vector2.left, 2f, LayerMask.GetMask("Ground"));
+            Debug.DrawRay(
+                transform.position + Vector3.down * _enemyColiderRadius / 1.3f +
+                Vector3.right * (float)(_enemyColiderRadius * 2.3), Vector3.left * 2f, Color.red);
+            CheckGround();
+            if (_HP <= 0)
             {
-                Jump();
+                _animator.SetBool("isDead", true);
+                _animator.SetBool("isAttacking", false);
+                _animator.SetBool("isRunning", false);
+                return;
             }
-            if (ShouldJump())
-                Jump();
+
+            if (_isHittedInAir) return;
+
+            _animator.SetFloat("isJumping", _rb.velocity.y);
+
+            if (_player != null && IsPlayerInDetectionRange())
+            {
+                MoveTowardsPlayer();
+                if (_isTouching)
+                {
+                    Jump();
+                }
+
+                if (ShouldJump())
+                    Jump();
+            }
+            else
+            {
+                Patrol();
+                if (_isTouching)
+                {
+                    Jump();
+                }
+            }
+
+            HandleAttackTimer();
+
+            UpdateRunAnimation();
+
         }
         else
         {
-            Patrol();
-            if (_isTouching)
+            CheckGround();
+            if (_isGrounded)
             {
-                Jump();
+                _animator.SetBool("isDeadGround", true);
+                
             }
         }
-
-        HandleAttackTimer();
-
-        UpdateRunAnimation();
-        
     }
 
 
@@ -136,7 +155,6 @@ public abstract class MovingEnemyBase : EnemyBase
             Destroy(transform.parent.gameObject);
         }
     }
-    // domyślne implementacje IEnemy - mogą być nadpisane
     public virtual void madeAttack()
     {
         _animator.SetBool("isAttacking", false);
@@ -189,5 +207,10 @@ public abstract class MovingEnemyBase : EnemyBase
     private void OnCollisionExit2D(Collision2D collision)
     {
         _isGrounded = false;
+    }
+
+    private void Die()
+    {
+        _isAlive= false;
     }
 }

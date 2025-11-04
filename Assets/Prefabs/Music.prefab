@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music: {fileID: 8300000, guid: ef7ce0b708eecee428c59fd9f33efb2e, type: 3}
-  volume: 1
+  volume: 0.07
 --- !u!82 &6472837361926521692
 AudioSource:
   m_ObjectHideFlags: 0

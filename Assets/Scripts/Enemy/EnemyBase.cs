@@ -6,7 +6,7 @@ namespace Enemy
     public abstract class EnemyBase:SaveableEnemy, IHitable
     {
         [SerializeField] protected int _startHP = 3;
-        [SerializeField] protected float _attackInterval = 2f;
+        [SerializeField] protected float _attackInterval = 0.04f;
         public Image healthBar;
         protected bool _isHittedInAir = false;
         protected int _HP;

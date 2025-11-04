@@ -41,12 +41,11 @@ public class MovingEnemyRanged : MovingEnemyBase
         if (_player != null && IsPlayerInDetectionRangeShoot())
         {
             _hitTimer += Time.fixedDeltaTime;
-            if (_hitTimer > _attackInterval)
+            if (_hitTimer > 2f)
             {
                 if (_mele && !_animator.GetBool("isShooting"))
                 {
                     _animator.SetBool("isAttacking", true);
-                    _rb.velocity = new Vector2(Mathf.Sign(_player.transform.position.x - transform.position.x) * (_speed * 4f), _rb.velocity.y);
                     _hitTimer = 0f;
                 }
                 else if(!_animator.GetBool("isAttacking"))
@@ -107,5 +106,10 @@ public class MovingEnemyRanged : MovingEnemyBase
         float distance = _col.radius*0.8f;
         Vector3 effectPos = transform.position + new Vector3(0f, -distance, 0f);
         GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>().PinkStarAttackEffect(effectPos, transform.localScale);
+    }
+
+    public void StartRolling()
+    {
+        _rb.velocity = new Vector2(Mathf.Sign(_player.transform.position.x - transform.position.x) * (_speed * 4f), _rb.velocity.y);
     }
 }

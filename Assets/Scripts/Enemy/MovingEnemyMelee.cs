@@ -24,11 +24,13 @@ public class MovingEnemyMelee : MovingEnemyBase
         if (Mathf.Abs(deltaX) > 0.2f)
         {
             float direction = Mathf.Sign(deltaX);
-            _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
+            if (!_animator.GetBool("isAttacking"))
+                _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         }
         else
         {
-            _rb.velocity = new Vector2(0, _rb.velocity.y);
+            if (!_animator.GetBool("isAttacking"))
+                _rb.velocity = new Vector2(0, _rb.velocity.y);
         }
     }
 
@@ -45,7 +47,7 @@ public class MovingEnemyMelee : MovingEnemyBase
         }
         else
         {
-            _hitTimer = 0f;
+            //_hitTimer = 0f;
         }
     }
 
