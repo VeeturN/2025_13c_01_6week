@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -42,6 +43,14 @@ public class MenuMenager : MonoBehaviour
         _ControlsView.SetActive(false);
         _SettingsView.SetActive(false);
         _AreUSureView.SetActive(false);
+    }
+
+    private void Start()
+    {
+        if (!isAnySlotTaken())
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 
     #region Main view
@@ -141,10 +150,23 @@ public class MenuMenager : MonoBehaviour
     #endregion
     
     #region Lvl view
-
+    
+    
+    private int ExtractLevelIndex(string levelName)
+    {
+        Match match = Regex.Match(levelName, @"\d+");
+        if (match.Success)
+        {
+          
+            return int.Parse(match.Value);
+        }
+        return 0;
+    }
     public void LoadLevel(string levelName)
     {
+        int levelIndex = ExtractLevelIndex(levelName);
         SceneManager.LoadScene(levelName);
+        SaveManager.SaveCurrentLevelIndex(SaveManager.GetCurrentSlot(),levelIndex);
     }
 
     public void BackLvlClicked()
