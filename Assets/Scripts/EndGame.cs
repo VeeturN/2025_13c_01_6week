@@ -7,17 +7,21 @@ public class EndGame : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //jesli odblokujemy nowy poziom ale jeszce bez sprawdzenia
-            //i jednoczesnie zapisz poziom
             SaveManager.SaveGameStateDataXML();
             SaveManager.SaveLevelDataXML(SaveManager._currentLevelIndex, other.transform.position);
             
             int currSlot = SaveManager.GetCurrentSlot();
             int juzOdblowkowane = SaveManager.GetCurrentUnlockedLevels(currSlot);
-            
-            SaveManager.SaveCurrentUnlockedLevels(currSlot, juzOdblowkowane+1);
-            SceneManager.LoadScene(sceneToLoad);
+
+            if (SaveManager._currentLevelIndex < juzOdblowkowane)
+            {
+                SceneManager.LoadScene(sceneToLoad);
+            }
+            else
+            {
+                SaveManager.SaveCurrentUnlockedLevels(currSlot, juzOdblowkowane+1);
+                SceneManager.LoadScene(sceneToLoad);
+            }
         }
-        
     }
 }
