@@ -10,5 +10,6 @@ public class EndGame : MonoBehaviour
             //tutaj zrobimy drugiego if na warunken np score
             SceneManager.LoadScene(sceneToLoad);
         }
+        
     }
 }

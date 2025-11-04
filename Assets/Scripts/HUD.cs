@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class HUD : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -23,7 +24,12 @@ public class HUD : MonoBehaviour
     [SerializeField] private Image secretMapTopLeft;
     [SerializeField] private Image secretMapBottomRight;
     [SerializeField] private Image secretMapBottomLeft;
+    [SerializeField] private GameObject Exit;
     private int maxHp = 10;
+    
+    private float _savedTimeScale = 1f;
+    private float _savedFixedDeltaTime = 0.02f;
+    
     private void Awake()
     {
         scoreText.text = "0";
@@ -41,6 +47,32 @@ public class HUD : MonoBehaviour
         secretMapBottomRight.enabled = false;
         secretMapBottomLeft.enabled = false;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            bool willOpen = !Exit.activeSelf;
+            Exit.SetActive(willOpen);
+
+            if (willOpen) 
+            {
+                _savedTimeScale = Time.timeScale;
+                _savedFixedDeltaTime = Time.fixedDeltaTime;
+                Time.timeScale = 0f;
+                Time.fixedDeltaTime = 0f;
+                AudioListener.pause = true;
+            }
+            else 
+            {
+                Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
+                Time.fixedDeltaTime = _savedFixedDeltaTime > 0f ? _savedFixedDeltaTime : 0.02f;
+                AudioListener.pause = false;
+            }
+        }
+    }
+
     private void Start()
     {
         GameEventSystem.OnHUDParameterChanged += UpdateHUD;
@@ -108,5 +140,25 @@ public class HUD : MonoBehaviour
                 hpStrenght.fillAmount = x;
                 break;
         }
+    }
+    
+    public void Resume()
+    {
+        if (Exit.activeSelf)
+            Exit.SetActive(false);
+        
+        Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
+        Time.fixedDeltaTime = _savedFixedDeltaTime > 0f ? _savedFixedDeltaTime : 0.02f;
+        AudioListener.pause = false;
+    }
+    
+    public void ExitToMainMenu()
+    {
+        if (Exit.activeSelf)
+            Exit.SetActive(false);
+
+        Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
+        Time.fixedDeltaTime = _savedFixedDeltaTime > 0f ? _savedFixedDeltaTime : 0.02f;
+        AudioListener.pause = false;
     }
 }
