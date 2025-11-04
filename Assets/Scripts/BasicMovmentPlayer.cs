@@ -114,8 +114,15 @@ public class BasicPlayerMovment : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(!_isAlive)
-            _rb.velocity = Vector2.zero;
+        if (!_isAlive)
+        {
+            CheckGround();
+            if (_isGrounded)
+            {
+                _animator.SetBool("isDeadGround",true);
+                _rb.velocity = Vector3.zero;
+            }
+        }
         else if (!_isHittedInAir && !_stopMovement)
         {
             _rb.velocity = new Vector2(_xinput * _speed, _rb.velocity.y);
@@ -162,7 +169,11 @@ public class BasicPlayerMovment : MonoBehaviour
         }
         if (_isGrounded && toPlayFallEffect)
             _effectsManager.FallEffect(transform.position + Vector3.down * _playerHalfHeight / 5);
-
+        if (_isGrounded && toPlayFallEffect)
+        {
+            _animator.SetBool("isFalling", false);
+            _animator.SetBool("isGround", true);
+        }
     }
 
     private void Attack()
@@ -201,6 +212,11 @@ public class BasicPlayerMovment : MonoBehaviour
         _dash = false;
         _canDash = false;
         _rb.gravityScale = 0;
+    }
+
+    public void EndGroundAnim()
+    {
+        _animator.SetBool("isGround", false);
     }
 
     private void CheckDash()
@@ -272,6 +288,7 @@ public class BasicPlayerMovment : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         _isGrounded = false;
+        _animator.SetBool("isGround", false);
     }
     //animacja nie tykać
     public void SpawnSword()
