@@ -8,10 +8,10 @@ using Vector2 = System.Numerics.Vector2;
 
 public static class SaveManager
 {
-    public static Vector2 _playerPosiotion=new Vector2(0,0);
-    public static int _currentLevelIndex=1;
+    private static Vector3 _playerPosiotion;
+    public static int _currentLevelIndex;
     public static int _fpsCap=144;
-    public static void SaveLevelDataXML(int levelNumber) {
+    public static void SaveLevelDataXML(int levelNumber, Vector3 position) {
         XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
         string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
         FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
@@ -19,7 +19,8 @@ public static class SaveManager
         
         data._saveables = new List<SaveableDTO>();
         data._saveableEnemies = new List<SaveableEnemyDTO>();
-        data._levelId = 1;
+        data._position = position;
+        data._levelId=levelNumber;
         
         //collectibles
         var savables = Object.FindObjectsOfType<Saveable>();
@@ -46,12 +47,12 @@ public static class SaveManager
             };
             data._saveableEnemies.Add(coinData);
         }
-        
+        Debug.Log("Saved " + saveFileName);
         
         serializer.Serialize(stream, data);
         stream.Close();
     }
-    public static void LoadLevelDataXML(int levelNumber) {
+    public static void LoadLevelDataXML(int levelNumber, BasicPlayerMovment player) {
         string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
         string fullPath = Application.dataPath + $"/../{saveFileName}";
         
@@ -71,7 +72,9 @@ public static class SaveManager
             Debug.LogError($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
             return;
         }
-        
+
+        SaveManager._playerPosiotion = data._position;
+        player.transform.position = data._position;
         var saveables = Object.FindObjectsOfType<Saveable>();
         foreach (var saveable in saveables)
         {   
@@ -110,8 +113,9 @@ public static class SaveManager
             );
             
         }
+        Debug.Log("Loaded " + saveFileName);
     }
-    public static void SaveGameStateDataXML(Vector2 playerPosition)
+    public static void SaveGameStateDataXML()
     {
         string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
         XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
@@ -151,11 +155,12 @@ public static class SaveManager
         //globals
        // data._unlockedLevels = SaveManager._unlockedLevels;
         data._currentLevelIndex = SaveManager._currentLevelIndex;
-        data._playerPosiotion = playerPosition;
+       
         
         //zamknij stream, zapisz
         serializer.Serialize(stream, data);
         stream.Close();
+        Debug.Log("Saved " + saveFileName);
     }
     public static void LoadGameStateDataXML()
     {
@@ -201,7 +206,6 @@ public static class SaveManager
         
       //  SaveManager._unlockedLevels = data._unlockedLevels;
         SaveManager._currentLevelIndex = data._currentLevelIndex;
-        SaveManager._playerPosiotion = data._playerPosiotion;
         if (data._shopItems != null)
         {
             foreach (var item in data._shopItems)
@@ -232,6 +236,7 @@ public static class SaveManager
                 }
             }
         }
+        Debug.Log("Loaded" +saveFileName);
     }
     public static void DeleteSaveSlot(int slotNumber)
     {
@@ -255,9 +260,14 @@ public static class SaveManager
             Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
         } 
     }
+    
+    
+    
+    
+    
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
-
+    
     public static void SaveCurrentUnlockedLevels(int currentSlot, int  unlockedLevels)
     {
         string key  = "unlocked_levels_on_slot_" + currentSlot;
@@ -268,7 +278,7 @@ public static class SaveManager
         string key  = "unlocked_levels_on_slot_" + currentSlot;
         return PlayerPrefs.GetInt(key, 1);
     }
-
+    
     public static void SaveCurrentLevelIndex(int currentSlot, int currentLevelIndex)
     {
         string key  = "current_level_index_" + currentSlot;
@@ -279,6 +289,12 @@ public static class SaveManager
         string key  = "current_level_index_" + currentSlot;
         return PlayerPrefs.GetInt(key, 1);
     }
+    
+    public static Vector3 GetPlayerLastPosition()
+    {
+        return _playerPosiotion;
+    }
+    
     
     
 

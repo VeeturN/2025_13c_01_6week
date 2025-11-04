@@ -69,15 +69,15 @@ public class BasicPlayerMovment : MonoBehaviour
         
         
     }
+    
     public void Start()
     {
         GameEventSystem.OnUseItem += UseItem;
         GameEventSystem.OnAllMapFragmentCollected += SetPlayerCustomSkin;
         Application.targetFrameRate = SaveManager._fpsCap;
-       //yyyy powinno dzialac
-    //    SaveManager.LoadGameStateDataXML();
-    //    SaveManager.LoadLevelDataXML(SaveManager._currentLevelIndex);
-    //    transform.position = new Vector3(SaveManager._playerPosiotion.X, SaveManager._playerPosiotion.Y, 0);
+        PlayerPrefs.DeleteAll();
+        SaveManager.LoadGameStateDataXML();
+        SaveManager.LoadLevelDataXML(SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()), this);
     }
 
     private void OnDestroy()

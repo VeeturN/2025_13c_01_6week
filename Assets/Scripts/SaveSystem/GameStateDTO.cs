@@ -5,7 +5,6 @@ using SaveSystem;
 public class GameStateDTO
 {
     public int _unlockedLevels;
-    public Vector2 _playerPosiotion;
     public int _currentLevelIndex;
     //eq
     public int _score;

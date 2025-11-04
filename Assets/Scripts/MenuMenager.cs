@@ -244,6 +244,22 @@ public class MenuMenager : MonoBehaviour
         }
     }
 
+    private bool isAnySlotTaken()
+    {
+        string folderPath = Application.dataPath + "/../"; 
+        string searchPattern = $"slot_*"; 
+        string[] files = Directory.GetFiles(folderPath, searchPattern);
+
+        if (files.Length > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     //Do usuniecia
     private void MarkSlotTaken(int slotNumber)
     {
@@ -260,7 +276,7 @@ public class MenuMenager : MonoBehaviour
     {
         _NewGameSaveView.SetActive(false);
         SaveManager.SaveCurrentSlot(slotNumber);
-        SaveManager._currentLevelIndex = 1;
+        SaveManager.SaveCurrentLevelIndex(slotNumber, 1);
         SceneManager.LoadScene("Jedrek");
         Debug.Log("New game started in slot: " + slotNumber);
     }
