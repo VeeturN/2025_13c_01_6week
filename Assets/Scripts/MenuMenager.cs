@@ -57,8 +57,7 @@ public class MenuMenager : MonoBehaviour
 
     public void StartClicked()
     {
-        _MainView.SetActive(false);
-        _LvlView.SetActive(true);
+        SceneManager.LoadScene("Tutorial");
     }
     public void CreditsClicked()
     {
