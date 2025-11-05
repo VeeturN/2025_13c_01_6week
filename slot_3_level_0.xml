@@ -3,162 +3,10 @@
   <_levelId>0</_levelId>
   <_saveables>
     <SaveableDTO>
-      <id>5a31a7d9-607c-4a93-9e6f-8bde752447e2</id>
-      <position>
-        <X>34.71</X>
-        <Y>34.51</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>6a130641-9a41-488f-b191-4b7956a379bb</id>
-      <position>
-        <X>132.93</X>
-        <Y>56.53</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>deb7f657-754d-4e16-8aa9-c5f0a5aedb12</id>
-      <position>
-        <X>126.77356</X>
-        <Y>56.67805</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>42f6ee74-7954-4e6e-a1c7-6dd89038a520</id>
-      <position>
-        <X>31.640213</X>
-        <Y>16.5331459</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>3ca0f9ad-284d-4558-9489-e4f850bf6430</id>
-      <position>
-        <X>26.1781578</X>
-        <Y>36.8207321</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>c1736493-7873-4bb2-a6fc-5126b889fc02</id>
-      <position>
-        <X>121.817329</X>
-        <Y>53.0255432</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>089141a7-cbd9-433b-93f9-4f6af8502689</id>
-      <position>
-        <X>58.6133957</X>
-        <Y>46.6337662</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>a701e205-bbc3-4bdc-b7d4-2e3aa64b32d8</id>
-      <position>
-        <X>124.989021</X>
-        <Y>56.6317</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>6771e9dc-b518-47e9-8468-d90de7fd1108</id>
-      <position>
-        <X>72.04946</X>
-        <Y>36.6169662</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>cab33549-5799-4649-b385-d0b172822209</id>
-      <position>
-        <X>41.77323</X>
-        <Y>34.4017258</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>f701ade9-f9f0-4c1d-83e1-d26fd834380a</id>
-      <position>
-        <X>118.825661</X>
-        <Y>67.44966</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>cfb0ebcf-8f3e-4ec1-ba84-a494e782ded0</id>
-      <position>
-        <X>94.59125</X>
-        <Y>36.37559</Y>
-      </position>
-      <isOnScene>false</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>45de3b26-2b47-4bef-9608-3d171c87adf7</id>
-      <position>
-        <X>75.4534</X>
-        <Y>46.6237679</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>8c29f719-a4ff-41ec-b5f7-1048dc666273</id>
-      <position>
-        <X>23.9673061</X>
-        <Y>32.1687431</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>61eaa462-e26e-4079-bc60-f3b713c7c9c1</id>
-      <position>
-        <X>110.990341</X>
-        <Y>67.6633453</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>9a24e3e9-f194-4c42-bc82-7bd8d326bf6a</id>
-      <position>
-        <X>41.7621651</X>
-        <Y>61.36213</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
       <id>bc7cf9a3-8496-47ec-bfe0-196f4b6472fe</id>
       <position>
         <X>29.4472046</X>
         <Y>31.4715652</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>d1e1cb64-225c-49be-83b7-097402bf8309</id>
-      <position>
-        <X>43.6040421</X>
-        <Y>58.90499</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>e1490604-3a32-4cf2-9011-e38262b7c96d</id>
-      <position>
-        <X>38.18</X>
-        <Y>34.53</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>ff9493d0-b4b4-4b7f-9dfa-954ec32d99a6</id>
-      <position>
-        <X>36.41</X>
-        <Y>34.51</Y>
       </position>
       <isOnScene>true</isOnScene>
     </SaveableDTO>
@@ -171,34 +19,10 @@
       <isOnScene>false</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
-      <id>11051ac9-ef70-43f7-b62a-4a6f3fb5827b</id>
+      <id>edad3893-f38e-411e-adc1-770c04a83f47</id>
       <position>
-        <X>113.056015</X>
-        <Y>56.6939</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>09a52084-d559-456a-a524-b5cbbdbd7eec</id>
-      <position>
-        <X>93.46124</X>
-        <Y>36.3455925</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>5fe5de37-044f-4953-b4a8-971a06d690a6</id>
-      <position>
-        <X>64.0634</X>
-        <Y>52.57377</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>69810238-2f0a-495d-be6a-3d52305c3cd6</id>
-      <position>
-        <X>36.51</X>
-        <Y>37.33</Y>
+        <X>100.555115</X>
+        <Y>67.41404</Y>
       </position>
       <isOnScene>true</isOnScene>
     </SaveableDTO>
@@ -211,36 +35,20 @@
       <isOnScene>true</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
-      <id>1fe6b16c-08ee-4dc4-a660-95342cf8464a</id>
+      <id>c1736493-7873-4bb2-a6fc-5126b889fc02</id>
       <position>
-        <X>50.0624352</X>
-        <Y>25.5002155</Y>
+        <X>121.817329</X>
+        <Y>53.0255432</Y>
       </position>
       <isOnScene>true</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
-      <id>cc259a3b-eaa7-4750-85cf-1676b2450344</id>
+      <id>deb7f657-754d-4e16-8aa9-c5f0a5aedb12</id>
       <position>
-        <X>35.59</X>
-        <Y>37.28</Y>
+        <X>126.77356</X>
+        <Y>56.67805</Y>
       </position>
       <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>edad3893-f38e-411e-adc1-770c04a83f47</id>
-      <position>
-        <X>100.555115</X>
-        <Y>67.41404</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>6b249d75-21db-4400-a811-8c24a45cd89f</id>
-      <position>
-        <X>77.83903</X>
-        <Y>79.6285858</Y>
-      </position>
-      <isOnScene>false</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
       <id>2d2d2d5a-4277-4f93-9f32-d8211e336b5d</id>
@@ -251,18 +59,34 @@
       <isOnScene>true</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
-      <id>c9149a3b-2f36-46cf-91a2-d46c5a1ea39e</id>
+      <id>8c29f719-a4ff-41ec-b5f7-1048dc666273</id>
       <position>
-        <X>42.6692657</X>
-        <Y>61.3265572</Y>
+        <X>23.9673061</X>
+        <Y>32.1687431</Y>
       </position>
       <isOnScene>true</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
-      <id>2c7c35c0-e08e-454d-811e-30c3e77875e2</id>
+      <id>6a130641-9a41-488f-b191-4b7956a379bb</id>
       <position>
-        <X>66.4134</X>
-        <Y>39.2837677</Y>
+        <X>132.93</X>
+        <Y>56.53</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>ff9493d0-b4b4-4b7f-9dfa-954ec32d99a6</id>
+      <position>
+        <X>36.41</X>
+        <Y>34.51</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>42f6ee74-7954-4e6e-a1c7-6dd89038a520</id>
+      <position>
+        <X>31.640213</X>
+        <Y>16.5331459</Y>
       </position>
       <isOnScene>true</isOnScene>
     </SaveableDTO>
@@ -275,6 +99,30 @@
       <isOnScene>true</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
+      <id>61eaa462-e26e-4079-bc60-f3b713c7c9c1</id>
+      <position>
+        <X>110.990341</X>
+        <Y>67.6633453</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>cfb0ebcf-8f3e-4ec1-ba84-a494e782ded0</id>
+      <position>
+        <X>94.59125</X>
+        <Y>36.37559</Y>
+      </position>
+      <isOnScene>false</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>bbbba7b6-9b86-489d-8264-870adc620a70</id>
+      <position>
+        <X>92.39124</X>
+        <Y>36.4055939</Y>
+      </position>
+      <isOnScene>false</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
       <id>5cdab023-6a19-4508-abfd-35a7ece764d5</id>
       <position>
         <X>113.305321</X>
@@ -283,18 +131,10 @@
       <isOnScene>true</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
-      <id>5d0ac8b2-c4b5-48a7-a841-5082ca95384e</id>
+      <id>2c7c35c0-e08e-454d-811e-30c3e77875e2</id>
       <position>
-        <X>25.9844685</X>
-        <Y>26.7547379</Y>
-      </position>
-      <isOnScene>true</isOnScene>
-    </SaveableDTO>
-    <SaveableDTO>
-      <id>eb01f49c-fbbd-4da2-b5f4-83bd8cb6c781</id>
-      <position>
-        <X>101.944069</X>
-        <Y>57.6911278</Y>
+        <X>66.4134</X>
+        <Y>39.2837677</Y>
       </position>
       <isOnScene>true</isOnScene>
     </SaveableDTO>
@@ -307,6 +147,174 @@
       <isOnScene>true</isOnScene>
     </SaveableDTO>
     <SaveableDTO>
+      <id>45de3b26-2b47-4bef-9608-3d171c87adf7</id>
+      <position>
+        <X>75.4534</X>
+        <Y>46.6237679</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>089141a7-cbd9-433b-93f9-4f6af8502689</id>
+      <position>
+        <X>58.6133957</X>
+        <Y>46.6337662</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>cab33549-5799-4649-b385-d0b172822209</id>
+      <position>
+        <X>41.77323</X>
+        <Y>34.4017258</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>e1490604-3a32-4cf2-9011-e38262b7c96d</id>
+      <position>
+        <X>38.18</X>
+        <Y>34.53</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>f701ade9-f9f0-4c1d-83e1-d26fd834380a</id>
+      <position>
+        <X>118.825661</X>
+        <Y>67.44966</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>5fe5de37-044f-4953-b4a8-971a06d690a6</id>
+      <position>
+        <X>64.0634</X>
+        <Y>52.57377</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>9a24e3e9-f194-4c42-bc82-7bd8d326bf6a</id>
+      <position>
+        <X>41.7621651</X>
+        <Y>61.36213</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>a701e205-bbc3-4bdc-b7d4-2e3aa64b32d8</id>
+      <position>
+        <X>124.989021</X>
+        <Y>56.6317</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>11051ac9-ef70-43f7-b62a-4a6f3fb5827b</id>
+      <position>
+        <X>113.056015</X>
+        <Y>56.6939</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>6b249d75-21db-4400-a811-8c24a45cd89f</id>
+      <position>
+        <X>77.83903</X>
+        <Y>79.6285858</Y>
+      </position>
+      <isOnScene>false</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>d1e1cb64-225c-49be-83b7-097402bf8309</id>
+      <position>
+        <X>43.6040421</X>
+        <Y>58.90499</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>1fe6b16c-08ee-4dc4-a660-95342cf8464a</id>
+      <position>
+        <X>50.0624352</X>
+        <Y>25.5002155</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>eb01f49c-fbbd-4da2-b5f4-83bd8cb6c781</id>
+      <position>
+        <X>101.944069</X>
+        <Y>57.6911278</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>5d0ac8b2-c4b5-48a7-a841-5082ca95384e</id>
+      <position>
+        <X>25.9844685</X>
+        <Y>26.7547379</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>3ca0f9ad-284d-4558-9489-e4f850bf6430</id>
+      <position>
+        <X>26.1781578</X>
+        <Y>36.8207321</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>6771e9dc-b518-47e9-8468-d90de7fd1108</id>
+      <position>
+        <X>72.04946</X>
+        <Y>36.6169662</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>69810238-2f0a-495d-be6a-3d52305c3cd6</id>
+      <position>
+        <X>36.51</X>
+        <Y>37.33</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>5a31a7d9-607c-4a93-9e6f-8bde752447e2</id>
+      <position>
+        <X>34.71</X>
+        <Y>34.51</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>cc259a3b-eaa7-4750-85cf-1676b2450344</id>
+      <position>
+        <X>35.59</X>
+        <Y>37.28</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>09a52084-d559-456a-a524-b5cbbdbd7eec</id>
+      <position>
+        <X>93.46124</X>
+        <Y>36.3455925</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>c9149a3b-2f36-46cf-91a2-d46c5a1ea39e</id>
+      <position>
+        <X>42.6692657</X>
+        <Y>61.3265572</Y>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
       <id>9228981f-fe3b-441c-8b94-8a0486232e6b</id>
       <position>
         <X>79.60053</X>
@@ -314,19 +322,11 @@
       </position>
       <isOnScene>true</isOnScene>
     </SaveableDTO>
-    <SaveableDTO>
-      <id>bbbba7b6-9b86-489d-8264-870adc620a70</id>
-      <position>
-        <X>92.39124</X>
-        <Y>36.4055939</Y>
-      </position>
-      <isOnScene>false</isOnScene>
-    </SaveableDTO>
   </_saveables>
   <_saveableEnemies />
   <_position>
-    <x>-11.0411577</x>
-    <y>0.0534426272</y>
+    <x>-11.0812607</x>
+    <y>0.79226017</y>
     <z>0</z>
   </_position>
 </SaveLevelDataDTO>
