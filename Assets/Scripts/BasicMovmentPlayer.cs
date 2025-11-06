@@ -157,9 +157,10 @@ public class BasicPlayerMovment : MonoBehaviour
         bool toPlayFallEffect = !_isGrounded;
         Debug.DrawRay(transform.position + Vector3.right * _playerHalfWidth / 2, Vector2.down * _playerHalfHeight, Color.red);
         Debug.DrawRay(transform.position + Vector3.left * _playerHalfWidth / 2, Vector2.down * _playerHalfHeight, Color.red);
-        if ((Physics2D.Raycast(transform.position + Vector3.right * _playerHalfWidth / 2, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")) ||
-            Physics2D.Raycast(transform.position + Vector3.left * _playerHalfWidth / 2, Vector2.down, _playerHalfHeight, LayerMask.GetMask("Ground")))
-            && _rb.velocity.y <= 0)
+        int mask = LayerMask.GetMask("Ground") | LayerMask.GetMask("Enemy");
+        if ((Physics2D.Raycast(transform.position + Vector3.right * _playerHalfWidth / 2, Vector2.down, _playerHalfHeight, mask) ||
+             Physics2D.Raycast(transform.position + Vector3.left * _playerHalfWidth / 2, Vector2.down, _playerHalfHeight, mask))
+             && _rb.velocity.y <= 0)
         {
             _isGrounded = true;
             _canDash = true;
