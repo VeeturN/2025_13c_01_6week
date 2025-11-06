@@ -46,6 +46,11 @@ public class HUD : MonoBehaviour
         secretMapTopLeft.enabled = false;
         secretMapBottomRight.enabled = false;
         secretMapBottomLeft.enabled = false;
+        
+        
+        GameEventSystem.OnHUDParameterChanged += UpdateHUD;
+        GameEventSystem.OnMapFragmentCollected += UpdateSecretMapsField;
+        GameEventSystem.OnPotionTimeChaged += UpdatePotionBar;
     }
 
     private void Update()
@@ -75,9 +80,7 @@ public class HUD : MonoBehaviour
 
     private void Start()
     {
-        GameEventSystem.OnHUDParameterChanged += UpdateHUD;
-        GameEventSystem.OnMapFragmentCollected += UpdateSecretMapsField;
-        GameEventSystem.OnPotionTimeChaged += UpdatePotionBar;
+      
     }
     private void OnDestroy()
     {
