@@ -33,9 +33,9 @@ public class MainMenuPopup : MonoBehaviour
     }
     public void LeftHide()
     {
-        Debug.Log("Zestalo sie 1");
+      //  Debug.Log("Zestalo sie 1");
         rectTransform.position = startPos;
-        Debug.Log("Zestalo sie 2");
+      //  Debug.Log("Zestalo sie 2");
         StartCoroutine(HideLeftCoroutine());
     }
     public void RightHide()

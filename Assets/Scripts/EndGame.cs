@@ -7,20 +7,20 @@ public class EndGame : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SaveManager.SaveGameStateDataXML();
-            SaveManager.SaveLevelDataXML(SaveManager._currentLevelIndex, other.transform.position);
-            
             int currSlot = SaveManager.GetCurrentSlot();
             int juzOdblowkowane = SaveManager.GetCurrentUnlockedLevels(currSlot);
 
-            if (SaveManager._currentLevelIndex < juzOdblowkowane)
+            if (SaveManager.GetCurrentLevel(currSlot) < juzOdblowkowane)
             {
+                SaveManager.SaveCurrentLevelIndex(currSlot,SaveManager.GetCurrentLevel(currSlot)+1);
                 SceneManager.LoadScene(sceneToLoad);
             }
             else
             {
-                SaveManager.SaveCurrentUnlockedLevels(currSlot, juzOdblowkowane+1);
+                SaveManager.SaveCurrentUnlockedLevels(currSlot, SaveManager.GetCurrentLevel(currSlot)+1);
+                SaveManager.SaveCurrentLevelIndex(currSlot,SaveManager.GetCurrentLevel(currSlot)+1);
                 SceneManager.LoadScene(sceneToLoad);
+                Debug.Log(SaveManager.GetCurrentUnlockedLevels(currSlot));
             }
         }
     }

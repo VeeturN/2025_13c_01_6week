@@ -204,6 +204,8 @@ public static class SaveManager
         Inventory.SecretMapsCounter = data._secretMapsCounter;
         GameEventSystem.UpdateHUD(Inventory.SecretMapsCounter, HUDType.SecretMap);
         
+        
+        
       //  SaveManager._unlockedLevels = data._unlockedLevels;
         SaveManager._currentLevelIndex = data._currentLevelIndex;
         if (data._shopItems != null)

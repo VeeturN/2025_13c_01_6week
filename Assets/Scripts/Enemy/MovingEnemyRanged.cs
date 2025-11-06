@@ -79,7 +79,7 @@ public class MovingEnemyRanged : MovingEnemyBase
     {
         if (_bulletPrefab != null && _shootPoint != null && _player != null)
         {
-            Debug.Log("CFEL");
+            //Debug.Log("CFEL");
             Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity)
                 .GetComponent<EnemyBullet>()
                 .Init(_player.transform.position - _shootPoint.position);

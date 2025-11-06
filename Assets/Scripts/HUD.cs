@@ -111,6 +111,7 @@ public class HUD : MonoBehaviour
                 break;
             case HUDType.Hp:
                 hpBar.fillAmount = (float)currentValue/maxHp;
+                Debug.Log($"HP currnet: {currentValue}/{maxHp}");
                 break;
             case HUDType.Ammo:
                 amoText.text = currentValue+"";

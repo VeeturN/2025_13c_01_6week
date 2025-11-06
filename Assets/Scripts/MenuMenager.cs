@@ -192,8 +192,10 @@ public class MenuMenager : MonoBehaviour
     public void SlotClicked(int slotNumber)
     {
         _OlafSzpontIndex=SaveManager.GetCurrentUnlockedLevels(slotNumber);
-        Debug.Log(SaveManager.GetCurrentUnlockedLevels(slotNumber));
-        Debug.Log("Loaded game from slot: " + slotNumber);
+        SaveManager.SaveCurrentSlot(slotNumber);
+        
+      //  Debug.Log(SaveManager.GetCurrentUnlockedLevels(slotNumber));
+     //   Debug.Log("Loaded game from slot: " + slotNumber);
         
         _LvlView.RightShow();
         _LoadSaveView.LeftHide();
@@ -297,7 +299,7 @@ public class MenuMenager : MonoBehaviour
         SaveManager.SaveCurrentSlot(slotNumber);
         SaveManager.SaveCurrentLevelIndex(slotNumber, 1);
         SceneManager.LoadScene("Level1");
-        Debug.Log("New game started in slot: " + slotNumber);
+      //  Debug.Log("New game started in slot: " + slotNumber);
     }
     private void HideButton()
     {
@@ -346,6 +348,11 @@ public class MenuMenager : MonoBehaviour
         _NewGameSaveView.RightShow();
         UpdateSlotButtonColor(_lastClickedSlot, Color.white);
         SaveManager.DeleteSaveSlot(_lastClickedSlot);
+        if (!isAnySlotTaken())
+        {
+            PlayerPrefs.DeleteAll();
+        }
+        
         if (_lastClickedSlot==1)
         {
             _slot1=true;
@@ -363,6 +370,7 @@ public class MenuMenager : MonoBehaviour
         {
             _slot4=true;
         }
+        
     }
 
     #endregion
