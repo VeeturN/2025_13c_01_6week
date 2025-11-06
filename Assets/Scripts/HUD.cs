@@ -24,11 +24,14 @@ public class HUD : MonoBehaviour
     [SerializeField] private Image secretMapTopLeft;
     [SerializeField] private Image secretMapBottomRight;
     [SerializeField] private Image secretMapBottomLeft;
-    [SerializeField] private GameObject Exit;
-    private int maxHp = 10;
     
-    private float _savedTimeScale = 1f;
-    private float _savedFixedDeltaTime = 0.02f;
+    [SerializeField] private GameObject Exit;
+    [SerializeField] private GameObject ScoreBoardView;
+
+    private int maxHp = 10;
+
+    protected float _savedTimeScale = 1f;
+    protected float _savedFixedDeltaTime = 0.02f;
     
     private void Awake()
     {
@@ -55,7 +58,7 @@ public class HUD : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !ScoreBoardView.activeSelf)
         {
 
             bool willOpen = !Exit.activeSelf;
@@ -168,4 +171,22 @@ public class HUD : MonoBehaviour
 
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void StopAndShowScoreBoard()
+    {
+        Time.timeScale = 0f;
+        Time.fixedDeltaTime = 0f;
+        AudioListener.pause = true;
+        
+        ScoreBoardView.SetActive(true);
+    }
+
+    public int GetScore()
+    {
+        scoreText.text = scoreText.text.Trim();
+        if (int.TryParse(scoreText.text, out int score)) 
+            return score;
+        return 0;
+    }
+
 }
