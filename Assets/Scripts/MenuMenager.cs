@@ -32,21 +32,18 @@ public class MenuMenager : MonoBehaviour
     private int _lastClickedSlot = -1;
     private int _OlafSzpontIndex = 0;
 
-    public void Awake()
-    {
-        _MainView.gameObject.SetActive(true);
-        _LvlView.gameObject.SetActive(false);
-        _CreditsView.gameObject.SetActive(false);
-        _LoadSaveView.gameObject.SetActive(false);
-        _NewGameSaveView.gameObject.SetActive(false);
-        _ScoreBoardView.gameObject.SetActive(false);
-        _ControlsView.gameObject.SetActive(false);
-        _SettingsView.gameObject.SetActive(false);
-        _AreUSureView.gameObject.SetActive(false);
-    }
-
     private void Start()
     {
+        _MainView.gameObject.SetActive(true);
+        _LvlView.HideAtStart();
+        _CreditsView.HideAtStart();
+        _LoadSaveView.HideAtStart();
+        _NewGameSaveView.HideAtStart();
+        _ScoreBoardView.HideAtStart();
+        _ControlsView.HideAtStart();
+        _SettingsView.HideAtStart();
+        _AreUSureView.HideAtStart();
+
         if (!isAnySlotTaken())
         {
             PlayerPrefs.DeleteAll();
@@ -62,12 +59,12 @@ public class MenuMenager : MonoBehaviour
     public void CreditsClicked()
     {
         _MainView.LeftHide();
-        _CreditsView.gameObject.SetActive(true);
+        _CreditsView.RightShow();
     }
     public void LoadSaveClicked()
     {
         _MainView.LeftHide();
-        _LoadSaveView.gameObject.SetActive(true);
+        _LoadSaveView.RightShow();
         
             _slot1=!IsSlotTaken(1);
             _slot2=!IsSlotTaken(2);
@@ -95,7 +92,7 @@ public class MenuMenager : MonoBehaviour
     public void NewSaveClicked()
     {
         _MainView.LeftHide();
-        _NewGameSaveView.gameObject.SetActive(true);
+        _NewGameSaveView.RightShow();
         
             _slot1=!IsSlotTaken(1);
             _slot2=!IsSlotTaken(2);
@@ -124,17 +121,17 @@ public class MenuMenager : MonoBehaviour
     public void ScoreBoardClicked()
     {
         _MainView.LeftHide();
-        _ScoreBoardView.gameObject.SetActive(true);
+        _ScoreBoardView.RightShow();
     }
     public void ControlsClicked()
     {
         _MainView.LeftHide();
-        _ControlsView.gameObject.SetActive(true);
+        _ControlsView.RightShow();
     }
     public void SettingsClicked()
     {
         _MainView.LeftHide();
-        _SettingsView.gameObject.SetActive(true);
+        _SettingsView.RightShow();
     }
 
     public void ExitClicked()
@@ -170,8 +167,8 @@ public class MenuMenager : MonoBehaviour
 
     public void BackLvlClicked()
     {
-        _MainView.gameObject.SetActive(true);
-        _LvlView.LeftHide();
+        _MainView.LeftShow();
+        _LvlView.RightHide();
     }
 
     #endregion
@@ -179,8 +176,8 @@ public class MenuMenager : MonoBehaviour
     #region Credits view
     public void BackCreditsClicked()
     {
-        _MainView.gameObject.SetActive(true);
-        _CreditsView.LeftHide();
+        _MainView.LeftShow();
+        _CreditsView.RightHide();
     }
 
     #endregion
@@ -188,8 +185,8 @@ public class MenuMenager : MonoBehaviour
     #region LoadSave view
     public void BackLoadSaveClicked()
     {
-        _MainView.gameObject.SetActive(true);
-        _LoadSaveView.LeftHide();
+        _MainView.LeftShow();
+        _LoadSaveView.RightHide();
     }
     
     public void SlotClicked(int slotNumber)
@@ -198,7 +195,7 @@ public class MenuMenager : MonoBehaviour
         Debug.Log(SaveManager.GetCurrentUnlockedLevels(slotNumber));
         Debug.Log("Loaded game from slot: " + slotNumber);
         
-        _LvlView.gameObject.SetActive(true);
+        _LvlView.RightShow();
         _LoadSaveView.LeftHide();
         
         for (int i = 0; i < _lVLButtons.Length; i++)
@@ -221,8 +218,8 @@ public class MenuMenager : MonoBehaviour
     #region NewGameSlot view
     public void BackNewGameSlotClicked()
     {
-        _MainView.gameObject.SetActive(true);
-        _NewGameSaveView.LeftHide();
+        _MainView.LeftShow();
+        _NewGameSaveView.RightHide();
     }
     
     
@@ -304,7 +301,7 @@ public class MenuMenager : MonoBehaviour
     }
     private void HideButton()
     {
-        _AreUSureView.gameObject.SetActive(true);
+        _AreUSureView.RightShow();
         _NewGameSaveView.LeftHide();
     }
 
@@ -313,8 +310,8 @@ public class MenuMenager : MonoBehaviour
     #region ScoreBoard view
     public void BackScoreBoardClicked()
     {
-        _MainView.gameObject.SetActive(true);
-        _ScoreBoardView.LeftHide();
+        _MainView.LeftShow();
+        _ScoreBoardView.RightHide();
     }
 
     #endregion
@@ -322,8 +319,8 @@ public class MenuMenager : MonoBehaviour
     #region Controls view
     public void BackControlsClicked()
     {
-        _MainView.gameObject.SetActive(true);
-        _ControlsView.LeftHide();
+        _MainView.LeftShow();
+        _ControlsView.RightHide();
     }
 
     #endregion
@@ -331,8 +328,8 @@ public class MenuMenager : MonoBehaviour
     #region Settings view
     public void BackSettingsClicked()
     {
-        _MainView.gameObject.SetActive(true);
-        _SettingsView.LeftHide();
+        _MainView.LeftShow();
+        _SettingsView.RightHide();
     }
 
     #endregion
@@ -340,13 +337,13 @@ public class MenuMenager : MonoBehaviour
     #region AreUSure view
     public void BackAreUSureClicked()
     {
-        _NewGameSaveView.gameObject.SetActive(true);
-        _AreUSureView.LeftHide();
+        _NewGameSaveView.LeftShow();
+        _AreUSureView.RightHide();
     }
     public void YesAreUSureClicked()
     {
         _AreUSureView.LeftHide();
-        _NewGameSaveView.gameObject.SetActive(true);
+        _NewGameSaveView.RightShow();
         UpdateSlotButtonColor(_lastClickedSlot, Color.white);
         SaveManager.DeleteSaveSlot(_lastClickedSlot);
         if (_lastClickedSlot==1)
