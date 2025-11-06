@@ -13,6 +13,8 @@ TagManager:
   - EffectsManager
   - Camera
   - Hittable
+  - TutorialCrab
+  - Shop
   layers:
   - Default
   - TransparentFX

@@ -45,6 +45,7 @@ public class BasicPlayerMovment : MonoBehaviour
     private float _grav;
     private bool _stopMovement = false;
     private SpriteRenderer[] _renderers;
+    private bool _areInputsActive = true;
     public bool IsSpeedPotionInUse { get; set; } = false;
     public bool IsStrengthPotionInUse { get; set; } = false;
     private void Awake()
@@ -74,41 +75,55 @@ public class BasicPlayerMovment : MonoBehaviour
     {
         GameEventSystem.OnUseItem += UseItem;
         GameEventSystem.OnAllMapFragmentCollected += SetPlayerCustomSkin;
+        GameEventSystem.OnInputsActiveChanged += SetInputsActive;
         Application.targetFrameRate = SaveManager._fpsCap;
         SaveManager.LoadGameStateDataXML();
         SaveManager.LoadLevelDataXML(SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()), this);
+    }
+    private void SetInputsActive(bool isActive)
+    {
+        _areInputsActive = isActive;
     }
 
     private void OnDestroy()
     {
         GameEventSystem.OnUseItem -= UseItem;
         GameEventSystem.OnAllMapFragmentCollected -= SetPlayerCustomSkin;
+        GameEventSystem.OnInputsActiveChanged -= SetInputsActive;
     }
 
     private void Update()
     {
-        _xinput = Input.GetAxis("Horizontal");
-        _yinput = Input.GetAxis("Vertical");
-        if (Input.GetButtonDown("Jump") && _jumpCount < _maxJumps)
+        if (_areInputsActive)
         {
-            _performJump = true;
+            _xinput = Input.GetAxis("Horizontal");
+            _yinput = Input.GetAxis("Vertical");
+            if (Input.GetButtonDown("Jump") && _jumpCount < _maxJumps)
+            {
+                _performJump = true;
+            }
+            if (Input.GetButtonDown("Range") && !isAttackingAnimation())
+            {
+                _shoot = true;
+            }
+            if (Input.GetButtonDown("Melee") && !isAttackingAnimation())
+            {
+                _attack = true;
+
+            }
+            if (_yinput < 0)
+            {
+                _goDown = true;
+            }
+            if (Input.GetButtonDown("Fire3") && !_isGrounded && _canDash)
+            {
+                _dash = true;
+            }
         }
-        if (Input.GetButtonDown("Range") && !isAttackingAnimation())
+        else
         {
-            _shoot = true;
-        }
-        if (Input.GetButtonDown("Melee") && !isAttackingAnimation())
-        {
-            _attack = true;
-            
-        }
-        if (_yinput < 0)
-        {
-            _goDown = true;
-        }
-        if (Input.GetButtonDown("Fire3") && !_isGrounded && _canDash)
-        {
-            _dash = true;
+            _xinput = 0;
+            _yinput = 0;
         }
     }
     private void FixedUpdate()
