@@ -15,6 +15,7 @@ public class MovingEnemyMelee : MovingEnemyBase
 
     protected void Start()
     {
+        base.Start();
         _EnemyPrefabName = "Enemy1";
     }
 

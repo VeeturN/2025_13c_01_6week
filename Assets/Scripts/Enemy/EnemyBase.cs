@@ -45,7 +45,6 @@ namespace Enemy
 
         public virtual void TakeDamage()
         {
-           // Debug.Log("TakeDamage");
             UpdateHealthBar();
         }
         

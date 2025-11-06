@@ -5,16 +5,16 @@
   <_saveableEnemies>
     <SaveableEnemyDTO>
       <position>
-        <X>11.1120377</X>
-        <Y>-0.5968877</Y>
+        <X>16.1376667</X>
+        <Y>-3.81791854</Y>
       </position>
-      <isOnScene>false</isOnScene>
+      <isOnScene>true</isOnScene>
       <enemyPrefabName>Enemy2</enemyPrefabName>
     </SaveableEnemyDTO>
   </_saveableEnemies>
   <_position>
-    <x>15.4294252</x>
-    <y>0.65265584</y>
+    <x>15.4114046</x>
+    <y>0.1251026</y>
     <z>0</z>
   </_position>
 </SaveLevelDataDTO>

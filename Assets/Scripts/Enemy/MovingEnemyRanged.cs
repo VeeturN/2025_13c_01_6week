@@ -16,6 +16,7 @@ public class MovingEnemyRanged : MovingEnemyBase
     }
     protected void Start()
     {
+        base.Start();
         _EnemyPrefabName = "Enemy2";
     }
     protected override void MoveTowardsPlayer()

@@ -263,8 +263,6 @@ public static class SaveManager
         } 
     }
     
-    
-    
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
     

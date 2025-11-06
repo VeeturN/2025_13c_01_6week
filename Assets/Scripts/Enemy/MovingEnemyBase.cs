@@ -214,6 +214,7 @@ public abstract class MovingEnemyBase : EnemyBase
     private void Die()
     {
         _isAlive= false;
+        _isOnScene=false;
     }
 
     public void SayDead()
