@@ -1,6 +1,8 @@
 using System.IO;
-using UnityEngine;
+using System.Net.Http;
+using System.Text;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class HUDInput : MonoBehaviour
@@ -57,6 +59,17 @@ public class HUDInput : MonoBehaviour
         {
             Debug.LogWarning($"Failed to write score to {path}: {ex.Message}");
         }
+
+        ScoreDTO scoreToApi = new ScoreDTO
+        {
+            name = score,
+            score = scoreInt
+        };
+
+        var json = JsonUtility.ToJson(scoreToApi);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        new HttpClient().PostAsync("http://185.142.163.172:10123/api/score", content).GetAwaiter().GetResult();
+
 
         SceneManager.LoadScene("MainMenu");
     }
