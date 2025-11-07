@@ -17,7 +17,7 @@ public class LoadFileToTMP : MonoBehaviour
     [SerializeField] private bool useStreamingAssets = false;
     [SerializeField] private bool createIfMissing = true;
 
-    private void Start()
+    public void LoadLocal()
     {
         if (textField == null)
         {
@@ -37,7 +37,6 @@ public class LoadFileToTMP : MonoBehaviour
             ReadFromPersistent(fileName);
         }
     }
-
     private void EnsurePersistentFileExists(string file)
     {
         string directory = GetScriptDirectory();
