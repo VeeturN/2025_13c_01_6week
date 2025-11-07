@@ -43,7 +43,7 @@ public class LoadGlobalScoreboard : MonoBehaviour
 
     public static IEnumerator GetScores(System.Action<List<ScoreDTO>> callback)
     {
-        using (var req = UnityWebRequest.Get("http://185.142.163.172:9001/api/score"))
+        using (var req = UnityWebRequest.Get("http://185.142.163.172:10123/api/score"))
         {
             yield return req.SendWebRequest();
 
