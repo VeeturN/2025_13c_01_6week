@@ -1,13 +1,12 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TypewriterEffect : MonoBehaviour
 {
     [SerializeField] float _dialogDelay = 0.07f;
     SpriteRenderer _dialogBorder;
-    private TextMeshPro _textMeshPro;
+    TextMeshPro _textMeshPro;
 
     void Awake()
     {
@@ -18,49 +17,44 @@ public class TypewriterEffect : MonoBehaviour
     public void Init(string text)
     {
         StopAllCoroutines();
-        StartCoroutine(TypeCoroutine(text, _dialogDelay));
+        StartCoroutine(TypeCoroutine(text ?? string.Empty, _dialogDelay));
     }
 
     private IEnumerator TypeCoroutine(string text, float delay)
     {
+        text = text.Replace("\\n", "\n").Replace("/n", "\n");
         text = text.ToUpper();
-        _textMeshPro.text = text;
-        _textMeshPro.ForceMeshUpdate();
-        Vector3 fullBounds = _textMeshPro.textBounds.size;
-        transform.parent.position = transform.parent.parent.position + Vector3.up * fullBounds.y+0.8f*Vector3.up;
-        _textMeshPro.text = "";
+        text = text.Replace("\n", " \n ");
 
+        _textMeshPro.text = "";
+        _textMeshPro.ForceMeshUpdate();
 
         string[] words = text.Split(' ');
-        foreach (string word in words)
+        foreach (var w in words)
         {
-            string prevText = _textMeshPro.text;
+            if (string.IsNullOrEmpty(w)) continue;
 
-            _textMeshPro.text = prevText + " " + word;
-            _textMeshPro.ForceMeshUpdate();
-            int newLineCount = _textMeshPro.textInfo.lineCount;
-
+            if (w == "\n")
             {
-                Vector3 bounds = _textMeshPro.textBounds.size;
-                _dialogBorder.size = new Vector2(bounds.x + 0.3f, bounds.y + 0.4f);
+                _textMeshPro.text += "\n";
+                _textMeshPro.ForceMeshUpdate();
+                var b1 = _textMeshPro.textBounds.size;
+                if (_dialogBorder != null) _dialogBorder.size = new Vector2(b1.x + 0.3f, b1.y + 0.4f);
+                yield return null;
+                continue;
             }
 
-            _textMeshPro.text = prevText;
-            _textMeshPro.ForceMeshUpdate();
-            int oldLineCount = _textMeshPro.textInfo.lineCount;
-            if (_textMeshPro.text!="")
-            {
-                if (newLineCount > oldLineCount)
-                    _textMeshPro.text += "\n";
-                else
-                    _textMeshPro.text += " ";
-            }
+            if (_textMeshPro.text.Length > 0 && !_textMeshPro.text.EndsWith("\n"))
+                _textMeshPro.text += " ";
 
-                foreach (char c in word)
-                {
-                    _textMeshPro.text += c;
-                    yield return new WaitForSeconds(delay);
-                }
+            foreach (char c in w)
+            {
+                _textMeshPro.text += c;
+                _textMeshPro.ForceMeshUpdate();
+                var b = _textMeshPro.textBounds.size;
+                if (_dialogBorder != null) _dialogBorder.size = new Vector2(b.x + 0.3f, b.y + 0.4f);
+                yield return new WaitForSeconds(delay);
+            }
         }
     }
 }

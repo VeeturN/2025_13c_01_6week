@@ -4,29 +4,45 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
+    private float _idleSpeed;
     public float Speed { get; set; }
-    void Start()
+    [SerializeField] RectTransform _healthPotion;
+    [SerializeField] RectTransform _strengthPotion;
+    [SerializeField] RectTransform _speedPotion;
+    [SerializeField] RectTransform _sword;
+    Inventory _inventory;
+    RectTransform _closestItem;
+    public bool CanBeCollected { get; set; } = false;
+    void Awake()
     {
-        Speed = Random.Range(400f, 500f);
-        StartCoroutine(StopSlot());
-    }
-    public IEnumerator MyTestCoroutine()
-    {
-        yield return new WaitForSeconds(3);
-        float newSpeed = Random.Range(400f, 500f);
-        while(Speed < newSpeed)
-        {
-            yield return null;
-            Speed += newSpeed / 10;
-        }
-        yield return new WaitForSeconds(1);
-        StartCoroutine(StopSlot());
+        _inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        _idleSpeed = 60;
+        Speed = _idleSpeed;
     }
 
-    public IEnumerator StopSlot()
+    public void StartSpin()
+    {
+        StartCoroutine(StartSpinCoroutine());
+    }
+    public void StopSpin()
+    {
+        StartCoroutine(StopSpinningCoroutine());
+    }
+    private IEnumerator StartSpinCoroutine()
+    {
+        float newSpeed = Random.Range(1000, 1200f);
+        float i = 0.08f;
+        while(Speed < newSpeed)
+        {
+            i+=0.08f;
+            yield return null;
+            Speed += newSpeed / 500*i;
+        }
+    }
+
+    private IEnumerator StopSpinningCoroutine()
     {
         float stopSpeed = Speed / 100;
-        yield return new WaitForSeconds(5);
         {
             while(Speed > 1)
             {
@@ -38,35 +54,50 @@ public class Slot : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(ChooseItem());
     }
-    public IEnumerator ChooseItem()
+    private IEnumerator ChooseItem()
     {
         RectTransform[] slotItems = GetComponentsInChildren<RectTransform>();
-        RectTransform closestItem = null;
+        _closestItem = null;
         foreach(RectTransform item in slotItems){
             if (item == GetComponent<RectTransform>()) 
                 continue;
-            if(closestItem == null) 
-                closestItem = item;
-            if (Mathf.Abs(closestItem.localPosition.y) > Mathf.Abs(item.localPosition.y))
-                closestItem = item;
+            if(_closestItem == null)
+                _closestItem = item;
+            if (Mathf.Abs(_closestItem.localPosition.y) > Mathf.Abs(item.localPosition.y))
+                _closestItem = item;
         }
-        while (Mathf.Abs(closestItem.localPosition.y)>0.5f)
+        while (Vector3.Distance(_closestItem.localPosition, Vector3.zero) > 0.5f)
         {
             yield return null;
-            Vector3 oldPos = closestItem.localPosition;
-            closestItem.localPosition = Vector3.MoveTowards(
-                closestItem.localPosition,
+            Vector3 oldPos = _closestItem.localPosition;
+            _closestItem.localPosition = Vector3.MoveTowards(
+                _closestItem.localPosition,
                 Vector3.zero,
-                20 * Time.deltaTime);
-            Vector3 difference = closestItem.localPosition - oldPos;
-            MoveAllChildrenExceptOne(difference, closestItem);
-
+                Vector3.Distance(_closestItem.localPosition, Vector3.zero) *5 * Time.deltaTime);
+            Vector3 difference = _closestItem.localPosition - oldPos;
+            MoveAllChildrenExceptOne(difference, _closestItem);
         }
-
-        StartCoroutine(MyTestCoroutine());
+        CanBeCollected = true;
     }
 
-    public void MoveAllChildrenExceptOne(Vector3 offset, RectTransform exception)
+    public void Collect() { 
+        if (_closestItem == _sword)
+            GameEventSystem.CollectAmmo(1);
+        else if (_closestItem == _healthPotion)
+            Inventory.CollectPotion(PotionEnum.Red);
+        else if (_closestItem == _strengthPotion)
+            Inventory.CollectPotion(PotionEnum.Green);
+        else if (_closestItem == _speedPotion)
+            Inventory.CollectPotion(PotionEnum.Blue);
+        CanBeCollected = false;
+        Speed = _idleSpeed;
+    }
+    public RectTransform GetClosestItem()
+    {
+        return _closestItem;
+    }
+
+    private void MoveAllChildrenExceptOne(Vector3 offset, RectTransform exception)
     {
         foreach (RectTransform child in GetComponentsInChildren<RectTransform>())
         {
