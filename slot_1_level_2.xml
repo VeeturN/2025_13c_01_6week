@@ -1,11 +1,40 @@
 <?xml version="1.0"?>
 <SaveLevelDataDTO xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <_levelId>2</_levelId>
-  <_saveables />
-  <_saveableEnemies />
+  <_saveables>
+    <SaveableDTO>
+      <id>4b724b78-632b-4ca1-afc9-bd9ff9969717</id>
+      <position>
+        <x>-4.84839153</x>
+        <y>-0.4719211</y>
+        <z>0</z>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+    <SaveableDTO>
+      <id>888658d6-3946-42be-80ea-a167adf3f962</id>
+      <position>
+        <x>-3.81329322</x>
+        <y>-0.4719211</y>
+        <z>0</z>
+      </position>
+      <isOnScene>true</isOnScene>
+    </SaveableDTO>
+  </_saveables>
+  <_saveableEnemies>
+    <SaveableEnemyDTO>
+      <position>
+        <x>6.76043224</x>
+        <y>-0.596328855</y>
+        <z>0</z>
+      </position>
+      <isOnScene>true</isOnScene>
+      <enemyPrefabName>Enemy2</enemyPrefabName>
+    </SaveableEnemyDTO>
+  </_saveableEnemies>
   <_position>
-    <x>15.5650864</x>
-    <y>0.166020811</y>
+    <x>15.5294924</x>
+    <y>0.237523049</y>
     <z>0</z>
   </_position>
   <_mapFragmentEnum />
