@@ -32,6 +32,21 @@ public class SlotsManager : MonoBehaviour
     {
         if (!_isSpinning)
         {
+            if (SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()) != 420213767)
+            {
+                if (Inventory.Score >= 200)
+                {
+                    Inventory.Score -= 200;
+                    GameEventSystem.UpdateHUD(Inventory.Score, HUDType.Score);
+                }
+                else
+                {
+                    Debug.Log("Jestes za biedny na automaty");
+                    return;
+                }
+            }
+          
+         
             foreach (Slot slot in _slots)
             {
                 slot.StartSpin();

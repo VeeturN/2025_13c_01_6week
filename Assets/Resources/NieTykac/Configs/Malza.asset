@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57937358d84840e5ad5919aad3e64a27, type: 3}
+  m_Name: Malza
+  m_EditorClassIdentifier: 
+  enemyRangeType: 2
+  totemType: 0
+  partType: 0
+  animatorController: {fileID: 22100000, guid: 2b86141b26141524fa69ac8e5f580ded, type: 2}
+  isAutoAttack: 1
+  projectileConfig: {fileID: 11400000, guid: fd6d91eb35baa064bbdc2473e1f8e2a5, type: 2}
+  projectilePrefab: {fileID: 6940557982883899960, guid: 2e2bcd791191f434a9b60cbb1af77707, type: 3}
+  startHP: 5
+  dieStateName: Die
+  colliderAdjust:
+    trimLeftPercent: 0.24
+    trimRightPercent: 0.21
+    trimTopPercent: 0.41
+    trimBottomPercent: 0

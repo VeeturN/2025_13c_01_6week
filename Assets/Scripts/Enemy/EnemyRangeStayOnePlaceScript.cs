@@ -74,11 +74,60 @@ public class EnemyRangeStayOnePlaceScript : Enemy.EnemyBase
 
     private void Start()
     {
+        base.Start();
         attackCountdown = attackCooldown;
         PlayIdle();
         _EnemyPrefabName = "TotemTemplate";
+        _isTotem = true;
+        switch (config.enemyRangeType)
+        {
+            case EnemyRangeType.Armata:
+                _configName = "Armata";
+                break;
+            case 
+            EnemyRangeType.Malza:
+                _configName = "Malza";
+                break;
+            case EnemyRangeType.Totem:
+                switch (config.TotemType)
+                {
+                    case TotemType.Totem1:
+                        switch (config.PartType)
+                        {
+                            case PartType.Body:
+                                _configName = "Totem1Body";
+                                break;
+                            case PartType.Head:
+                                _configName = "Totem1Head";
+                                break;
+                        }
+                        break;
+                    case TotemType.Totem2:
+                        switch (config.PartType)
+                        {
+                            case PartType.Body:
+                                _configName = "Totem2Body";
+                                break;
+                            case PartType.Head:
+                                _configName = "Totem2Head";
+                                break;
+                        }
+                        break;
+                    case TotemType.Totem3:
+                        switch (config.PartType)
+                        {
+                            case PartType.Body:
+                                _configName = "Totem3Body";
+                                break;
+                            case PartType.Head:
+                                _configName = "Totem3Head";
+                                break;
+                        }
+                        break;
+                }
+                break;
+        }
     }
-
     private void FixedUpdate()
     {
         //wyliczanie casu do nowego ataku
@@ -264,5 +313,10 @@ public class EnemyRangeStayOnePlaceScript : Enemy.EnemyBase
 
 
         Destroy(gameObject);
+    }
+
+    public void setConfig(EnemyRangeStayOnePlaceConfig config)
+    {
+        this.config = config;
     }
 }
