@@ -86,7 +86,8 @@ public static class SaveManager
             Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
             return;
         }
-        data._position.x -= 2;
+       // data._position.x -= 1;
+       // data._position.y -= 1;
         player.transform.position = data._position;
         //loadCollectibles 
         var saveables = Object.FindObjectsOfType<Saveable>();

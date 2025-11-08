@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<GameStateDTO xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <_unlockedLevels>0</_unlockedLevels>
+  <_currentLevelIndex>0</_currentLevelIndex>
+  <_score>1</_score>
+  <_strenghtPotionCounter>0</_strenghtPotionCounter>
+  <_hpPotionCounter>0</_hpPotionCounter>
+  <_speedPotionCounter>0</_speedPotionCounter>
+  <_keysCounter>0</_keysCounter>
+  <_ammoCounter>2</_ammoCounter>
+  <_hpCounter>7</_hpCounter>
+</GameStateDTO>
