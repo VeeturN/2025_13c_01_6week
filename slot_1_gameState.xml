@@ -7,9 +7,9 @@
   <_hpPotionCounter>0</_hpPotionCounter>
   <_speedPotionCounter>0</_speedPotionCounter>
   <_keysCounter>0</_keysCounter>
-  <_ammoCounter>4</_ammoCounter>
-  <_hpCounter>6</_hpCounter>
-  <_secretMapsCounter>0</_secretMapsCounter>
+  <_ammoCounter>10</_ammoCounter>
+  <_hpCounter>10</_hpCounter>
+  <_secretMapsCounter>4</_secretMapsCounter>
   <_shopItems>
     <ShopItemDTO>
       <_price>100</_price>

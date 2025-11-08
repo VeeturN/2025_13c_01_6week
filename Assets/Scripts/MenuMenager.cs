@@ -54,7 +54,9 @@ public class MenuMenager : MonoBehaviour
 
     public void StartClicked()
     {
+        //tutorial level ale funckja nazwana startclicked z jakiegos powodu
         SceneManager.LoadScene("Tutorial");
+        SaveManager.SaveCurrentLevelIndex(SaveManager.GetCurrentSlot(), 420213767);
     }
     public void CreditsClicked()
     {

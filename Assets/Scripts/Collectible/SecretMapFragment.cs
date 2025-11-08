@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,7 @@ public class SecretMapFragment : Saveable, ICollectible
         }
         _isCollected=true;
         GameEventSystem.CollectSecretMapFragment(this);
-        Destroy(gameObject);
     }
-
     public MapFragmentEnum GetMapFragmentEnum()
     {
         return _mapFragmentEnum;

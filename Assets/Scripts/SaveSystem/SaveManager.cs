@@ -35,6 +35,7 @@ public static class SaveManager
             data._saveables.Add(coinData);
         }
         
+        
         //enemies
         var savableEnemy = Object.FindObjectsOfType<SaveableEnemy>();
         foreach (var saveable in savableEnemy)
@@ -58,7 +59,7 @@ public static class SaveManager
         
         if (!File.Exists(fullPath))
         {
-            Debug.LogWarning($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
+            Debug.Log($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
             return;
         }
         
@@ -69,7 +70,7 @@ public static class SaveManager
         
         if (data == null)
         {
-            Debug.LogError($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
+            Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
             return;
         }
 
@@ -168,7 +169,7 @@ public static class SaveManager
         string fullPath = Application.dataPath + $"/../{saveFileName}";
         if (!File.Exists(fullPath))
         {
-            Debug.LogWarning($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
+            Debug.Log($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
             return;
         }
         XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
@@ -262,10 +263,8 @@ public static class SaveManager
             Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
         } 
     }
-    
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
-    
     public static void SaveCurrentUnlockedLevels(int currentSlot, int  unlockedLevels)
     {
         string key  = "unlocked_levels_on_slot_" + currentSlot;

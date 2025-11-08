@@ -6,6 +6,7 @@ public class SaveableDTO
     public string id;
     public Vector2 position;
     public bool isOnScene;
+    public MapFragmentEnum? mapFragmentType;
 }
         
     
