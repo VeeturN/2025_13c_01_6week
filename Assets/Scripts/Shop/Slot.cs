@@ -36,7 +36,7 @@ public class Slot : MonoBehaviour
         {
             i+=0.08f;
             yield return null;
-            Speed += newSpeed / 500*i;
+            Speed += newSpeed / 5*i*Time.deltaTime;
         }
     }
 
@@ -47,7 +47,7 @@ public class Slot : MonoBehaviour
             while(Speed > 1)
             {
                 yield return null;
-                Speed-=stopSpeed;
+                Speed-=stopSpeed*Time.deltaTime*100;
             }
             Speed = 0;
         }
