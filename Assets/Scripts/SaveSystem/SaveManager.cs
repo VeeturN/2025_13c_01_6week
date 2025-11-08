@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Xml.Serialization;
 using Enemy;
 using SaveSystem;
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
+using UnityEngine.Video;
 
 public static class SaveManager
 {
@@ -29,11 +30,12 @@ public static class SaveManager
             var coinData = new SaveableDTO
             {
                 id = saveable.ID, 
-                position = new Vector2(saveable.transform.position.x, saveable.transform.position.y),
+                position = saveable.transform.position,
                 isOnScene = saveable._isOnScene
             };
             data._saveables.Add(coinData);
         }
+        
         
         //enemies
         var savableEnemy = Object.FindObjectsOfType<SaveableEnemy>();
@@ -41,14 +43,19 @@ public static class SaveManager
         {
             var coinData = new SaveableEnemyDTO
             {
-                position = new Vector2(saveable.transform.position.x, saveable.transform.position.y),
+                position = saveable.transform.position,
                 isOnScene = saveable._isOnScene,
                 enemyPrefabName = saveable._EnemyPrefabName
             };
             data._saveableEnemies.Add(coinData);
         }
-        Debug.Log("Saved " + saveFileName);
-        
+
+        data._mapFragmentEnum = new List<MapFragmentEnum>();
+        foreach (var VARIABLE in Inventory.GetSecretMapFragment())
+        {
+            data._mapFragmentEnum.Add(VARIABLE);
+        }
+        //Debug.Log("Saved " + saveFileName);
         serializer.Serialize(stream, data);
         stream.Close();
     }
@@ -58,7 +65,7 @@ public static class SaveManager
         
         if (!File.Exists(fullPath))
         {
-            Debug.LogWarning($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
+            Debug.Log($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
             return;
         }
         
@@ -69,10 +76,11 @@ public static class SaveManager
         
         if (data == null)
         {
-            Debug.LogError($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
+            Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
             return;
         }
 
+        data._position.x -= 2;
         SaveManager._playerPosiotion = data._position;
         player.transform.position = data._position;
         var saveables = Object.FindObjectsOfType<Saveable>();
@@ -88,7 +96,7 @@ public static class SaveManager
                 else
                 {
                     saveable._isOnScene = true;
-                    saveable.transform.position = new Vector3(loadedObj.position.X,  loadedObj.position.Y);
+                    saveable.transform.position = loadedObj.position;
                 }
             }
             else
@@ -105,14 +113,22 @@ public static class SaveManager
 
         foreach (var VARIABLE in data._saveableEnemies)
         {
-            GameObject prefab = Resources.Load<GameObject>("NieTykac/"+VARIABLE.enemyPrefabName);
-            Object.Instantiate(
-                prefab,
-                new Vector3(VARIABLE.position.X, VARIABLE.position.Y),
-                Quaternion.identity
-            );
-            
+            if (VARIABLE.isOnScene)
+            {
+                GameObject prefab = Resources.Load<GameObject>("NieTykac/"+VARIABLE.enemyPrefabName);
+                Object.Instantiate(
+                    prefab,
+                    VARIABLE.position,
+                    Quaternion.identity
+                );
+            }
         }
+
+        foreach (var mapFragmentEnum in data._mapFragmentEnum)
+        {
+            Inventory.LoadSecretMap(mapFragmentEnum);
+        }
+        
         Debug.Log("Loaded " + saveFileName);
     }
     public static void SaveGameStateDataXML()
@@ -131,7 +147,6 @@ public static class SaveManager
             Shop.StrengthPotion,
             Shop.HpPotion,
             Shop.SpeedPotion,
-            Shop.SecretMapFragment
         };
 
         foreach (var item in allShopItems)
@@ -151,7 +166,7 @@ public static class SaveManager
         data._keysCounter = Inventory.KeysCounter;
         data._ammoCounter = Inventory.AmmoCounter;
         data._hpCounter = Inventory.HpCounter;
-        data._secretMapsCounter = Inventory.SecretMapsCounter;
+      //  data._secretMapsCounter = Inventory.SecretMapsCounter;
         //globals
        // data._unlockedLevels = SaveManager._unlockedLevels;
         data._currentLevelIndex = SaveManager._currentLevelIndex;
@@ -168,7 +183,7 @@ public static class SaveManager
         string fullPath = Application.dataPath + $"/../{saveFileName}";
         if (!File.Exists(fullPath))
         {
-            Debug.LogWarning($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
+            Debug.Log($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
             return;
         }
         XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
@@ -201,8 +216,8 @@ public static class SaveManager
         Inventory.HpCounter = data._hpCounter;
         GameEventSystem.UpdateHUD(Inventory.HpCounter, HUDType.Hp);
 
-        Inventory.SecretMapsCounter = data._secretMapsCounter;
-        GameEventSystem.UpdateHUD(Inventory.SecretMapsCounter, HUDType.SecretMap);
+       // Inventory.SecretMapsCounter = data._secretMapsCounter;
+       // GameEventSystem.UpdateHUD(Inventory.SecretMapsCounter, HUDType.SecretMap);
         
         
         
@@ -229,16 +244,13 @@ public static class SaveManager
                     case ShopItemName.SpeedPotion:
                         Shop.SpeedPotion.setItemAmountInShop(item._amount);
                         break;
-                    case ShopItemName.SecretMap:
-                        Shop.SecretMapFragment.setItemAmountInShop(item._amount);
-                        break;
                     default:
                         Debug.LogWarning($"Nieznany przedmiot w sklepie: {item._name}");
                         break;
                 }
             }
         }
-        Debug.Log("Loaded" +saveFileName);
+        //Debug.Log("Loaded" +saveFileName);
     }
     public static void DeleteSaveSlot(int slotNumber)
     {
@@ -262,10 +274,8 @@ public static class SaveManager
             Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
         } 
     }
-    
     public static void SaveCurrentSlot(int x) { PlayerPrefs.SetInt("Slot", x); }
     public static int GetCurrentSlot() { return PlayerPrefs.GetInt("Slot", 1); }
-    
     public static void SaveCurrentUnlockedLevels(int currentSlot, int  unlockedLevels)
     {
         string key  = "unlocked_levels_on_slot_" + currentSlot;

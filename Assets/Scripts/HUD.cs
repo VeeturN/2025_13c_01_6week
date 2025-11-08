@@ -80,15 +80,11 @@ public class HUD : MonoBehaviour
             }
         }
     }
-
-    private void Start()
-    {
-      
-    }
     private void OnDestroy()
     {
         GameEventSystem.OnHUDParameterChanged -= UpdateHUD;
         GameEventSystem.OnPotionTimeChaged -= UpdatePotionBar;
+        GameEventSystem.OnMapFragmentCollected -= UpdateSecretMapsField;
     }
     private void UpdateSecretMapsField(SecretMapFragment secretMapFragment)
     {
@@ -107,6 +103,7 @@ public class HUD : MonoBehaviour
                 secretMapBottomLeft.enabled = true;
                 break;
         }
+        
     }
     private void UpdateHUD(int currentValue, HUDType hudType)
     {
@@ -177,7 +174,6 @@ public class HUD : MonoBehaviour
         Time.timeScale = 0f;
         Time.fixedDeltaTime = 0f;
         AudioListener.pause = true;
-        
         ScoreBoardView.SetActive(true);
     }
 

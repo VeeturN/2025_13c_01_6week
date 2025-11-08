@@ -77,8 +77,19 @@ public class BasicPlayerMovment : MonoBehaviour
         GameEventSystem.OnAllMapFragmentCollected += SetPlayerCustomSkin;
         GameEventSystem.OnInputsActiveChanged += SetInputsActive;
         Application.targetFrameRate = SaveManager._fpsCap;
-        SaveManager.LoadGameStateDataXML();
-        SaveManager.LoadLevelDataXML(SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()), this);
+        
+        //Save system load save 
+        if (SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()) != 420213767)
+        {
+            //wczytaj normalnie
+            SaveManager.LoadGameStateDataXML();
+            SaveManager.LoadLevelDataXML(SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()), this);
+        }
+        else
+        {
+            //nie wczytuj bo tutorial
+            Debug.Log("To tutorial wiec gracz i gamestate wczytany jak na scenie zostalo ustalone");
+        }
     }
     private void SetInputsActive(bool isActive)
     {

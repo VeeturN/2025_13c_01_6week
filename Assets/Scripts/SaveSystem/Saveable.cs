@@ -4,7 +4,7 @@ using System;
 [DisallowMultipleComponent]
 public class Saveable : MonoBehaviour
 {
-    [SerializeField, HideInInspector]
+    [SerializeField]
     private string uniqueID;
     public bool _isOnScene;
     public string ID => uniqueID;

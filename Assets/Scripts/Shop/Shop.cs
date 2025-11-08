@@ -4,18 +4,11 @@ using UnityEngine;
 
 public static class Shop
 {
-
     public static ShopItem Key = new ShopItem(ShopItemName.Key, 100, 10, "");
     public static ShopItem Ammo = new ShopItem(ShopItemName.Ammo, 100, 10, "");
     public static ShopItem StrengthPotion = new ShopItem(ShopItemName.StrengthPotion, 100, 10, "");
     public static ShopItem HpPotion = new ShopItem(ShopItemName.HpPotion, 100, 10, "");
     public static ShopItem SpeedPotion = new ShopItem(ShopItemName.SpeedPotion, 100, 10, "");
-    public static ShopItem SecretMapFragment = new ShopItem(ShopItemName.SecretMap, 100, 10, "");
-    //note dla Dawida 
-    //jak chcesz w którymś przycisku dodawać kupowanie to przez " public static void BuyItem(ShopItem itemToBuy)" 
-    //i bierzesz co chcesz ze statycznego pola 
-    //sa obiekty typu ShopItem z opisem, cena i ile ich zostalo w sklepie no i maja getery do tego wiec to tez po polach
-    //robisz
     public static void BuyItem(ShopItem itemToBuy)
     {
         if (itemToBuy.getItemAmountInShop() > 0)
@@ -50,9 +43,6 @@ public static class Shop
                 break;
             case ShopItemName.Key:
                 Inventory.SetKeysCollected(Inventory.GetKeysCollected()+1);
-                break;
-            case ShopItemName.SecretMap:
-                Inventory.CollectSecretMapFragment();
                 break;
         }
     }

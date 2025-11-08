@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     private static int _keysCounter;
     private static int _ammoCounter;
     private static int _hpCounter;
-    private static int _secretMapsCounter;
+    private static List<MapFragmentEnum> _secretMapFragments;
     private BasicPlayerMovment _player;
 
     // --- GETTERY i SETTERY ---
@@ -57,13 +57,6 @@ public class Inventory : MonoBehaviour
         get => _hpCounter;
         set => _hpCounter = Mathf.Max(0, value);
     }
-
-    public static int SecretMapsCounter
-    {
-        get => _secretMapsCounter;
-        set => _secretMapsCounter = Mathf.Max(0, value);
-    }
-    
     private void Awake()
     {
         _player = GetComponent<BasicPlayerMovment>();
@@ -74,7 +67,7 @@ public class Inventory : MonoBehaviour
         _keysCounter = 0;
         _ammoCounter = 10;
         _hpCounter = 10;
-        _secretMapsCounter = 0;
+        _secretMapFragments = new  List<MapFragmentEnum>();
     }
 
     private void Update()
@@ -140,22 +133,21 @@ public class Inventory : MonoBehaviour
     }
     private void CollectSecretMapFragment(SecretMapFragment secretMapFragment)
     {
-        _secretMapsCounter++;
-        if (_secretMapsCounter==4)
+        _secretMapFragments.Add(secretMapFragment.GetMapFragmentEnum());
+        if (_secretMapFragments.Count == 4)
         {
             GameEventSystem.GivePlayerRewardForAllMapFragmentsCollected(new Color(0f, 1f, 1f, 0.5f));
         }
     }
-
-    public static void CollectSecretMapFragment()
+    public static void LoadSecretMap(MapFragmentEnum secretMapFragment)
     {
-        _secretMapsCounter++;
-        if (_secretMapsCounter==4)
-        {
-            GameEventSystem.GivePlayerRewardForAllMapFragmentsCollected(new Color(0f, 1f, 1f, 0.5f));
-        }
+        SecretMapFragment sm = new SecretMapFragment();
+        sm.setMapFragmentEnum(secretMapFragment);
+        GameEventSystem.CollectSecretMapFragment(sm);
     }
 
+    
+    
     public static int GetAmmo()
     {
         return _ammoCounter;
@@ -168,6 +160,11 @@ public class Inventory : MonoBehaviour
     {
         _hpCounter = value;
         GameEventSystem.UpdateHUD(_hpCounter, HUDType.Hp);
+    }
+
+    public static List<MapFragmentEnum> GetSecretMapFragment()
+    {
+        return _secretMapFragments;
     }
 
     public static void CollectPotion(PotionEnum potion)
