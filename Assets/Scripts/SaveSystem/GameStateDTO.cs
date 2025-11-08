@@ -14,7 +14,6 @@ public class GameStateDTO
     public int _keysCounter;
     public int _ammoCounter;
     public int _hpCounter;
-    public int _secretMapsCounter;
     //shopstate
     public List<ShopItemDTO> _shopItems;
     

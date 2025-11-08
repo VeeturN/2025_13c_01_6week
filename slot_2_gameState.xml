@@ -2,12 +2,12 @@
 <GameStateDTO xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <_unlockedLevels>0</_unlockedLevels>
   <_currentLevelIndex>0</_currentLevelIndex>
-  <_score>3</_score>
+  <_score>0</_score>
   <_strenghtPotionCounter>0</_strenghtPotionCounter>
   <_hpPotionCounter>0</_hpPotionCounter>
   <_speedPotionCounter>0</_speedPotionCounter>
   <_keysCounter>0</_keysCounter>
-  <_ammoCounter>7</_ammoCounter>
+  <_ammoCounter>10</_ammoCounter>
   <_hpCounter>10</_hpCounter>
   <_shopItems>
     <ShopItemDTO>

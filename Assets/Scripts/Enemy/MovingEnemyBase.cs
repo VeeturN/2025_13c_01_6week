@@ -215,6 +215,7 @@ public abstract class MovingEnemyBase : EnemyBase
     {
         _isAlive= false;
         _isOnScene=false;
+        Debug.Log("Enemy died");
     }
 
     public void SayDead()

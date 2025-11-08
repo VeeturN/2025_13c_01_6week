@@ -103,7 +103,7 @@ public class HUD : MonoBehaviour
                 secretMapBottomLeft.enabled = true;
                 break;
         }
-                secretMapFragment.RemotlyDestroy();
+        
     }
     private void UpdateHUD(int currentValue, HUDType hudType)
     {
@@ -174,7 +174,6 @@ public class HUD : MonoBehaviour
         Time.timeScale = 0f;
         Time.fixedDeltaTime = 0f;
         AudioListener.pause = true;
-        
         ScoreBoardView.SetActive(true);
     }
 
