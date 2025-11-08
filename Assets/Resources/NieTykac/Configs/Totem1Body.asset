@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57937358d84840e5ad5919aad3e64a27, type: 3}
-  m_Name: "Ma\u0142\u017Ca"
+  m_Name: Totem1Body
   m_EditorClassIdentifier: 
-  enemyRangeType: 2
+  enemyRangeType: 0
   totemType: 0
   partType: 0
-  animatorController: {fileID: 22100000, guid: 2b86141b26141524fa69ac8e5f580ded, type: 2}
+  animatorController: {fileID: 22100000, guid: b99dadc2ffd5d6943abc93ebcc3ddad7, type: 2}
   isAutoAttack: 1
-  projectileConfig: {fileID: 11400000, guid: fd6d91eb35baa064bbdc2473e1f8e2a5, type: 2}
+  projectileConfig: {fileID: 11400000, guid: eac0dbd9386be134c9c6d767d9b74a7e, type: 2}
   projectilePrefab: {fileID: 6940557982883899960, guid: 2e2bcd791191f434a9b60cbb1af77707, type: 3}
   startHP: 5
   dieStateName: Die
   colliderAdjust:
-    trimLeftPercent: 0.24
-    trimRightPercent: 0.21
-    trimTopPercent: 0.41
+    trimLeftPercent: 0.4
+    trimRightPercent: 0.27
+    trimTopPercent: 0.3
     trimBottomPercent: 0

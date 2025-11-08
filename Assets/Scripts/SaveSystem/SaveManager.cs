@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml.Serialization;
 using Enemy;
 using SaveSystem;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -18,6 +19,7 @@ public static class SaveManager
         SaveLevelDataDTO data = new SaveLevelDataDTO();
         data._saveables = new List<SaveableDTO>();
         data._saveableEnemies = new List<SaveableEnemyDTO>();
+        data._totems = new List<TotemDTO>();
         data._position = position;
         data._levelId=levelNumber;
         //collectibles
@@ -36,13 +38,28 @@ public static class SaveManager
         var savableEnemy = Object.FindObjectsOfType<SaveableEnemy>();
         foreach (var saveable in savableEnemy)
         {
-            var coinData = new SaveableEnemyDTO
+            if (!saveable._isTotem)
             {
-                position = saveable.transform.position,
-                isOnScene = saveable._isOnScene,
-                enemyPrefabName = saveable._EnemyPrefabName
-            };
-            data._saveableEnemies.Add(coinData);
+                var coinData = new SaveableEnemyDTO
+                {
+                    position = saveable.transform.position,
+                    isOnScene = saveable._isOnScene,
+                    enemyPrefabName = saveable._EnemyPrefabName
+                };
+                data._saveableEnemies.Add(coinData);
+            }
+            else
+            {
+                var coinData = new TotemDTO()
+                {
+                    position = saveable.transform.position,
+                    isOnScene = saveable._isOnScene,
+                    enemyPrefabName = saveable._EnemyPrefabName,
+                    configName = saveable._configName
+                };
+                data._totems.Add(coinData);
+            }
+            
         }
         data._mapFragmentEnum = new List<MapFragmentEnum>();
         foreach (var variable in Inventory.GetSecretMapFragment())
@@ -71,6 +88,7 @@ public static class SaveManager
         }
         data._position.x -= 2;
         player.transform.position = data._position;
+        //loadCollectibles 
         var saveables = Object.FindObjectsOfType<Saveable>();
         foreach (var saveable in saveables)
         {   
@@ -92,11 +110,13 @@ public static class SaveManager
                 saveable.RemotlyDestroy();
             }
         }
+        //Enemies purge
         var enemies = Object.FindObjectsOfType<EnemyBase>();
         foreach (var enemy in enemies)
         {
             Object.Destroy(enemy.gameObject);
         }
+        //load normalenemies
         foreach (var variable in data._saveableEnemies)
         {
             if (variable.isOnScene)
@@ -109,6 +129,23 @@ public static class SaveManager
                 );
             }
         }
+        //loadtotems
+        foreach (var variable in data._totems)
+        {
+            if (variable.isOnScene)
+            {
+                GameObject prefab = Resources.Load<GameObject>("NieTykac/"+variable.enemyPrefabName);
+                EnemyRangeStayOnePlaceConfig config = Resources.Load<EnemyRangeStayOnePlaceConfig>("NieTykac/Configs/"+variable.configName);
+                EnemyRangeStayOnePlaceScript template = prefab.GetComponent<EnemyRangeStayOnePlaceScript>();
+                template.setConfig(config);
+                Object.Instantiate(
+                    prefab,
+                    variable.position,
+                    Quaternion.identity
+                );
+            }
+        }
+        
         foreach (var mapFragmentEnum in data._mapFragmentEnum)
         {
             Inventory.LoadSecretMap(mapFragmentEnum);

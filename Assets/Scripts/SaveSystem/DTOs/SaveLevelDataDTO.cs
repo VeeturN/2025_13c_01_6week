@@ -10,5 +10,6 @@ public class SaveLevelDataDTO
     public List<SaveableEnemyDTO>  _saveableEnemies;
     public Vector3 _position;
     public List<MapFragmentEnum> _mapFragmentEnum;
+    public List<TotemDTO> _totems;
     
 }

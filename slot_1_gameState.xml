@@ -7,6 +7,6 @@
   <_hpPotionCounter>0</_hpPotionCounter>
   <_speedPotionCounter>0</_speedPotionCounter>
   <_keysCounter>0</_keysCounter>
-  <_ammoCounter>10</_ammoCounter>
-  <_hpCounter>8</_hpCounter>
+  <_ammoCounter>8</_ammoCounter>
+  <_hpCounter>10</_hpCounter>
 </GameStateDTO>
