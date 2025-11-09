@@ -25,7 +25,7 @@ public class MovingEnemyMelee : MovingEnemyBase
         if (Mathf.Abs(deltaX) > 0.2f)
         {
             float direction = Mathf.Sign(deltaX);
-            if (!_animator.GetBool("isAttacking"))
+            if (!_animator.GetBool("isAttacking") && !_isStaying)
                 _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         }
         else

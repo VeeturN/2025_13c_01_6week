@@ -28,7 +28,8 @@ public class MovingEnemyRanged : MovingEnemyBase
         {
             _mele = false;
             float direction = Mathf.Sign(deltaX);
-            _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
+            if(!_isStaying)
+                _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         }
         else
         {
