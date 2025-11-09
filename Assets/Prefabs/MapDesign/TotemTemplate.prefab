@@ -106,7 +106,7 @@ MonoBehaviour:
   healthBar: {fileID: 5586968806571397486}
   enemyRangeType: 0
   lookLeft: 1
-  config: {fileID: 0}
+  config: {fileID: 11400000, guid: 1f0f7760c36100a44a6e575702ef65a6, type: 2}
   bodyCollider2D: {fileID: -1941871964765096116}
   _deathPiecesPrefab: {fileID: 7470136540866770375, guid: bc6b9d4081152424a8b22774e03825fc, type: 3}
 --- !u!212 &800463956396683678
