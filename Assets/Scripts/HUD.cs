@@ -27,6 +27,7 @@ public class HUD : MonoBehaviour
     
     [SerializeField] private GameObject Exit;
     [SerializeField] private GameObject ScoreBoardView;
+    [SerializeField] private ShopScript GameOverView;
 
     private int maxHp = 10;
 
@@ -54,6 +55,12 @@ public class HUD : MonoBehaviour
         GameEventSystem.OnHUDParameterChanged += UpdateHUD;
         GameEventSystem.OnMapFragmentCollected += UpdateSecretMapsField;
         GameEventSystem.OnPotionTimeChaged += UpdatePotionBar;
+        GameEventSystem.OnPlayerDeath += ShowDeathMenu;
+    }
+
+    private void ShowDeathMenu()
+    {
+        GameOverView.DownShow();
     }
 
     private void Update()
@@ -85,6 +92,7 @@ public class HUD : MonoBehaviour
         GameEventSystem.OnHUDParameterChanged -= UpdateHUD;
         GameEventSystem.OnPotionTimeChaged -= UpdatePotionBar;
         GameEventSystem.OnMapFragmentCollected -= UpdateSecretMapsField;
+        GameEventSystem.OnPlayerDeath -= ShowDeathMenu;
     }
     private void UpdateSecretMapsField(SecretMapFragment secretMapFragment)
     {
@@ -158,15 +166,21 @@ public class HUD : MonoBehaviour
     
     public void ExitToMainMenu()
     {
-
-        if (Exit != null && Exit.activeSelf)
-            Exit.SetActive(false);
-
-        Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
-        Time.fixedDeltaTime = _savedFixedDeltaTime > 0f ? _savedFixedDeltaTime : 0.02f;
-        AudioListener.pause = false;
-
-        SceneManager.LoadScene("MainMenu");
+        if (!SaveManager._isSavingLevel && !SaveManager._isSavingGameState)
+        {
+            if (Exit != null && Exit.activeSelf)
+                Exit.SetActive(false);
+        
+            Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
+            Time.fixedDeltaTime = _savedFixedDeltaTime > 0f ? _savedFixedDeltaTime : 0.02f;
+            AudioListener.pause = false;
+            SavePoint.isFirstTimehere = true;
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+    public void LoadLastCheckpoint()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void StopAndShowScoreBoard()

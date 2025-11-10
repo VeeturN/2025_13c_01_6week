@@ -38,6 +38,7 @@ public class HUDInput : MonoBehaviour
 
     public void AddScore()
     {
+        scoreInt= Inventory.GetScore();
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
         AudioListener.pause = false;
@@ -52,7 +53,7 @@ public class HUDInput : MonoBehaviour
         try
         {
             // Append the score + newline to the file
-            File.AppendAllText(path, score + System.Environment.NewLine);
+            File.AppendAllText(path, score +" "+scoreInt+ System.Environment.NewLine);
             Debug.Log($"Appended score to: {path}");
         }
         catch (System.Exception ex)

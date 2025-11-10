@@ -14,6 +14,7 @@ public class GameEventSystem
     public static event Action<SecretMapFragment> OnMapFragmentCollected;
     public static event Action<Color> OnAllMapFragmentCollected;
     public static event Action<bool> OnInputsActiveChanged;
+    public static event Action OnPlayerDeath;
     
     public static void GivePlayerRewardForAllMapFragmentsCollected(Color color)
     {
@@ -56,5 +57,9 @@ public class GameEventSystem
     public static void SetInputsActive(bool active)
     {
         OnInputsActiveChanged?.Invoke(active);
+    }
+    public static void PlayerDeath()
+    {
+        OnPlayerDeath?.Invoke();
     }
 }

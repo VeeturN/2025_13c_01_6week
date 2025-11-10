@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Threading;
 using System.Xml.Serialization;
 using Enemy;
 using SaveSystem;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Video;
@@ -11,13 +13,18 @@ using UnityEngine.Video;
 public static class SaveManager
 {
     public static int _fpsCap=144;
-    private static bool _isLoadingLevel=false;
-    private static bool _isLoadingGameState=false;
+    private static bool _isLoadingLevel=true;
+    private static bool _isLoadingGameState=true;
+    
+    public static bool _isSavingLevel=false;
+    public static bool _isSavingGameState=false;
+    
     
     //files functions
     public static void SaveLevelDataXML(int levelNumber, Vector3 position) {
         if (!_isLoadingLevel)
         {
+            _isSavingLevel = true;
             XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
             string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
             FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
@@ -77,6 +84,8 @@ public static class SaveManager
 
             serializer.Serialize(stream, data);
             stream.Close();
+            _isSavingLevel=false;
+            Debug.Log("Data saved");
         }
     }
     public static void LoadLevelDataXML(int levelNumber, BasicPlayerMovment player)
@@ -111,6 +120,7 @@ public static class SaveManager
             {
                 if (!loadedObj.isOnScene)
                 {
+                   
                     saveable.RemotlyDestroy();
                 }
                 else
@@ -166,11 +176,13 @@ public static class SaveManager
         }
 
         _isLoadingLevel = false;
+        Debug.Log("Data loaded");
     }
     public static void SaveGameStateDataXML()
     {
         if (!_isLoadingGameState)
         {
+            _isSavingGameState=true;
             string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
             XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
             FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
@@ -185,7 +197,9 @@ public static class SaveManager
             data._hpCounter = Inventory.HpCounter;
             serializer.Serialize(stream, data);
             stream.Close();
+            _isSavingGameState=false;
         }
+        
     }
     public static void LoadGameStateDataXML()
     {

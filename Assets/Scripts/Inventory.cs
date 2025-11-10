@@ -142,7 +142,7 @@ public class Inventory : MonoBehaviour
     public static void LoadSecretMap(MapFragmentEnum secretMapFragment)
     {
         SecretMapFragment sm = new SecretMapFragment();
-        sm.setMapFragmentEnum(secretMapFragment);
+        sm.SetMapFragmentEnum(secretMapFragment);
         GameEventSystem.CollectSecretMapFragment(sm);
     }
 

@@ -1769,7 +1769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: YOU CAN FIND FALLING PLATFORMS THEY DROP SHORTLY AFTER YOU STEP ON THEM
+      value: WATCH OUT FOR FALLING PLATFORMS! THEY DROP SOON AFTER YOU STEP ON THEM.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2404,8 +2404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: YOU CAN FIND PLATFORMS YOU CAN JUMP THROUGH PRESS S TO DROP DOWN THROUGH
-        THEM
+      value: YOU CAN JUMP THROUGH SOME PLATFORMS! PRESS S TO DROP DOWN.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5185,7 +5184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS LMB TO HIT PRESS LMB IN AIR TO SMASH DOWN
+      value: PRESS LMB TO HIT! PRESS LMB IN AIR TO SMASH DOWN!
       objectReference: {fileID: 0}
     - target: {fileID: 3714660975001321084, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5867,8 +5866,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: WELL DONE PIRATE YOU MASTERED THE BASICS NOW SET SAIL AND SHOW THE WORLD
-        YOUR SKILLS
+      value: WELL DONE, PIRATE! YOU'VE MASTERED THE BASICS - NOW SET SAIL AND SHOW
+        THE WORLD YOUR SKILLS!
       objectReference: {fileID: 0}
     - target: {fileID: 7383058767774949620, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Size.x
@@ -6069,7 +6068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: YOU WILL ENCOUNTER DIFFERENT ENEMIES DURING YOUR ADVENTURE
+      value: YOU'LL FACE MANY ENEMIES ON YOUR ADVENTURE! DEFEAT THEM TO EARN DIAMONDS.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6491,7 +6490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS SHIFT TO DASH YOU CAN USE IT ONCE WHILE JUMPING
+      value: PRESS SHIFT TO DASH! YOU CAN USE IT ONCE WHILE JUMPING.
       objectReference: {fileID: 0}
     - target: {fileID: 7383058767774949620, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Size.x
@@ -6766,8 +6765,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: EACH LEVEL HAS 4 HIDDEN ROOMS THEY HOLD TREASURE AND SECRETS COLLECT
-        ALL MAPS TO BECOME THE GHOST PIRATE ONE OF THEM IS CLOSE BY KEEP LOOKING
+      value: EACH LEVEL HIDES 4 SECRET ROOMS! THEY HOLD TREASURE AND SECRETS. COLLECT
+        ALL MAPS TO BECOME THE GHOST PIRATE - ONE IS NEARBY, KEEP LOOKING!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8334,8 +8333,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS 2 TO USE RED POTION IT RESTORES 1 POINT OF HEALTH AND HELPS YOU
-        GET BACK INTO THE FIGHT
+      value: PRESS 2 TO USE RED POTION! IT RESTORES 1 HEALTH AND GETS YOU BACK IN
+        THE FIGHT.
       objectReference: {fileID: 0}
     - target: {fileID: 8198437691601191641, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Enabled
@@ -9142,8 +9141,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS 3 TO USE GREEN POTION IT DOUBLES YOUR MELEE DAMAGE FOR 15 SECONDS
-        UNLEASH YOUR POWER
+      value: PRESS 3 TO USE GREEN POTION! DOUBLES MELEE DAMAGE FOR 15 SECONDS - UNLEASH
+        YOUR POWER!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9213,7 +9212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS RMB TO THROW YOUR SWORD BE CAREFUL YOU HAVE LIMITED AMMO
+      value: PRESS RMB TO THROW YOUR SWORD! BE CAREFUL, YOU HAVE LIMITED AMMO.
       objectReference: {fileID: 0}
     - target: {fileID: 7383058767774949620, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Size.x
@@ -16893,7 +16892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: "YOU CAN ALSO FIND SPIKES STAY AWAY FROM THEM OR YOU\u2019LL GET HURT"
+      value: WATCH OUT FOR SPIKES! TOUCH THEM AND YOU'LL GET HURT.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18282,7 +18281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS 4 TO USE KEYS YOU CAN OPEN CHESTS WITH THEM
+      value: PRESS 4 TO USE KEYS! OPEN CHESTS AND CLAIM YOUR LOOT.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19395,7 +19394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: YOU CAN ALSO FIND OTHER ITEMS LIKE GOLD DIAMONDS AND AMMO
+      value: YOU CAN ALSO FIND GOLD, DIAMONDS, AND AMMO!
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20363,8 +20362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: YOU CAN RUN INTO ROLLING BARRELS TRY TO AVOID THEM OR THEY WILL HURT
-        YOU
+      value: AVOID ROLLING BARRELS! THEY'LL HURT YOU IF YOU GET HIT.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21147,7 +21145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS SPACE TO JUMP
+      value: PRESS SPACE TO JUMP!
       objectReference: {fileID: 0}
     - target: {fileID: 7383058767774949620, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Size.x
@@ -21439,7 +21437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: PRESS SPACE TWICE TO DOUBLE JUMP
+      value: PRESS SPACE TWICE TO DOUBLE JUMP!
       objectReference: {fileID: 0}
     - target: {fileID: 7383058767774949620, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Size.x
@@ -23209,9 +23207,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: YOU CAN FIND DIFFERENT POTIONS EACH WITH A SPECIAL EFFECT BLUE ONE GIVES
-        YOU SPEED FOR 15 SECONDS PRESS 1 TO USE IT YOU CAN SEE HOW MANY YOU HAVE
-        IN THE HUD
+      value: FIND POTIONS WITH UNIQUE EFFECTS! BLUE ONE BOOSTS SPEED FOR 15 SECONDS.
+        PRESS 1 TO USE, CHECK COUNT IN HUD.
       objectReference: {fileID: 0}
     - target: {fileID: 8198437691601191641, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Enabled
@@ -136158,6 +136155,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrabbyTutorial
       objectReference: {fileID: 0}
+    - target: {fileID: 5542416508901320675, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
+      propertyPath: m_text
+      value: ENETER YOUR TEXT HERE !
+      objectReference: {fileID: 0}
     - target: {fileID: 6276327722349983287, guid: aaa925e966be7e54ea930684fd7a7230, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.954
@@ -136276,7 +136277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714498129913817133, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: _text
-      value: HEY IM CRABBY YOUR GUIDE FOR TODAY USE A AND D TO MOVE AROUND
+      value: HEY! i'M CRABBY, YOUR GUIDE FOR TODAY. USE A AND D TO MOVE AROUND.
       objectReference: {fileID: 0}
     - target: {fileID: 7383058767774949620, guid: 4daed046550cf4d4f9ff97e1a7515f76, type: 3}
       propertyPath: m_Size.x
