@@ -11,70 +11,83 @@ using UnityEngine.Video;
 public static class SaveManager
 {
     public static int _fpsCap=144;
+    private static bool _isLoadingLevel=false;
+    private static bool _isLoadingGameState=false;
+    
     //files functions
     public static void SaveLevelDataXML(int levelNumber, Vector3 position) {
-        XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
-        string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
-        FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
-        SaveLevelDataDTO data = new SaveLevelDataDTO();
-        data._saveables = new List<SaveableDTO>();
-        data._saveableEnemies = new List<SaveableEnemyDTO>();
-        data._totems = new List<TotemDTO>();
-        data._position = position;
-        data._levelId=levelNumber;
-        //collectibles
-        var savables = Object.FindObjectsOfType<Saveable>();
-        foreach (var saveable in savables)
+        if (!_isLoadingLevel)
         {
-            var coinData = new SaveableDTO
+            XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
+            string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
+            FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
+            SaveLevelDataDTO data = new SaveLevelDataDTO();
+            data._saveables = new List<SaveableDTO>();
+            data._saveableEnemies = new List<SaveableEnemyDTO>();
+            data._totems = new List<TotemDTO>();
+            data._position = position;
+            data._levelId = levelNumber;
+            //collectibles
+            var savables = Object.FindObjectsOfType<Saveable>();
+            foreach (var saveable in savables)
             {
-                id = saveable.ID, 
-                position = saveable.transform.position,
-                isOnScene = saveable._isOnScene
-            };
-            data._saveables.Add(coinData);
-        }
-        //enemies
-        var savableEnemy = Object.FindObjectsOfType<SaveableEnemy>();
-        foreach (var saveable in savableEnemy)
-        {
-            if (!saveable._isTotem)
-            {
-                var coinData = new SaveableEnemyDTO
+                var coinData = new SaveableDTO
                 {
+                    id = saveable.ID,
                     position = saveable.transform.position,
-                    isOnScene = saveable._isOnScene,
-                    enemyPrefabName = saveable._EnemyPrefabName
+                    isOnScene = saveable._isOnScene
                 };
-                data._saveableEnemies.Add(coinData);
+                data._saveables.Add(coinData);
             }
-            else
+
+            //enemies
+            var savableEnemy = Object.FindObjectsOfType<SaveableEnemy>();
+            foreach (var saveable in savableEnemy)
             {
-                var coinData = new TotemDTO()
+                if (!saveable._isTotem)
                 {
-                    position = saveable.transform.position,
-                    isOnScene = saveable._isOnScene,
-                    enemyPrefabName = saveable._EnemyPrefabName,
-                    configName = saveable._configName
-                };
-                data._totems.Add(coinData);
+                    var coinData = new SaveableEnemyDTO
+                    {
+                        position = saveable.transform.position,
+                        isOnScene = saveable._isOnScene,
+                        enemyPrefabName = saveable._EnemyPrefabName
+                    };
+                    data._saveableEnemies.Add(coinData);
+                }
+                else
+                {
+                    var coinData = new TotemDTO()
+                    {
+                        position = saveable.transform.position,
+                        isOnScene = saveable._isOnScene,
+                        enemyPrefabName = saveable._EnemyPrefabName,
+                        configName = saveable._configName
+                    };
+                    data._totems.Add(coinData);
+                }
+
             }
-            
+
+            data._mapFragmentEnum = new List<MapFragmentEnum>();
+
+            foreach (var variable in Inventory.GetSecretMapFragment())
+            {
+                data._mapFragmentEnum.Add(variable);
+            }
+
+            serializer.Serialize(stream, data);
+            stream.Close();
         }
-        data._mapFragmentEnum = new List<MapFragmentEnum>();
-        foreach (var variable in Inventory.GetSecretMapFragment())
-        {
-            data._mapFragmentEnum.Add(variable);
-        }
-        serializer.Serialize(stream, data);
-        stream.Close();
     }
-    public static void LoadLevelDataXML(int levelNumber, BasicPlayerMovment player) {
+    public static void LoadLevelDataXML(int levelNumber, BasicPlayerMovment player)
+    {
+        _isLoadingLevel = true;
         string saveFileName = $"slot_{GetCurrentSlot()}_level_{levelNumber}.xml";
         string fullPath = Application.dataPath + $"/../{saveFileName}";
         if (!File.Exists(fullPath))
         {
             Debug.Log($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
+            _isLoadingLevel = false;
             return;
         }
         XmlSerializer serializer = new XmlSerializer(typeof(SaveLevelDataDTO));
@@ -84,10 +97,10 @@ public static class SaveManager
         if (data == null)
         {
             Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
+            _isLoadingLevel = false;
             return;
         }
-       // data._position.x -= 1;
-       // data._position.y -= 1;
+      
         player.transform.position = data._position;
         //loadCollectibles 
         var saveables = Object.FindObjectsOfType<Saveable>();
@@ -151,32 +164,39 @@ public static class SaveManager
         {
             Inventory.LoadSecretMap(mapFragmentEnum);
         }
+
+        _isLoadingLevel = false;
     }
     public static void SaveGameStateDataXML()
     {
-        string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
-        XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
-        FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
-        GameStateDTO data = new GameStateDTO();
-        //player info
-        data._score = Inventory.Score;
-        data._strenghtPotionCounter = Inventory.StrengthPotionCounter;
-        data._hpPotionCounter = Inventory.HpPotionCounter;
-        data._speedPotionCounter = Inventory.SpeedPotionCounter;
-        data._keysCounter = Inventory.KeysCounter;
-        data._ammoCounter = Inventory.AmmoCounter;
-        data._hpCounter = Inventory.HpCounter;
-        serializer.Serialize(stream, data);
-        stream.Close();
+        if (!_isLoadingGameState)
+        {
+            string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
+            XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
+            FileStream stream = new FileStream(Application.dataPath + $"/../{saveFileName}", FileMode.Create);
+            GameStateDTO data = new GameStateDTO();
+            //player info
+            data._score = Inventory.Score;
+            data._strenghtPotionCounter = Inventory.StrengthPotionCounter;
+            data._hpPotionCounter = Inventory.HpPotionCounter;
+            data._speedPotionCounter = Inventory.SpeedPotionCounter;
+            data._keysCounter = Inventory.KeysCounter;
+            data._ammoCounter = Inventory.AmmoCounter;
+            data._hpCounter = Inventory.HpCounter;
+            serializer.Serialize(stream, data);
+            stream.Close();
+        }
     }
     public static void LoadGameStateDataXML()
     {
+        _isLoadingGameState = true;
         string saveFileName = $"slot_{GetCurrentSlot()}_gameState.xml";
         string fullPath = Application.dataPath + $"/../{saveFileName}";
         //jak nie ma save na tym slocie
         if (!File.Exists(fullPath))
         {
             Debug.Log($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
+            _isLoadingGameState = false;
             return;
         }
         XmlSerializer serializer = new XmlSerializer(typeof(GameStateDTO));
@@ -186,6 +206,7 @@ public static class SaveManager
         if (data == null)
         {
             Debug.LogError("Błąd: Nie udało się zdeserializować danych!");
+            _isLoadingGameState = false;
             return;
         }
         Inventory.Score = data._score;
@@ -202,6 +223,7 @@ public static class SaveManager
         GameEventSystem.UpdateHUD(Inventory.AmmoCounter, HUDType.Ammo);
         Inventory.HpCounter = data._hpCounter;
         GameEventSystem.UpdateHUD(Inventory.HpCounter, HUDType.Hp);
+        _isLoadingGameState = false;
     }
     public static void DeleteSaveSlot(int slotNumber)
     {
