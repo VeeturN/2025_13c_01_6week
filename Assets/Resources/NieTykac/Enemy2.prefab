@@ -225,7 +225,7 @@ MonoBehaviour:
   healthBar: {fileID: 7394980246834274117}
   _reward: {fileID: 2834923227301515495, guid: bc82f325cb0ed8b41ab05e73afc77576, type: 3}
   _patrolPointA: {fileID: 8285469807111601502}
-  _patrolPointB: {fileID: 0}
+  _patrolPointB: {fileID: 1723196303004232902}
   _speed: 2
   _bulletPrefab: {fileID: 1822755538699793455, guid: 65c3fd9507159fe4484058435c6b2266, type: 3}
   _shootPoint: {fileID: 6339799495794270169}
