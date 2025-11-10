@@ -218,11 +218,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isOnScene: 0
   _EnemyPrefabName: 
+  _isTotem: 0
+  _configName: 
   _startHP: 4
   _attackInterval: 2
   healthBar: {fileID: 7394980246834274117}
   _patrolPointA: {fileID: 8285469807111601502}
-  patrolPointB: {fileID: 1723196303004232902}
+  _patrolPointB: {fileID: 1723196303004232902}
   _speed: 2
   _bulletPrefab: {fileID: 1822755538699793455, guid: 65c3fd9507159fe4484058435c6b2266, type: 3}
   _shootPoint: {fileID: 6339799495794270169}
