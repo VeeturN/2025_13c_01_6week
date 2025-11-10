@@ -27,6 +27,7 @@ public class HUD : MonoBehaviour
     
     [SerializeField] private GameObject Exit;
     [SerializeField] private GameObject ScoreBoardView;
+    [SerializeField] private ShopScript GameOverView;
 
     private int maxHp = 10;
 
@@ -54,6 +55,12 @@ public class HUD : MonoBehaviour
         GameEventSystem.OnHUDParameterChanged += UpdateHUD;
         GameEventSystem.OnMapFragmentCollected += UpdateSecretMapsField;
         GameEventSystem.OnPotionTimeChaged += UpdatePotionBar;
+        GameEventSystem.OnPlayerDeath += ShowDeathMenu;
+    }
+
+    private void ShowDeathMenu()
+    {
+        GameOverView.DownShow();
     }
 
     private void Update()
@@ -85,6 +92,7 @@ public class HUD : MonoBehaviour
         GameEventSystem.OnHUDParameterChanged -= UpdateHUD;
         GameEventSystem.OnPotionTimeChaged -= UpdatePotionBar;
         GameEventSystem.OnMapFragmentCollected -= UpdateSecretMapsField;
+        GameEventSystem.OnPlayerDeath -= ShowDeathMenu;
     }
     private void UpdateSecretMapsField(SecretMapFragment secretMapFragment)
     {
@@ -167,6 +175,10 @@ public class HUD : MonoBehaviour
         AudioListener.pause = false;
 
         SceneManager.LoadScene("MainMenu");
+    }
+    public void LoadLastCheckpoint()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void StopAndShowScoreBoard()

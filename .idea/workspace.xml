@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce472446-2ce7-4583-b26d-87057efbfe8f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneCreate/Camera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneCreate/Camera.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/SceneCreate/Virtual Camera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/SceneCreate/Virtual Camera.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Level7.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Level7.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +24,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/VeeturN/2025_13c_01_6week.git&quot;,
-    &quot;accountId&quot;: &quot;7a866974-a89e-47d7-8c25-cfc0dfd0faac&quot;
+    &quot;accountId&quot;: &quot;4659bc4d-3fba-4679-9135-a624081bbd2e&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -51,12 +48,16 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -74,6 +75,8 @@
       <workItem from="1762129391648" duration="241000" />
       <workItem from="1762250041816" duration="317000" />
       <workItem from="1762471313239" duration="598000" />
+      <workItem from="1762802328747" duration="28000" />
+      <workItem from="1762802361275" duration="19000" />
     </task>
     <servers />
   </component>

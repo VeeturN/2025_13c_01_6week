@@ -351,7 +351,15 @@ public class BasicPlayerMovment : MonoBehaviour
     public void Die()
     {
         _isAlive = false;
+        StartCoroutine(DieMenuCoroutine());
     }
+
+    private IEnumerator DieMenuCoroutine()
+    {
+        yield return new WaitForSeconds(5f);
+        GameEventSystem.PlayerDeath();
+    }
+
     //animacja nie tykać
     public bool isAttackingAnimation()
     {
