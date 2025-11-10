@@ -14,7 +14,8 @@ public class SecretMapFragment : Saveable, ICollectible
         {
             return;
         }
-        _isCollected=true;
+        _isCollected = true;
+        _isOnScene = false;
         GameEventSystem.CollectSecretMapFragment(this);
         Destroy(gameObject);
     }
@@ -23,7 +24,7 @@ public class SecretMapFragment : Saveable, ICollectible
         return _mapFragmentEnum;
     }
 
-    public void setMapFragmentEnum(MapFragmentEnum mapFragmentEnum)
+    public void SetMapFragmentEnum(MapFragmentEnum mapFragmentEnum)
     {
         _mapFragmentEnum = mapFragmentEnum;
     }
