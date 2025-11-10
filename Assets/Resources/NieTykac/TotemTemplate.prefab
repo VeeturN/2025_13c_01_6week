@@ -99,9 +99,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isOnScene: 0
   _EnemyPrefabName: 
+  _isTotem: 0
+  _configName: 
   _startHP: 3
   _attackInterval: 2
   healthBar: {fileID: 5586968806571397486}
+  _reward: {fileID: 2834923227301515495, guid: bc82f325cb0ed8b41ab05e73afc77576, type: 3}
   enemyRangeType: 0
   lookLeft: 1
   config: {fileID: 0}

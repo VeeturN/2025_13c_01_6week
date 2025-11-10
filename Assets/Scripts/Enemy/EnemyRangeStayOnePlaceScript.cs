@@ -298,6 +298,7 @@ public class EnemyRangeStayOnePlaceScript : Enemy.EnemyBase
         
         if (_deathPiecesPrefab != null)
         {
+            Instantiate(_reward, transform.position, Quaternion.identity);
             var script = Instantiate(_deathPiecesPrefab, transform.position, Quaternion.identity)
                 .GetComponent<ObjectDestructionPieces>();
             if (script != null)

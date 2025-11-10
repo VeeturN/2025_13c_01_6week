@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public abstract class MovingEnemyBase : EnemyBase
 {
     [SerializeField] protected Transform _patrolPointA;
-    [SerializeField] protected Transform patrolPointB;
+    [SerializeField] protected Transform _patrolPointB;
     [SerializeField] protected float _speed = 3f;
     private bool _isAlive = true;
     private bool _isTouching;
@@ -98,7 +98,7 @@ public abstract class MovingEnemyBase : EnemyBase
 
     protected virtual void Patrol()
     {
-        float targetX = _movingToB ? patrolPointB.position.x : _patrolPointA.position.x;
+        float targetX = _movingToB ? _patrolPointB.position.x : _patrolPointA.position.x;
         float direction = Mathf.Sign(targetX - transform.position.x);
         if(!_isStaying)_rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         if (Mathf.Abs(transform.position.x - targetX) < 0.1f)
@@ -160,6 +160,7 @@ public abstract class MovingEnemyBase : EnemyBase
 
     public void endDead()
     {
+        Instantiate(_reward,transform.position, Quaternion.identity);
         Destroy(GetComponent<CircleCollider2D>());
     }
 
@@ -181,8 +182,8 @@ public abstract class MovingEnemyBase : EnemyBase
         float playerY = _player.transform.position.y;
         float enemyY = transform.position.y;
 
-        bool inXRange = playerX >= Mathf.Min(_patrolPointA.position.x, patrolPointB.position.x) &&
-                        playerX <= Mathf.Max(_patrolPointA.position.x, patrolPointB.position.x);
+        bool inXRange = playerX >= Mathf.Min(_patrolPointA.position.x, _patrolPointB.position.x) &&
+                        playerX <= Mathf.Max(_patrolPointA.position.x, _patrolPointB.position.x);
 
         bool inYRange = Mathf.Abs(playerY - enemyY) <= 10f;
         return inXRange && inYRange;

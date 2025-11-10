@@ -31,7 +31,7 @@ public class MovingEnemyRanged : MovingEnemyBase
             if(!_isStaying)
                 _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         }
-        else
+        else if(_patrolPointB.position.x >  _player.transform.position.x && _patrolPointA.position.x<_player.transform.position.x) 
         {
             if (!_mele) _rb.velocity = new Vector2(0, _rb.velocity.y);
             _mele = true;
@@ -72,7 +72,7 @@ public class MovingEnemyRanged : MovingEnemyBase
         float enemyY = transform.position.y;
 
         bool inXRange = playerX >= _patrolPointA.position.x - 5f &&
-                        playerX <= patrolPointB.position.x + 5f;
+                        playerX <= _patrolPointB.position.x + 5f;
         bool inYRange = Mathf.Abs(playerY - enemyY) <= 10f;
         return inXRange && inYRange;
     }
