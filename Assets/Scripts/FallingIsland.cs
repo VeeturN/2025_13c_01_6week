@@ -41,7 +41,8 @@ public class FallingIsland : MonoBehaviour
 
     public void OnBecameInvisible()
     {
-        _invisible = true;
+        if (!_isRespawning && _isFalling)
+            _invisible = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
