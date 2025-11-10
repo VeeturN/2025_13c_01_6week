@@ -5,6 +5,8 @@ using Enemy;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using System.Collections;
+using System.Collections.Generic;
 
 public abstract class MovingEnemyBase : EnemyBase
 {
@@ -14,6 +16,7 @@ public abstract class MovingEnemyBase : EnemyBase
     private bool _isAlive = true;
     private bool _isTouching;
     private bool _isGrounded;
+    protected bool _isStaying=false;
     EffectsManager _effectsManager;
 
 
@@ -97,10 +100,20 @@ public abstract class MovingEnemyBase : EnemyBase
     {
         float targetX = _movingToB ? patrolPointB.position.x : _patrolPointA.position.x;
         float direction = Mathf.Sign(targetX - transform.position.x);
-        _rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
-
+        if(!_isStaying)_rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         if (Mathf.Abs(transform.position.x - targetX) < 0.1f)
+        {
             _movingToB = !_movingToB;
+            StartCoroutine(SayPatrol());
+        }
+    }
+
+    protected virtual IEnumerator SayPatrol()
+    {
+        _isStaying = true;
+        _effectsManager.InterrogationDialogue(transform.position + Vector3.up * _enemyColiderRadius * 1.5f + Vector3.right * _enemyColiderRadius, transform);
+        yield return new WaitForSeconds(2f);
+        _isStaying = false;
     }
 
     public void RunEffect()
@@ -124,9 +137,9 @@ public abstract class MovingEnemyBase : EnemyBase
         if (_rb.velocity.x != 0)
         {
             _animator.SetBool("isRunning", true);
-            if (_rb.velocity.x > 0)
+            if (_rb.velocity.x > 0 && !_isStaying)
                 transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-            else if (_rb.velocity.x < 0)
+            else if (_rb.velocity.x < 0 && !_isStaying)
                 transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         }
         else
