@@ -172,11 +172,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246e5d651923f0f4b98cf8784dd1555b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueID: 5c8dc849-a180-4711-ae3f-031ffe1a3b8d
+  _isOnScene: 0
   _HP: 3
   _bouncyMat: {fileID: 6200000, guid: 01a96da3f5f8ea748ba7f7d538a72faf, type: 2}
   _destructionPieces: {fileID: 4986090148407040173, guid: bc6b9d4081152424a8b22774e03825fc, type: 3}
   _objectType: Box
   _partType: '*'
+  _reward: {fileID: 3546984550544647090, guid: 8bbb51b8a6e15874992a350cb32c0721, type: 3}
 --- !u!95 &498073787640572786
 Animator:
   serializedVersion: 5

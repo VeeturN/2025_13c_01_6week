@@ -223,6 +223,7 @@ MonoBehaviour:
   _startHP: 4
   _attackInterval: 1
   healthBar: {fileID: 3924093645436546822}
+  _reward: {fileID: 2834923227301515495, guid: bc82f325cb0ed8b41ab05e73afc77576, type: 3}
   _patrolPointA: {fileID: 8285469807111601502}
   _patrolPointB: {fileID: 1723196303004232902}
   _speed: 2

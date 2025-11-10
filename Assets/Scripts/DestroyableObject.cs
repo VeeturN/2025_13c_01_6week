@@ -9,6 +9,7 @@ public class DestroyableObject : Saveable, IHitable
     [SerializeField] private ObjectDestructionPieces _destructionPieces;
     [SerializeField] private string _objectType;
     [SerializeField] private string _partType;
+    [SerializeField] private GameObject _reward;
     private Rigidbody2D _rb;
     private BoxCollider2D _col;
     private float _halfHeight;
@@ -50,17 +51,27 @@ public class DestroyableObject : Saveable, IHitable
         );
         foreach (var h in hits)
         {
+            bool isTouching = false;
             if (h.collider != _col)
+            {
+                isTouching = true;
+            }
+            if (isTouching)
             {
                 _rb.bodyType = RigidbodyType2D.Kinematic;
                 _rb.velocity = Vector2.zero;
                 _col.sharedMaterial = null;
-                break;
+            }
+            else
+            {
+                _col.sharedMaterial = _bouncyMat;
+                _rb.bodyType = RigidbodyType2D.Dynamic;
             }
         }
     }
     public void Destroyed()
     {
+        Instantiate(_reward, transform.position, Quaternion.identity);
         ObjectDestructionPieces pieces = Instantiate(_destructionPieces, transform.position, Quaternion.identity);
         pieces.Init(_objectType, _partType);
         pieces.LaunchPieces();

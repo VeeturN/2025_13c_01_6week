@@ -160,6 +160,7 @@ public abstract class MovingEnemyBase : EnemyBase
 
     public void endDead()
     {
+        Instantiate(_reward,transform.position, Quaternion.identity);
         Destroy(GetComponent<CircleCollider2D>());
     }
 

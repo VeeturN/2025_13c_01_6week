@@ -14,7 +14,8 @@ namespace Enemy
         protected Rigidbody2D _rb;
         protected Animator _animator;
         protected float _hitTimer = 0f;
-        
+        [SerializeField] protected GameObject _reward;
+
         public bool IsPlayerInAttackRange { get; set; } = false;
         protected virtual void Awake()
         {
