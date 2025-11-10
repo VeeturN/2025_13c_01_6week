@@ -30516,7 +30516,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1568268582026512235, guid: 0620d65e74ce22d43a1fd969073db23a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2971479722657133038, guid: 0620d65e74ce22d43a1fd969073db23a, type: 3}
       propertyPath: m_Enabled
@@ -342906,6 +342906,10 @@ PrefabInstance:
       propertyPath: config
       value: 
       objectReference: {fileID: 11400000, guid: 149c0a0688860ad4db3f0c1918fdb313, type: 2}
+    - target: {fileID: -4935035347196602114, guid: 84abd38f23da44d4cbf2ccc7b7cbd3bf, type: 3}
+      propertyPath: lookLeft
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3544411364272989414, guid: 84abd38f23da44d4cbf2ccc7b7cbd3bf, type: 3}
       propertyPath: m_Name
       value: TotemTemplate (2)
