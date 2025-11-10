@@ -166,15 +166,17 @@ public class HUD : MonoBehaviour
     
     public void ExitToMainMenu()
     {
-
-        if (Exit != null && Exit.activeSelf)
-            Exit.SetActive(false);
-
-        Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
-        Time.fixedDeltaTime = _savedFixedDeltaTime > 0f ? _savedFixedDeltaTime : 0.02f;
-        AudioListener.pause = false;
-
-        SceneManager.LoadScene("MainMenu");
+        if (!SaveManager._isSavingLevel && !SaveManager._isSavingGameState)
+        {
+            if (Exit != null && Exit.activeSelf)
+                Exit.SetActive(false);
+        
+            Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
+            Time.fixedDeltaTime = _savedFixedDeltaTime > 0f ? _savedFixedDeltaTime : 0.02f;
+            AudioListener.pause = false;
+            SavePoint.isFirstTimehere = true;
+            SceneManager.LoadScene("MainMenu");
+        }
     }
     public void LoadLastCheckpoint()
     {

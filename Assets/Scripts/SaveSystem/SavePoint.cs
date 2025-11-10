@@ -4,10 +4,17 @@ using Vector3 = System.Numerics.Vector3;
 
 public class SavePoint : MonoBehaviour
 {
+    public static bool isFirstTimehere = true;
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
 
+        if (isFirstTimehere)
+        {
+            isFirstTimehere = false;
+            return;
+        }
+        
         if (SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()) != 420213767)
         {
             SaveManager.SaveGameStateDataXML();
