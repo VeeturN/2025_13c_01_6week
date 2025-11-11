@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using TMPro;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -22,6 +23,9 @@ public class MenuMenager : MonoBehaviour
     [SerializeField] private MainMenuPopup _ControlsView;
     [SerializeField] private MainMenuPopup _SettingsView;
     [SerializeField] private MainMenuPopup _AreUSureView;
+    
+    [SerializeField] private TextMeshProUGUI _musicOn;
+    [SerializeField] private Slider _musicVolumeSlider;
     private bool _slot1 = true;
     private bool _slot2 = true;
     private bool _slot3 = true;
@@ -44,6 +48,18 @@ public class MenuMenager : MonoBehaviour
         _SettingsView.HideAtStart();
         _AreUSureView.HideAtStart();
 
+        if (!PlayerPrefs.HasKey("Music"))
+        {
+            PlayerPrefs.SetInt("Music", 1);
+        }
+        if (!PlayerPrefs.HasKey("Volume"))
+        {
+            PlayerPrefs.SetFloat("Volume", 1f);
+        }
+        
+        _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+        _musicVolumeSlider.value = PlayerPrefs.GetFloat("Volume");
+        
         if (!isAnySlotTaken())
         {
             PlayerPrefs.DeleteAll();
@@ -335,6 +351,37 @@ public class MenuMenager : MonoBehaviour
         _MainView.LeftShow();
         _SettingsView.RightHide();
     }
+ 
+
+    public void OnOffMusic()
+    {
+        PlayerPrefs.SetInt("Music", PlayerPrefs.GetInt("Music") == 1 ? 0 : 1);
+        SoundTrackPlayer.CheckMusic();
+        
+        if (PlayerPrefs.GetInt("Music") == 1)
+        {
+            _musicOn.text = "<sprite index=9>";
+        }
+        else
+        {
+            _musicOn.text = "<sprite index=4>";
+        }
+    }
+    private void OnMusicVolumeChanged(float value)
+    {
+
+        PlayerPrefs.SetFloat("Volume", value);
+        PlayerPrefs.Save();
+        
+        SoundTrackPlayer.ChangeVolume(value);
+    }
+
+    private void OnDestroy()
+    {
+        if (_musicVolumeSlider != null)
+            _musicVolumeSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+    }
+    
 
     #endregion
     

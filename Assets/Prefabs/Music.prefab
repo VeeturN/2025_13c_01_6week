@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157812649f858c041a3b5ca814c20387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 8300000, guid: ef7ce0b708eecee428c59fd9f33efb2e, type: 3}
-  volume: 0.07
+  music: {fileID: 8300000, guid: a929e6aeb1f32f24eb05d5eb622c1372, type: 3}
+  volume: 1
 --- !u!82 &6472837361926521692
 AudioSource:
   m_ObjectHideFlags: 0
