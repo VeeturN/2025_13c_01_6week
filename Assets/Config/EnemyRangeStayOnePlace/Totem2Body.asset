@@ -23,6 +23,6 @@ MonoBehaviour:
   dieStateName: Die
   colliderAdjust:
     trimLeftPercent: 0.33
-    trimRightPercent: 0.32
-    trimTopPercent: 0.3
-    trimBottomPercent: 0
+    trimRightPercent: 0.33
+    trimTopPercent: 0.32
+    trimBottomPercent: 0.014
