@@ -6,4 +6,6 @@ public class SaveableEnemyDTO
     public Vector3 position;
     public bool isOnScene;
     public string enemyPrefabName;
+    public float A;
+    public float B;
 }
