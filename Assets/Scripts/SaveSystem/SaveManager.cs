@@ -53,13 +53,31 @@ public static class SaveManager
             {
                 if (!saveable._isTotem)
                 {
-                    var coinData = new SaveableEnemyDTO
+                    MovingEnemyBase backToFlying = (MovingEnemyBase)saveable;
+                    if (backToFlying != null)
                     {
-                        position = saveable.transform.position,
-                        isOnScene = saveable._isOnScene,
-                        enemyPrefabName = saveable._EnemyPrefabName
-                    };
-                    data._saveableEnemies.Add(coinData);
+                        var coinData = new SaveableEnemyDTO
+                        {
+                            position = saveable.transform.position,
+                            isOnScene = saveable._isOnScene,
+                            enemyPrefabName = saveable._EnemyPrefabName,
+                            A = backToFlying.getA(),
+                            B = backToFlying.getB(),
+                        };
+                        data._saveableEnemies.Add(coinData);
+                    }
+                    else
+                    {
+                        var coinData = new SaveableEnemyDTO
+                        {
+                            position = saveable.transform.position,
+                            isOnScene = saveable._isOnScene,
+                            enemyPrefabName = saveable._EnemyPrefabName,
+                            A=0,
+                            B=0,
+                        };
+                        data._saveableEnemies.Add(coinData);
+                    }
                 }
                 else
                 {
@@ -146,6 +164,13 @@ public static class SaveManager
             if (variable.isOnScene)
             {
                 GameObject prefab = Resources.Load<GameObject>("NieTykac/"+variable.enemyPrefabName);
+                
+                MovingEnemyBase movingEnemyBase = prefab.transform.GetComponentInChildren<MovingEnemyBase>();
+                if (movingEnemyBase  != null && !movingEnemyBase.IsUnityNull())
+                {
+                    movingEnemyBase.SetPatrolPositions(variable.A,variable.B);
+                    Debug.Log("Position Set");
+                }
                 Object.Instantiate(
                     prefab,
                     variable.position,
