@@ -103,7 +103,7 @@ public static class SaveManager
             serializer.Serialize(stream, data);
             stream.Close();
             _isSavingLevel=false;
-            Debug.Log("Data saved");
+           // Debug.Log("Data saved");
         }
     }
     public static void LoadLevelDataXML(int levelNumber, BasicPlayerMovment player)
@@ -113,7 +113,7 @@ public static class SaveManager
         string fullPath = Application.dataPath + $"/../{saveFileName}";
         if (!File.Exists(fullPath))
         {
-            Debug.Log($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
+           // Debug.Log($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
             _isLoadingLevel = false;
             return;
         }
@@ -123,7 +123,7 @@ public static class SaveManager
         stream.Close();
         if (data == null)
         {
-            Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
+           // Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
             _isLoadingLevel = false;
             return;
         }
@@ -169,7 +169,7 @@ public static class SaveManager
                 if (movingEnemyBase  != null && !movingEnemyBase.IsUnityNull())
                 {
                     movingEnemyBase.SetPatrolPositions(variable.A,variable.B);
-                    Debug.Log("Position Set");
+                   // Debug.Log("Position Set");
                 }
                 Object.Instantiate(
                     prefab,
@@ -201,7 +201,7 @@ public static class SaveManager
         }
 
         _isLoadingLevel = false;
-        Debug.Log("Data loaded");
+       // Debug.Log("Data loaded");
     }
     public static void SaveGameStateDataXML()
     {
@@ -234,7 +234,7 @@ public static class SaveManager
         //jak nie ma save na tym slocie
         if (!File.Exists(fullPath))
         {
-            Debug.Log($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
+           // Debug.Log($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
             _isLoadingGameState = false;
             return;
         }
@@ -244,7 +244,7 @@ public static class SaveManager
         stream.Close();
         if (data == null)
         {
-            Debug.LogError("Błąd: Nie udało się zdeserializować danych!");
+          //  Debug.LogError("Błąd: Nie udało się zdeserializować danych!");
             _isLoadingGameState = false;
             return;
         }
@@ -274,16 +274,16 @@ public static class SaveManager
             try
             {
                 File.Delete(file);
-                Debug.Log($"Usunięto plik zapisu: {file}");
+               // Debug.Log($"Usunięto plik zapisu: {file}");
             }
             catch (IOException e)
             {
-                Debug.LogError($"Nie udało się usunąć pliku {file}: {e.Message}");
+               // Debug.LogError($"Nie udało się usunąć pliku {file}: {e.Message}");
             }
         }
         if (files.Length == 0)
         {
-            Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
+          //  Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
         } 
     }
     //prefs functions
