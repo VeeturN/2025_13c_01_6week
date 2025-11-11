@@ -217,10 +217,10 @@ public abstract class MovingEnemyBase : EnemyBase
     private void CheckGround()
     {
         bool toPlayFallEffect = !_isGrounded;
-        Debug.DrawRay(transform.position + Vector3.right * _enemyColiderRadius / 2, Vector2.down * _enemyColiderRadius, Color.red);
-        Debug.DrawRay(transform.position + Vector3.left * _enemyColiderRadius / 2, Vector2.down * _enemyColiderRadius, Color.red);
-        if ((Physics2D.Raycast(transform.position + Vector3.right * _enemyColiderRadius / 2, Vector2.down, _enemyColiderRadius, LayerMask.GetMask("Ground")) ||
-            Physics2D.Raycast(transform.position + Vector3.left * _enemyColiderRadius / 2, Vector2.down, _enemyColiderRadius, LayerMask.GetMask("Ground")))
+        Debug.DrawRay(transform.position + Vector3.right * _enemyColiderRadius / 2, Vector2.down *1.1f* _enemyColiderRadius, Color.red);
+        Debug.DrawRay(transform.position + Vector3.left * _enemyColiderRadius / 2, Vector2.down*1.1f * _enemyColiderRadius, Color.red);
+        if ((Physics2D.Raycast(transform.position + Vector3.right * _enemyColiderRadius / 2, Vector2.down*1.1f, _enemyColiderRadius, LayerMask.GetMask("Ground")) ||
+            Physics2D.Raycast(transform.position + Vector3.left * _enemyColiderRadius / 2, Vector2.down*1.1f, _enemyColiderRadius, LayerMask.GetMask("Ground")))
             && _rb.velocity.y <= 0)
         {
             _isGrounded = true;
