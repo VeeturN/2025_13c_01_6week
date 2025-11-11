@@ -36,7 +36,7 @@ public class EnemyRangeStayOnePlaceConfig : ScriptableObject
         [Range(0f, 0.5f)] public float trimLeftPercent;
         [Range(0f, 0.5f)] public float trimRightPercent;
         [Range(0f, 0.5f)] public float trimTopPercent;
-        [Range(0f, 0.5f)] public float trimBottomPercent;
+        [Range(-0.2f, 0.5f)] public float trimBottomPercent;
     }
 
 }
