@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading;
@@ -9,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Video;
+using Object = UnityEngine.Object;
 
 public static class SaveManager
 {
@@ -53,30 +55,37 @@ public static class SaveManager
             {
                 if (!saveable._isTotem)
                 {
-                    MovingEnemyBase backToFlying = (MovingEnemyBase)saveable;
-                    if (backToFlying != null)
+                    try
                     {
-                        var coinData = new SaveableEnemyDTO
+                        MovingEnemyBase backToFlying = (MovingEnemyBase)saveable;
+                        if (backToFlying != null)
                         {
-                            position = saveable.transform.position,
-                            isOnScene = saveable._isOnScene,
-                            enemyPrefabName = saveable._EnemyPrefabName,
-                            A = backToFlying.getA(),
-                            B = backToFlying.getB(),
-                        };
-                        data._saveableEnemies.Add(coinData);
+                            var coinData = new SaveableEnemyDTO
+                            {
+                                position = saveable.transform.position,
+                                isOnScene = saveable._isOnScene,
+                                enemyPrefabName = saveable._EnemyPrefabName,
+                                A = backToFlying.getA(),
+                                B = backToFlying.getB(),
+                            };
+                            data._saveableEnemies.Add(coinData);
+                        }
+                        else
+                        {
+                            var coinData = new SaveableEnemyDTO
+                            {
+                                position = saveable.transform.position,
+                                isOnScene = saveable._isOnScene,
+                                enemyPrefabName = saveable._EnemyPrefabName,
+                                A=0,
+                                B=0,
+                            };
+                            data._saveableEnemies.Add(coinData);
+                        }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        var coinData = new SaveableEnemyDTO
-                        {
-                            position = saveable.transform.position,
-                            isOnScene = saveable._isOnScene,
-                            enemyPrefabName = saveable._EnemyPrefabName,
-                            A=0,
-                            B=0,
-                        };
-                        data._saveableEnemies.Add(coinData);
+                        
                     }
                 }
                 else
