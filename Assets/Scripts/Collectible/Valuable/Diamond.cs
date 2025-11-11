@@ -7,6 +7,6 @@ public class Diamond : AbstractValuable
 {
 	protected override void SetObjValue()
 	{
-		_value = 20;
+		_value = 50;
 	}
 }
