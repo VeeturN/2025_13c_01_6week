@@ -76,7 +76,7 @@ public class LoadFileToTMP : MonoBehaviour
         }
         else
         {
-            textField.text = $"FILE NOT FOUND: {path}";
+            textField.text = "NO LOCAL SCORES YET";
             Debug.LogWarning(textField.text);
         }
     }
