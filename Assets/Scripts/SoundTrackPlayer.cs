@@ -10,6 +10,16 @@ public class SoundTrackPlayer : MonoBehaviour
 
     void Awake()
     {
+        
+        if (!PlayerPrefs.HasKey("Music"))
+        {
+            PlayerPrefs.SetInt("Music", 1);
+        }
+        if (!PlayerPrefs.HasKey("Volume"))
+        {
+            PlayerPrefs.SetFloat("Volume", 1f);
+        }
+        
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -32,6 +42,7 @@ public class SoundTrackPlayer : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(PlayerPrefs.GetInt("Music"));
         if (audioSource.clip != null && !audioSource.isPlaying && PlayerPrefs.GetInt("Music") == 1)
             audioSource.Play();
     }

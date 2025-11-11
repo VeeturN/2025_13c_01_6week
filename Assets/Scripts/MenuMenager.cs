@@ -38,6 +38,15 @@ public class MenuMenager : MonoBehaviour
 
     private void Start()
     {
+        
+        if (!PlayerPrefs.HasKey("Music"))
+        {
+            PlayerPrefs.SetInt("Music", 1);
+        }
+        if (!PlayerPrefs.HasKey("Volume"))
+        {
+            PlayerPrefs.SetFloat("Volume", 1f);
+        }
         _MainView.gameObject.SetActive(true);
         _LvlView.HideAtStart();
         _CreditsView.HideAtStart();
@@ -47,15 +56,6 @@ public class MenuMenager : MonoBehaviour
         _ControlsView.HideAtStart();
         _SettingsView.HideAtStart();
         _AreUSureView.HideAtStart();
-
-        if (!PlayerPrefs.HasKey("Music"))
-        {
-            PlayerPrefs.SetInt("Music", 1);
-        }
-        if (!PlayerPrefs.HasKey("Volume"))
-        {
-            PlayerPrefs.SetFloat("Volume", 1f);
-        }
         
         _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
         _musicVolumeSlider.value = PlayerPrefs.GetFloat("Volume");
@@ -63,6 +63,14 @@ public class MenuMenager : MonoBehaviour
         if (!isAnySlotTaken())
         {
             PlayerPrefs.DeleteAll();
+        }
+        if (PlayerPrefs.GetInt("Music") == 1)
+        {
+            _musicOn.text = "<sprite index=9>";
+        }
+        else
+        {
+            _musicOn.text = "<sprite index=4>";
         }
     }
 
