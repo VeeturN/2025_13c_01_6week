@@ -25,4 +25,4 @@ MonoBehaviour:
     trimLeftPercent: 0.24
     trimRightPercent: 0.21
     trimTopPercent: 0.41
-    trimBottomPercent: 0
+    trimBottomPercent: -0.07
