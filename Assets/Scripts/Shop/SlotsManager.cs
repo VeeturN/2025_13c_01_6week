@@ -34,9 +34,9 @@ public class SlotsManager : MonoBehaviour
         {
             if (SaveManager.GetCurrentLevel(SaveManager.GetCurrentSlot()) != 420213767)
             {
-                if (Inventory.Score >= 200)
+                if (Inventory.Score >= 400)
                 {
-                    Inventory.Score -= 200;
+                    Inventory.Score -= 400;
                     GameEventSystem.UpdateHUD(Inventory.Score, HUDType.Score);
                 }
                 else
