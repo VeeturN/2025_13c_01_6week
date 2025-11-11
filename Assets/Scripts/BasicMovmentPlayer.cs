@@ -60,15 +60,13 @@ public class BasicPlayerMovment : MonoBehaviour
         _playerHalfHeight = col.bounds.extents.y;
         _renderers = GetComponentsInChildren<SpriteRenderer>();
         _rb.freezeRotation = true;
-
+        
 
         GameObject obj = GameObject.FindGameObjectWithTag("EffectsManager");
         if (obj != null)
             _effectsManager = obj.GetComponent<EffectsManager>();
         else
             Debug.LogWarning("Brakuje EffectsManager na scenie");
-        
-        
     }
     
     public void Start()
