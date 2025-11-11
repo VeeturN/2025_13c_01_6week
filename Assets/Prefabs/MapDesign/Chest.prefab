@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1887928761
   m_SortingLayer: -2
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 3ff9da410786bbf4885876474ba67f88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -127,10 +127,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790bcc6904d595042ba8f79308474731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueID: 1f4d2e0e-d210-49bc-a68e-26ec8169c2c3
+  _isOnScene: 0
   _itemsToDrop:
   - {fileID: 8657348758207764884, guid: 1f73c250e7f013844b0c139d7eaa53c9, type: 3}
   - {fileID: 2834923227301515495, guid: bc82f325cb0ed8b41ab05e73afc77576, type: 3}
   - {fileID: 8236102096117950281, guid: 026f03c12fa9f684786e6a4b89524253, type: 3}
+  _destructionPieces: {fileID: 4986090148407040173, guid: bc6b9d4081152424a8b22774e03825fc, type: 3}
+  _objectType: padlock
+  _partType: 
 --- !u!95 &-7807250433018967249
 Animator:
   serializedVersion: 5

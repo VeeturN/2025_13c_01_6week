@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static EnemyRangeStayOnePlaceScript;
 
 public class Chest : Saveable
 {
     [SerializeField] private GameObject[] _itemsToDrop;
+    [SerializeField] private ObjectDestructionPieces _destructionPieces;
+    [SerializeField] private string _objectType;
+    [SerializeField] private string _partType;
     private Transform _player; 
     private float _interactionDistance = 3f; 
     private BasicPlayerMovment _playerObj;
@@ -32,7 +36,6 @@ public class Chest : Saveable
     }
     private void OpenChest()
     {
-        Debug.Log("Otwieranie");
         float distance = Vector2.Distance(_player.position, transform.position);
 
         if (distance <= _interactionDistance && Inventory.GetKeysCollected() > 0)
@@ -45,6 +48,13 @@ public class Chest : Saveable
             _isOpened = true;
             _isOnScene = false;
         }
+    }
+
+    public void CreatePadlock()
+    {
+        ObjectDestructionPieces pieces = Instantiate(_destructionPieces, transform.position, Quaternion.identity);
+        pieces.Init(_objectType, _partType);
+        pieces.LaunchPieces();
     }
 
     private void DestroyAfterAnimation()
