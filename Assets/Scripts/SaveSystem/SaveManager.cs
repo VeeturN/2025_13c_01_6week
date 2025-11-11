@@ -90,18 +90,23 @@ public static class SaveManager
                 }
                 else
                 {
-                    var coinData = new TotemDTO()
+                    try
                     {
-                        position = saveable.transform.position,
-                        isOnScene = saveable._isOnScene,
-                        enemyPrefabName = saveable._EnemyPrefabName,
-                        configName = saveable._configName
-                    };
-                    data._totems.Add(coinData);
+                        EnemyRangeStayOnePlaceScript totem = (EnemyRangeStayOnePlaceScript)saveable;
+                        var coinData = new TotemDTO()
+                        {
+                            position = saveable.transform.position,
+                            isOnScene = saveable._isOnScene,
+                            enemyPrefabName = saveable._EnemyPrefabName,
+                            configName = saveable._configName,
+                            lookLeft = totem.getLookLeft(),
+                        };
+                        data._totems.Add(coinData);
+                    }
+                    catch (Exception e) {}
                 }
-
             }
-
+            
             data._mapFragmentEnum = new List<MapFragmentEnum>();
 
             foreach (var variable in Inventory.GetSecretMapFragment())
@@ -178,7 +183,6 @@ public static class SaveManager
                 if (movingEnemyBase  != null && !movingEnemyBase.IsUnityNull())
                 {
                     movingEnemyBase.SetPatrolPositions(variable.A,variable.B);
-                   // Debug.Log("Position Set");
                 }
                 Object.Instantiate(
                     prefab,
@@ -195,6 +199,7 @@ public static class SaveManager
                 GameObject prefab = Resources.Load<GameObject>("NieTykac/"+variable.enemyPrefabName);
                 EnemyRangeStayOnePlaceConfig config = Resources.Load<EnemyRangeStayOnePlaceConfig>("NieTykac/Configs/"+variable.configName);
                 EnemyRangeStayOnePlaceScript template = prefab.GetComponent<EnemyRangeStayOnePlaceScript>();
+                template.setLookLeft(variable.lookLeft);
                 template.setConfig(config);
                 Object.Instantiate(
                     prefab,

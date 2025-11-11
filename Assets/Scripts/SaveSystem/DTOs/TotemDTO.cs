@@ -6,4 +6,5 @@ public class TotemDTO
     public bool isOnScene;
     public string enemyPrefabName;
     public string configName;
+    public bool lookLeft;
 }
