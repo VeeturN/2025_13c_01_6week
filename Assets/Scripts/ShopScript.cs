@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ShopScript : MonoBehaviour
 {
@@ -35,12 +36,13 @@ public class ShopScript : MonoBehaviour
 
     private IEnumerator HideDownCoroutine()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         while (Vector3.Distance(rectTransform.localPosition, hideDownTargetPos) > 1f)
         {
             yield return null;
-            rectTransform.localPosition = Vector3.MoveTowards(rectTransform.localPosition, hideDownTargetPos, speed * Time.deltaTime);
-        }
-        rectTransform.localPosition = hideDownTargetPos;
+        rectTransform.localPosition = Vector3.MoveTowards(rectTransform.localPosition, hideDownTargetPos, speed * Time.deltaTime);
+    }
+    rectTransform.localPosition = hideDownTargetPos;
         GameEventSystem.SetInputsActive(true);
     }
     public void DownHide()
