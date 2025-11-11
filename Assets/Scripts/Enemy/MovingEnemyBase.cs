@@ -18,6 +18,7 @@ public abstract class MovingEnemyBase : EnemyBase
     private bool _isGrounded;
     protected bool _isStaying=false;
     EffectsManager _effectsManager;
+    protected bool _canJump = true;
 
 
 
@@ -101,6 +102,7 @@ public abstract class MovingEnemyBase : EnemyBase
         float targetX = _movingToB ? _patrolPointB.position.x : _patrolPointA.position.x;
         float direction = Mathf.Sign(targetX - transform.position.x);
         if(!_isStaying)_rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
+        else _rb.velocity = new Vector2(0, _rb.velocity.y);
         if (Mathf.Abs(transform.position.x - targetX) < 0.1f)
         {
             _movingToB = !_movingToB;
@@ -123,11 +125,19 @@ public abstract class MovingEnemyBase : EnemyBase
 
     protected virtual void Jump()
     {
-        if (Mathf.Abs(_rb.velocity.y) < 0.01f)
+        if (Mathf.Abs(_rb.velocity.y) < 0.01f && _canJump)
         {
             _effectsManager.JumpEffect(transform.position + Vector3.down * _enemyColiderRadius / 4);
             _rb.AddForce(Vector2.up * Random.Range(3f, 6f), ForceMode2D.Impulse);
+            StartCoroutine(WaitForJumpCoroutine());
         }
+    }
+
+    protected IEnumerator WaitForJumpCoroutine()
+    {
+        _canJump = false;
+        yield return new WaitForSeconds(1f);
+        _canJump = true;
     }
 
     protected virtual void UpdateRunAnimation()
