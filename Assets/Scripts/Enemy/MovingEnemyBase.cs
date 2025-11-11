@@ -90,7 +90,6 @@ public abstract class MovingEnemyBase : EnemyBase
             if (_isGrounded)
             {
                 _animator.SetBool("isDeadGround", true);
-                
             }
         }
     }
@@ -237,9 +236,9 @@ public abstract class MovingEnemyBase : EnemyBase
 
     private void Die()
     {
-        _isAlive= false;
+        _rb.sharedMaterial = null;
+        _isAlive = false;
         _isOnScene=false;
-        Debug.Log("Enemy died");
     }
 
     public void SayDead()
