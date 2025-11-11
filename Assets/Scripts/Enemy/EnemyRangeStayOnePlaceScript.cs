@@ -320,4 +320,13 @@ public class EnemyRangeStayOnePlaceScript : Enemy.EnemyBase
     {
         this.config = config;
     }
+
+    public bool getLookLeft()
+    {
+        return lookLeft;
+    }
+    public void setLookLeft(bool value)
+    {
+        lookLeft = value;
+    }
 }
