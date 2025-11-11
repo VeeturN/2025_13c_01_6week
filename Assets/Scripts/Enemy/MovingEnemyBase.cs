@@ -19,21 +19,27 @@ public abstract class MovingEnemyBase : EnemyBase
     protected bool _isStaying=false;
     EffectsManager _effectsManager;
     protected bool _canJump = true;
-
-
-
-
     protected bool _movingToB = true;
     private float _enemyColiderRadius;
-
+    [SerializeField] private float _patrolPointAPositionX=0;
+    [SerializeField] private float _patrolPointBPositionX=0;
+    
     protected override void Awake()
     {
         base.Awake();
-
         _effectsManager = GameObject.FindGameObjectWithTag("EffectsManager").GetComponent<EffectsManager>();
         _enemyColiderRadius = GetComponent<CircleCollider2D>().radius;
     }
 
+    protected void Start()
+    {
+        base.Start();
+        if (_patrolPointAPositionX==0 && _patrolPointBPositionX==0)
+        {
+            _patrolPointAPositionX = _patrolPointA.position.x;
+            _patrolPointBPositionX = _patrolPointB.position.x;
+        }
+    }
 
     protected virtual void FixedUpdate()
     {
@@ -90,7 +96,6 @@ public abstract class MovingEnemyBase : EnemyBase
             if (_isGrounded)
             {
                 _animator.SetBool("isDeadGround", true);
-                
             }
         }
     }
@@ -99,7 +104,7 @@ public abstract class MovingEnemyBase : EnemyBase
 
     protected virtual void Patrol()
     {
-        float targetX = _movingToB ? _patrolPointB.position.x : _patrolPointA.position.x;
+        float targetX = _movingToB ? _patrolPointBPositionX : _patrolPointAPositionX;
         float direction = Mathf.Sign(targetX - transform.position.x);
         if(!_isStaying)_rb.velocity = new Vector2(direction * _speed, _rb.velocity.y);
         else _rb.velocity = new Vector2(0, _rb.velocity.y);
@@ -192,8 +197,8 @@ public abstract class MovingEnemyBase : EnemyBase
         float playerY = _player.transform.position.y;
         float enemyY = transform.position.y;
 
-        bool inXRange = playerX >= Mathf.Min(_patrolPointA.position.x, _patrolPointB.position.x) &&
-                        playerX <= Mathf.Max(_patrolPointA.position.x, _patrolPointB.position.x);
+        bool inXRange = playerX >= Mathf.Min(_patrolPointAPositionX, _patrolPointBPositionX) &&
+                        playerX <= Mathf.Max(_patrolPointAPositionX, _patrolPointBPositionX);
 
         bool inYRange = Mathf.Abs(playerY - enemyY) <= 10f;
         return inXRange && inYRange;
@@ -227,7 +232,6 @@ public abstract class MovingEnemyBase : EnemyBase
         }
         if (_isGrounded && toPlayFallEffect)
             _effectsManager.FallEffect(transform.position + Vector3.down * _enemyColiderRadius / 5);
-
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -237,13 +241,32 @@ public abstract class MovingEnemyBase : EnemyBase
 
     private void Die()
     {
-        _isAlive= false;
+        _rb.sharedMaterial = null;
+        _isAlive = false;
         _isOnScene=false;
-        Debug.Log("Enemy died");
     }
 
     public void SayDead()
     {
         _effectsManager.DeadDialogue(transform.position + Vector3.up * _enemyColiderRadius + Vector3.right * _enemyColiderRadius, transform);
     }
+
+    public void SetPatrolPositions(float A, float B)
+    {
+        _patrolPointAPositionX = A;
+        _patrolPointBPositionX = B;
+    }
+    
+    public float getA()
+    {
+        return _patrolPointAPositionX;
+    }
+
+    public float getB()
+    {
+        return _patrolPointBPositionX;
+    }
+
+
+
 }

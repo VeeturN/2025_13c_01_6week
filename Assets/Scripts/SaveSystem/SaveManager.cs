@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Threading;
@@ -9,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Video;
+using Object = UnityEngine.Object;
 
 public static class SaveManager
 {
@@ -53,13 +55,38 @@ public static class SaveManager
             {
                 if (!saveable._isTotem)
                 {
-                    var coinData = new SaveableEnemyDTO
+                    try
                     {
-                        position = saveable.transform.position,
-                        isOnScene = saveable._isOnScene,
-                        enemyPrefabName = saveable._EnemyPrefabName
-                    };
-                    data._saveableEnemies.Add(coinData);
+                        MovingEnemyBase backToFlying = (MovingEnemyBase)saveable;
+                        if (backToFlying != null)
+                        {
+                            var coinData = new SaveableEnemyDTO
+                            {
+                                position = saveable.transform.position,
+                                isOnScene = saveable._isOnScene,
+                                enemyPrefabName = saveable._EnemyPrefabName,
+                                A = backToFlying.getA(),
+                                B = backToFlying.getB(),
+                            };
+                            data._saveableEnemies.Add(coinData);
+                        }
+                        else
+                        {
+                            var coinData = new SaveableEnemyDTO
+                            {
+                                position = saveable.transform.position,
+                                isOnScene = saveable._isOnScene,
+                                enemyPrefabName = saveable._EnemyPrefabName,
+                                A=0,
+                                B=0,
+                            };
+                            data._saveableEnemies.Add(coinData);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
                 }
                 else
                 {
@@ -85,7 +112,7 @@ public static class SaveManager
             serializer.Serialize(stream, data);
             stream.Close();
             _isSavingLevel=false;
-            Debug.Log("Data saved");
+           // Debug.Log("Data saved");
         }
     }
     public static void LoadLevelDataXML(int levelNumber, BasicPlayerMovment player)
@@ -95,7 +122,7 @@ public static class SaveManager
         string fullPath = Application.dataPath + $"/../{saveFileName}";
         if (!File.Exists(fullPath))
         {
-            Debug.Log($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
+           // Debug.Log($"Nie znaleziono zapisu poziomu ({fullPath}). Ładowanie pominięte – uruchamiam poziom w stanie domyślnym.");
             _isLoadingLevel = false;
             return;
         }
@@ -105,7 +132,7 @@ public static class SaveManager
         stream.Close();
         if (data == null)
         {
-            Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
+           // Debug.Log($"Błąd podczas wczytywania danych poziomu: {saveFileName}");
             _isLoadingLevel = false;
             return;
         }
@@ -146,6 +173,13 @@ public static class SaveManager
             if (variable.isOnScene)
             {
                 GameObject prefab = Resources.Load<GameObject>("NieTykac/"+variable.enemyPrefabName);
+                
+                MovingEnemyBase movingEnemyBase = prefab.transform.GetComponentInChildren<MovingEnemyBase>();
+                if (movingEnemyBase  != null && !movingEnemyBase.IsUnityNull())
+                {
+                    movingEnemyBase.SetPatrolPositions(variable.A,variable.B);
+                   // Debug.Log("Position Set");
+                }
                 Object.Instantiate(
                     prefab,
                     variable.position,
@@ -176,7 +210,7 @@ public static class SaveManager
         }
 
         _isLoadingLevel = false;
-        Debug.Log("Data loaded");
+       // Debug.Log("Data loaded");
     }
     public static void SaveGameStateDataXML()
     {
@@ -209,7 +243,7 @@ public static class SaveManager
         //jak nie ma save na tym slocie
         if (!File.Exists(fullPath))
         {
-            Debug.Log($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
+           // Debug.Log($"Nie znaleziono zapisu danych gracza ({fullPath}). Ładowanie pominięte – dane gracza w stanie domyślnym.");
             _isLoadingGameState = false;
             return;
         }
@@ -219,7 +253,7 @@ public static class SaveManager
         stream.Close();
         if (data == null)
         {
-            Debug.LogError("Błąd: Nie udało się zdeserializować danych!");
+          //  Debug.LogError("Błąd: Nie udało się zdeserializować danych!");
             _isLoadingGameState = false;
             return;
         }
@@ -249,16 +283,16 @@ public static class SaveManager
             try
             {
                 File.Delete(file);
-                Debug.Log($"Usunięto plik zapisu: {file}");
+               // Debug.Log($"Usunięto plik zapisu: {file}");
             }
             catch (IOException e)
             {
-                Debug.LogError($"Nie udało się usunąć pliku {file}: {e.Message}");
+               // Debug.LogError($"Nie udało się usunąć pliku {file}: {e.Message}");
             }
         }
         if (files.Length == 0)
         {
-            Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
+          //  Debug.LogWarning($"Brak plików do usunięcia dla slotu {slotNumber}");
         } 
     }
     //prefs functions
