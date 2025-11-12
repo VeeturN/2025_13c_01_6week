@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Ship : MonoBehaviour
 {
@@ -61,11 +62,21 @@ public class Ship : MonoBehaviour
             StartCoroutine(TripCoroutine(player,waterSplashes));
         }
     }
-
+    private IEnumerator MovePlayerToTheMiddleCoroutine(BasicPlayerMovment player)
+    {
+        player.transform.localScale = new Vector3(Mathf.Abs(player.transform.localScale.x) * Mathf.Sign(transform.localScale.x), player.transform.localScale.y, player.transform.localScale.z);
+        Vector3 target = new Vector3(-0.25f, 0.5f, 0f);
+        while (player.transform.localPosition != target)
+        {
+            player.transform.localPosition = Vector3.MoveTowards(player.transform.localPosition, target, 2f * Time.deltaTime);
+            yield return null;
+        }
+    }
     private IEnumerator TripCoroutine(BasicPlayerMovment player, EffectScript[] waterSplashes)
     {
         _sailAnimator.SetBool("isGoing", true);
         player.transform.SetParent(transform);
+        yield return StartCoroutine(MovePlayerToTheMiddleCoroutine(player));
         Vector3 stayingPos = player.transform.localPosition;
         while (transform.position.x < _startPosX + _goLength)
         {
