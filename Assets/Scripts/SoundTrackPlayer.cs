@@ -42,7 +42,6 @@ public class SoundTrackPlayer : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(PlayerPrefs.GetInt("Music"));
         if (audioSource.clip != null && !audioSource.isPlaying && PlayerPrefs.GetInt("Music") == 1)
             audioSource.Play();
     }

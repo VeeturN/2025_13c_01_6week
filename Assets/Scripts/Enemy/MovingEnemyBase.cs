@@ -23,7 +23,9 @@ public abstract class MovingEnemyBase : EnemyBase
     private float _enemyColiderRadius;
     [SerializeField] private float _patrolPointAPositionX=0;
     [SerializeField] private float _patrolPointBPositionX=0;
-    
+    private bool _deathTimePassed = false;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -93,7 +95,7 @@ public abstract class MovingEnemyBase : EnemyBase
         else
         {
             CheckGround();
-            if (_isGrounded)
+            if (_isGrounded || _deathTimePassed)
             {
                 _animator.SetBool("isDeadGround", true);
             }
@@ -244,6 +246,13 @@ public abstract class MovingEnemyBase : EnemyBase
         _rb.sharedMaterial = null;
         _isAlive = false;
         _isOnScene=false;
+        StartCoroutine(DeathMaxTimeCoroutine());
+    }
+
+    private IEnumerator DeathMaxTimeCoroutine()
+    {
+        yield return new WaitForSeconds(1.2f);
+        _deathTimePassed = true;
     }
 
     public void SayDead()
