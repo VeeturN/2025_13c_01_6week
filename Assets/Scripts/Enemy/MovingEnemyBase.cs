@@ -251,7 +251,7 @@ public abstract class MovingEnemyBase : EnemyBase
 
     private IEnumerator DeathMaxTimeCoroutine()
     {
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.8f);
         _deathTimePassed = true;
     }
 

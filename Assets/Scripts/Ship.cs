@@ -51,9 +51,13 @@ public class Ship : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !_goToPoint)
         {
+            if (collision.transform.position.y < transform.position.y + _halfHeight / 2)
+                return;
+
             _goToPoint = true;
             BasicPlayerMovment player = collision.gameObject.GetComponent<BasicPlayerMovment>();
             player.StopMovement();
+            player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             EffectScript[] waterSplashes = _effectsManager.WaterSplashEffect(
                 transform.position+Vector3.right*_halfWidth/3*2 + Vector3.up * _halfHeight / 2,
                 transform.position + Vector3.left * _halfWidth + Vector3.up* _halfHeight / 2);
