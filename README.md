@@ -10,7 +10,7 @@
 ## 🎥 Gameplay Showcase
 
 [![Game Gameplay](https://img.youtube.com/vi/TWOJ_LINK_DO_YOUTUBE/hqdefault.jpg)](https://www.youtube.com/watch?v=TWOJ_LINK_DO_YOUTUBE)<br>
-*(Click the image above to watch the gameplay video on YouTube *
+*(Click the image above to watch the gameplay video on YouTube*
 
 ## 💡 About the Project
 
