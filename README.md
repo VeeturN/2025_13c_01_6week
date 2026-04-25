@@ -5,7 +5,7 @@
 ![Unity](https://img.shields.io/badge/Made_with-Unity-black?logo=unity)
 ![C#](https://img.shields.io/badge/Language-C%23-blue)
 
-**[Wpisz Tytuł Gry]** is a 2D platformer game created as a final project for the **PRO 1** (Programming 1) course at the **Polish-Japanese Academy of Information Technology (PJATK)** in Warsaw, Department **XRG**. 
+**[Black Horizon]** is a 2D platformer game created as a final project for the **PRO 1** (Programming 1) course at the **Polish-Japanese Academy of Information Technology (PJATK)** in Warsaw, Department **XRG**. 
 
 ## 🎥 Gameplay Showcase
 
@@ -26,7 +26,7 @@ The game offers a dynamic platforming experience with a variety of movement mech
 * **Game Systems:** * A robust **Save System** to keep track of player progress.
   * Comprehensive and polished **UI / GUI** menus.
   * A custom **Dialogue System** for storytelling and NPC interactions.
-* **Collectibles:** Various hidden items (znajdźki) to collect throughout the levels.
+* **Collectibles:** Various hidden items to collect throughout the levels.
 * **Visuals:** Custom 2D animations that bring the characters and the world to life.
 
 ## 🛠️ Technologies & Tools
@@ -40,10 +40,10 @@ The game offers a dynamic platforming experience with a variety of movement mech
 
 This project was brought to life by an amazing 4-person team from the XRG department:
 
-* **[Dawid (VeeturN)](https://github.com/VeeturN)** - Developer 
-* **[Imię 2 (Nick 2)](https://github.com/link_do_githuba)** - Developer
-* **[Imię 3 (Nick 3)](https://github.com/link_do_githuba)** - Developer
-* **[Imię 4 (Nick 4)](https://github.com/link_do_githuba)** - Developer
+* **[Dawid Juszyński (VeeturN)](https://github.com/VeeturN)** - Developer 
+* **[Olaf Mickiewicz (Nick 2)](https://github.com/link_do_githuba)** - Developer
+* **[Jędrzej Nowakowski (Nick 3)](https://github.com/link_do_githuba)** - Developer
+* **[Aleks Winiarczuk (Nick 4)](https://github.com/link_do_githuba)** - Developer
 
 ## 🎓 Credits
 A special thanks to the **Polsko-Japońska Akademia Technik Komputerowych (PJATK)** in Warsaw, specifically the **XRG Department**, for providing the knowledge and environment to build this project as part of the PRO 1 course curriculum.
