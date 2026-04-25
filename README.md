@@ -1,68 +1,55 @@
-```markdown
-# Projekt Zaliczeniowy - PRO 1 🎓
+# 🕹️ 2D Platformer Project (PRO 1)
 
-[![Uczelnia](https://img.shields.io/badge/PJATK-Warszawa-blue.svg)](https://pja.edu.pl/)
-[![Przedmiot](https://img.shields.io/badge/Przedmiot-PRO_1-orange.svg)]()
-[![Wydział](https://img.shields.io/badge/Wydział-XRG-green.svg)]()
-[![Silnik](https://img.shields.io/badge/Engine-Unity_2D-blueviolet.svg?logo=unity)](https://unity.com/)
-[![Język](https://img.shields.io/badge/Lang-C%23-green.svg?logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
+![PJATK](https://img.shields.io/badge/University-PJATK_Warsaw-red)
+![Course](https://img.shields.io/badge/Course-PRO_1-green)
+![Unity](https://img.shields.io/badge/Made_with-Unity-black?logo=unity)
+![C#](https://img.shields.io/badge/Language-C%23-blue)
 
-Projekt przygotowany w ramach zaliczenia przedmiotu **PRO 1** (Programowanie 1) na **Polsko-Japońskiej Akademii Technik Komputerowych w Warszawie**, na wydziale **XRG**.
+**[Wpisz Tytuł Gry]** is a 2D platformer game created as a final project for the **PRO 1** (Programming 1) course at the **Polish-Japanese Academy of Information Technology (PJATK)** in Warsaw, Department **XRG**. 
 
-Repozytorium: [2025_13c_01_6week](https://github.com/VeeturN/2025_13c_01_6week)
+## 🎥 Gameplay Showcase
 
----
+[![Game Gameplay](https://img.youtube.com/vi/TWOJ_LINK_DO_YOUTUBE/hqdefault.jpg)](https://www.youtube.com/watch?v=TWOJ_LINK_DO_YOUTUBE)<br>
+*(Click the image above to watch the gameplay video on YouTube - Wymień link na własny lub dodaj GIFa)*
 
-## 👥 Zespół Projektowy (Grupa 13c_01)
+## 💡 About the Project
 
-Projekt realizowany w 4-osobowym zespole. Poniżej znajduje się podział obowiązków (przykład):
+This project is a feature-rich 2D platformer built entirely from scratch in **Unity** using **C#**. It was developed by a team of 4 students to demonstrate proficiency in game logic, physics, UI/UX, and system architecture.
 
-* **@VeeturN** – Logika gracza, system umiejętności (dash, double jump).
-* **[Nick 2]** – AI Przeciwników (Melee, Range), system walki.
-* **[Nick 3]** – System Save/Load, rozbudowane UI/GUI, dialogi.
-* **[Nick 4]** – Tilemapa, trampoliny, platformy ruszające/znikające, animacje.
+The game offers a dynamic platforming experience with a variety of movement mechanics, combat encounters, and environmental puzzles. 
 
----
+### ✨ Key Features & Mechanics:
+* **Combat System:** Both melee and ranged attack mechanics for the player.
+* **Enemy AI:** Programmed AI behaviors for both melee and ranged enemies, offering diverse combat challenges.
+* **Advanced Movement:** Fluid character controller featuring abilities like **double jump** and **dash**.
+* **Dynamic Environments:** Levels built using Unity's **Tilemap** system, featuring interactive elements like trampolines, moving platforms, and disappearing platforms.
+* **Game Systems:** * A robust **Save System** to keep track of player progress.
+  * Comprehensive and polished **UI / GUI** menus.
+  * A custom **Dialogue System** for storytelling and NPC interactions.
+* **Collectibles:** Various hidden items (znajdźki) to collect throughout the levels.
+* **Visuals:** Custom 2D animations that bring the characters and the world to life.
 
-## 📝 Opis Projektu
+## 🛠️ Technologies & Tools
 
-Głównym celem projektu była implementacja funkcjonalnej, dwuwymiarowej gry platformowej przy użyciu silnika Unity oraz języka C#. Gra łączy w sobie klasyczne elementy platformowe z systemem walki i rozwoju postaci.
+* **Game Engine:** Unity 2D
+* **Programming Language:** C#
+* **Level Design:** Unity Tilemap System
+* **UI/UX:** Unity UI
 
-### Główne mechaniki i funkcjonalności:
+## 👥 Development Team
 
-1.  **System Ruchu i Umiejętności Gracza:**
-    * Podwójny skok (**Double Jump**).
-    * Szybki doskok (**Dash**).
-    * Interakcja z otoczeniem (trampoliny, platformy).
-2.  **System Walki (Combat):**
-    * Ataki zwarciowe (**Melee**).
-    * Ataki dystansowe (**Range**).
-3.  **AI Przeciwników:**
-    * Proste algorytmy zachowania dla przeciwników walczących w zwarciu i na dystans.
-    * Różne wzorce ataków.
-4.  **Otoczenie i Świat Gry:**
-    * Wykorzystanie systemu **Tilemap** do budowy poziomów.
-    * Różnorodne typy platform: ruszające się, znikające.
-5.  **Zasoby i Postęp:**
-    * System znajdziek (**Collectibles**).
-    * Kompletny **Save System** (zapis/odczyt stanu gry).
-6.  **Interfejs i Fabuła:**
-    * Rozbudowane **UI/GUI** (zdrowie, wynik, menu).
-    * System **Dialogów**.
-    * Spójne **Animacje** postaci i otoczenia.
+This project was brought to life by an amazing 4-person team from the XRG department:
 
-## 🚀 Wymagania i Uruchomienie
+* **[Dawid (VeeturN)](https://github.com/VeeturN)** - Developer 
+* **[Imię 2 (Nick 2)](https://github.com/link_do_githuba)** - Developer
+* **[Imię 3 (Nick 3)](https://github.com/link_do_githuba)** - Developer
+* **[Imię 4 (Nick 4)](https://github.com/link_do_githuba)** - Developer
 
-### Wymagania:
-* Unity Editor (wersja rekomendowana: 2022.3 LTS lub nowsza).
-* Git.
+## 🎓 Credits
+A special thanks to the **Polsko-Japońska Akademia Technik Komputerowych (PJATK)** in Warsaw, specifically the **XRG Department**, for providing the knowledge and environment to build this project as part of the PRO 1 course curriculum.
 
-### Klonowanie i Otwieranie:
-1.  **Sklonuj repozytorium:**
-    ```bash
-    git clone [https://github.com/VeeturN/2025_13c_01_6week.git](https://github.com/VeeturN/2025_13c_01_6week.git)
-    ```
-2.  **Otwórz Unity Hub.**
-3.  Kliknij **Add** -> **Add project from disk**.
-4.  Wskaż folder, do którego sklonowałeś repozytorium.
-5.  Unity Hub automatycznie wykryje wersję i pobierze wymagane pakiety.
+## 🚀 How to Play / Run the Project
+
+1. Clone the repository to your local machine:
+   ```bash
+   git clone [https://github.com/VeeturN/2025_13c_01_6week.git](https://github.com/VeeturN/2025_13c_01_6week.git)
